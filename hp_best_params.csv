@@ -1,0 +1,6 @@
+,Model,C,max_depth,min_samples_split,n_estimators,learning_rate,subsample,criterion__alpha,criterion__gamma,lr,module__dropout_rate,module__hidden_dim,module__num_layers
+0,SVM,0.1,,,,,,,,,,,
+0,RandomForest,,14.0,2.0,198.0,,,,,,,,
+0,XGBoost,,5.0,,131.0,0.11863765526435147,1.0,,,,,,
+0,LogisticRegression,0.026419279143972577,,,,,,,,,,,
+0,ANN,,,,,,,0.5,4.839896114444504,0.0001,0.0,502.0,4.0
