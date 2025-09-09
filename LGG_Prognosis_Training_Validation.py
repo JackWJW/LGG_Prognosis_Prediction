@@ -335,7 +335,7 @@ def plot_mean_roc(curves_summary, metrics_dict, savepath=None):
     plt.plot([0, 1], [0, 1], 'k--', label='Random')
     plt.xlabel('False Positive Rate', fontsize=16)
     plt.ylabel('True Positive Rate', fontsize=16)
-    plt.title("ROC Curve Comparison (Mean across folds)", fontsize=18)
+    plt.title("CV Pooled ROC-Curves", fontsize=18)
     plt.tick_params(axis="both", labelsize=14)
     plt.legend()
     plt.tight_layout()
@@ -351,7 +351,7 @@ def plot_mean_pr(curves_summary, metrics_dict, savepath=None):
     plt.hlines(y.sum()/len(y), 0, 1, colors="k", linestyles="--", label="Baseline")
     plt.xlabel('Recall', fontsize=16)
     plt.ylabel('Precision', fontsize=16)
-    plt.title("Precision-Recall Curve Comparison (Mean across folds)", fontsize=18)
+    plt.title("CV Pooled PR-Curves", fontsize=18)
     plt.tick_params(axis="both", labelsize=14)
     plt.legend()
     plt.tight_layout()
@@ -363,7 +363,7 @@ def plot_km_curves(survival_results, max_years=5, savepath=None):
     model_list = list(survival_results.keys())
     colours = ["#C190F0", "#35AB6A"]
 
-    fig, axes = plt.subplots(3, 3, figsize=(12, 12))
+    fig, axes = plt.subplots(2, 3, figsize=(12, 8))
     axes = axes.flatten()
     logrank_ps = []
     iteration = 0
@@ -652,8 +652,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
     X = data.drop(columns = ["Srv", "DSS", "DSS.time"])
     y = LabelEncoder().fit_transform(data["Srv"])
-
-    print('Starting nested cross-validation...')
+    with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+        print('Starting nested cross-validation...',file=file)
 
     # Defining Folds
     outer_cv = StratifiedKFold(n_splits=OUTER_FOLDS, shuffle=True, random_state=RANDOM_STATE)
@@ -699,7 +699,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     # Iterate over the outer folds
     model_list = list(models_info.keys())
     for fold_idx, (train_idx, test_idx) in enumerate(outer_cv.split(X, y)):
-        print(f'\nOuter Fold: {fold_idx+1}/{OUTER_FOLDS}')
+        with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+            print(f'\nOuter Fold: {fold_idx+1}/{OUTER_FOLDS}',file=file)
         SAVE_DIR = f"./LGG_Prognosis_Results/RS-{rs_number}_DS-{dataset_id}_Results/ANN_Training_{fold_idx+1}"
         X_train, X_test = X.iloc[train_idx].values, X.iloc[test_idx].values
         y_train, y_test = y[train_idx], y[test_idx]
@@ -713,7 +714,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         fold_time_grid = _safe_time_grid(train_time, test_time, n_times=60)
 
         for model_name, info in models_info.items():
-            print(f'\nTuning and Fitting: {model_name}')
+            with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                print(f'\nTuning and Fitting: {model_name}',file=file)
             base = clone(info['estimator'])
             space = info['space']
 
@@ -782,10 +784,12 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                     plt.grid(alpha=0.3)
                     plt.savefig(SAVE_DIR)
                     plt.close()
-                    
-                print(f"    Best params for {model_name} (fold {fold_idx+1}): {opt.best_params_}")
+
+                with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:    
+                    print(f"    Best params for {model_name} (fold {fold_idx+1}): {opt.best_params_}",file=file)
             except Exception as e:
-                print(f'BayesSearchCV failed for {model_name} in fold {fold_idx+1}: {e}')
+                with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                    print(f'BayesSearchCV failed for {model_name} in fold {fold_idx+1}: {e}',file=file)
                 # In this case fit base estimator inside the pipeline without search
                 pipe.set_params(**{})
                 pipe.fit(fit_X, y_train)
@@ -804,7 +808,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
             thr, thr_ba = tune_threshold(probs_train, y_train)
             per_fold_tuned_thresholds[model_name].append(thr)
-            print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Balanced Accuracy={thr_ba:.3f})")
+            with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Balanced Accuracy={thr_ba:.3f})",file=file)
 
             # Predict proba on the test set
             test_X = X_test.astype(np.float32) if model_name == 'ANN' else X_test
@@ -814,10 +819,11 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             try:
                 auc_vec, mean_auc = cumulative_dynamic_auc(y_train_struct, y_test_struct, probs, fold_time_grid)
                 per_fold_cd_auc[model_name].append((fold_time_grid, auc_vec))
-                print(f"    cumulative_dynamic_auc mean (fold {fold_idx+1}): {mean_auc:.3f}")
+                with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                    print(f"    cumulative_dynamic_auc mean (fold {fold_idx+1}): {mean_auc:.3f}",file=file)
             except Exception as e:
-                print(f"    cumulative_dynamic_auc failed for {model_name} on fold {fold_idx+1}: {e}")
-
+                with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                    print(f"    cumulative_dynamic_auc failed for {model_name} on fold {fold_idx+1}: {e}",file=file)
 
             # Storing out of fold probabilities
             oof_results[model_name]['probs'][test_idx] = probs
@@ -838,7 +844,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             per_fold_curves[model_name]['roc'].append((fpr, tpr))
             per_fold_curves[model_name]['pr'].append((rec, prec))
 
-            print(f"    Fold {fold_idx+1} {model_name}: AP={m['pr_auc']:.3f}, ROC AUC={m['roc_auc']:.3f}")
+            with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                print(f"    Fold {fold_idx+1} {model_name}: AP={m['pr_auc']:.3f}, ROC AUC={m['roc_auc']:.3f}", file=file)
         
         # Computing Ensemble predictions for this fold against the train set for threshold tuning
         probs_stack_train = []
@@ -854,8 +861,9 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         per_fold_tuned_thresholds['Ensemble (Mean)'].append(thr_ens)
         per_fold_train_probs['Ensemble (Mean)'].append({'train_idx': train_idx, 'probs': ensemble_train_mean, 'y_true': y_train})
 
-        print("\nTuning Ensemble:")
-        print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Balanced Accuracy={thr_ens_ba:.3f})")
+        with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+            print("\nTuning Ensemble:",file=file)
+            print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Balanced Accuracy={thr_ens_ba:.3f})",file=file)
         # Computing Ensemble predictions for this fold against the test set
         probs_stack_test = []
         for m in model_list:
@@ -866,9 +874,11 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         try:
             auc_vec, mean_auc = cumulative_dynamic_auc(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
             per_fold_cd_auc['Ensemble (Mean)'].append((fold_time_grid, auc_vec))
-            print(f"    Ensemble cumulative_dynamic_auc mean (fold {fold_idx+1}): {mean_auc:.3f}")
+            with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                print(f"    Ensemble cumulative_dynamic_auc mean (fold {fold_idx+1}): {mean_auc:.3f}", file=file)
         except Exception as e:
-            print(f"    cumulative_dynamic_auc failed for Ensemble on fold {fold_idx+1}: {e}")
+            with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+                print(f"    cumulative_dynamic_auc failed for Ensemble on fold {fold_idx+1}: {e}",file=file)
 
         y_true_fold = per_fold_probs[model_list[0]][-1]['y_true']
 
@@ -940,6 +950,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
 for rs_number in range(0,1):
     for dataset_id in range(1,2):
+        with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
+            print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Prognosis_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
         oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=2,inner_folds=2,inner_iterations=10,ANN_iterations=10, dataset_id=dataset_id, save_dir=f"./LGG_Prognosis_Results/RS-{rs_number}_DS-{dataset_id}_Results")
