@@ -1,0 +1,2019 @@
+
+Starting training run for Random State = 0 and Dataset ID = 1
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.5789280338758537), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.44 (Balanced Accuracy=0.726)
+    cumulative_dynamic_auc stored (fold 1): 0.881 over 24 t's
+    Fold 1 SVM: AP=0.553, ROC AUC=0.820
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 14), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 4), ('clf__n_estimators', 481), ('kbest__k', 51)])
+    Tuned threshold for RandomForest (fold 1): 0.41 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.891 over 24 t's
+    Fold 1 RandomForest: AP=0.596, ROC AUC=0.840
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.9649736108681204), ('clf__learning_rate', 0.1), ('clf__max_depth', 16), ('clf__n_estimators', 57), ('clf__scale_pos_weight', 6.531026386959689), ('clf__subsample', 1.0), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 1): 0.33 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.852 over 24 t's
+    Fold 1 XGBoost: AP=0.561, ROC AUC=0.815
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.0692158239922892), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 1): 0.56 (Balanced Accuracy=0.565)
+    cumulative_dynamic_auc stored (fold 1): 0.873 over 24 t's
+    Fold 1 LogisticRegression: AP=0.515, ROC AUC=0.791
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.3312704559075963), ('clf__criterion__gamma', 6.762230836139094), ('clf__lr', 4.822548336039393e-05), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 106), ('clf__module__num_layers', 1), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.52 (Balanced Accuracy=0.590)
+    cumulative_dynamic_auc stored (fold 1): 0.755 over 24 t's
+    Fold 1 ANN: AP=0.404, ROC AUC=0.723
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.53 (Balanced Accuracy=0.958)
+    cumulative_dynamic_auc stored (fold 1): 0.755 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.5275120420068421), ('kbest__k', 65)])
+    Tuned threshold for SVM (fold 2): 0.41 (Balanced Accuracy=0.776)
+    cumulative_dynamic_auc stored (fold 2): 0.807 over 25 t's
+    Fold 2 SVM: AP=0.471, ROC AUC=0.797
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 12), ('clf__min_samples_leaf', 5), ('clf__min_samples_split', 17), ('clf__n_estimators', 71), ('kbest__k', 64)])
+    Tuned threshold for RandomForest (fold 2): 0.48 (Balanced Accuracy=0.844)
+    cumulative_dynamic_auc stored (fold 2): 0.755 over 25 t's
+    Fold 2 RandomForest: AP=0.489, ROC AUC=0.776
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.6998781307586599), ('clf__learning_rate', 0.001), ('clf__max_depth', 5), ('clf__n_estimators', 356), ('clf__scale_pos_weight', 4.793122333755802), ('clf__subsample', 0.7505495771145401), ('kbest__k', 58)])
+    Tuned threshold for XGBoost (fold 2): 0.53 (Balanced Accuracy=0.938)
+    cumulative_dynamic_auc stored (fold 2): 0.779 over 25 t's
+    Fold 2 XGBoost: AP=0.522, ROC AUC=0.782
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.021687615592692652), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.60 (Balanced Accuracy=0.614)
+    cumulative_dynamic_auc stored (fold 2): 0.786 over 25 t's
+    Fold 2 LogisticRegression: AP=0.442, ROC AUC=0.763
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.52 (Balanced Accuracy=0.771)
+    cumulative_dynamic_auc stored (fold 2): 0.746 over 25 t's
+    Fold 2 ANN: AP=0.449, ROC AUC=0.711
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.50 (Balanced Accuracy=0.754)
+    cumulative_dynamic_auc stored (fold 2): 0.746 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.9897088471203532), ('kbest__k', 64)])
+    Tuned threshold for SVM (fold 3): 0.39 (Balanced Accuracy=0.835)
+    cumulative_dynamic_auc stored (fold 3): 0.844 over 22 t's
+    Fold 3 SVM: AP=0.420, ROC AUC=0.786
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 6), ('clf__min_samples_leaf', 3), ('clf__min_samples_split', 15), ('clf__n_estimators', 226), ('kbest__k', 22)])
+    Tuned threshold for RandomForest (fold 3): 0.45 (Balanced Accuracy=0.873)
+    cumulative_dynamic_auc stored (fold 3): 0.814 over 22 t's
+    Fold 3 RandomForest: AP=0.362, ROC AUC=0.741
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.9349438240549321), ('clf__learning_rate', 0.0010660936586519066), ('clf__max_depth', 11), ('clf__n_estimators', 494), ('clf__scale_pos_weight', 4.823573606376736), ('clf__subsample', 0.8297179734248266), ('kbest__k', 55)])
+    Tuned threshold for XGBoost (fold 3): 0.58 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 3): 0.819 over 22 t's
+    Fold 3 XGBoost: AP=0.405, ROC AUC=0.736
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.07887536487186195), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.63 (Balanced Accuracy=0.625)
+    cumulative_dynamic_auc stored (fold 3): 0.828 over 22 t's
+    Fold 3 LogisticRegression: AP=0.389, ROC AUC=0.732
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.10434411713039608), ('clf__criterion__gamma', 6.637062431515106), ('clf__lr', 0.0055918672558437936), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 65), ('clf__module__num_layers', 4), ('kbest__k', 27)])
+    Tuned threshold for ANN (fold 3): 0.53 (Balanced Accuracy=0.710)
+    cumulative_dynamic_auc stored (fold 3): 0.822 over 22 t's
+    Fold 3 ANN: AP=0.386, ROC AUC=0.746
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.46 (Balanced Accuracy=0.809)
+    cumulative_dynamic_auc stored (fold 3): 0.822 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 2
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.9396414807495691), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.42 (Balanced Accuracy=0.790)
+    cumulative_dynamic_auc stored (fold 1): 0.824 over 24 t's
+    Fold 1 SVM: AP=0.495, ROC AUC=0.811
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 8), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 4), ('clf__n_estimators', 492), ('kbest__k', 43)])
+    Tuned threshold for RandomForest (fold 1): 0.51 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.879 over 24 t's
+    Fold 1 RandomForest: AP=0.550, ROC AUC=0.838
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.6847684887002612), ('clf__learning_rate', 0.007592193485698972), ('clf__max_depth', 7), ('clf__n_estimators', 409), ('clf__scale_pos_weight', 1.631101512501576), ('clf__subsample', 0.871504897201705), ('kbest__k', 53)])
+    Tuned threshold for XGBoost (fold 1): 0.26 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.859 over 24 t's
+    Fold 1 XGBoost: AP=0.592, ROC AUC=0.826
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.012841357364460768), ('kbest__k', 40)])
+    Tuned threshold for LogisticRegression (fold 1): 0.53 (Balanced Accuracy=0.610)
+    cumulative_dynamic_auc stored (fold 1): 0.857 over 24 t's
+    Fold 1 LogisticRegression: AP=0.524, ROC AUC=0.824
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.468052349332063), ('clf__criterion__gamma', 6.050744450908997), ('clf__lr', 0.0027065371421784177), ('clf__module__dropout_rate', 0.06617634303535284), ('clf__module__hidden_dim', 178), ('clf__module__num_layers', 4), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.52 (Balanced Accuracy=0.729)
+    cumulative_dynamic_auc stored (fold 1): 0.768 over 24 t's
+    Fold 1 ANN: AP=0.365, ROC AUC=0.740
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.47 (Balanced Accuracy=0.959)
+    cumulative_dynamic_auc stored (fold 1): 0.768 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.04558553404746944), ('kbest__k', 28)])
+    Tuned threshold for SVM (fold 2): 0.20 (Balanced Accuracy=0.576)
+    cumulative_dynamic_auc stored (fold 2): 0.755 over 25 t's
+    Fold 2 SVM: AP=0.533, ROC AUC=0.760
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 13), ('clf__min_samples_leaf', 4), ('clf__min_samples_split', 12), ('clf__n_estimators', 50), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 2): 0.54 (Balanced Accuracy=0.927)
+    cumulative_dynamic_auc stored (fold 2): 0.792 over 25 t's
+    Fold 2 RandomForest: AP=0.485, ROC AUC=0.781
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.7294232528397542), ('clf__learning_rate', 0.001097661747444963), ('clf__max_depth', 16), ('clf__n_estimators', 51), ('clf__scale_pos_weight', 10.0), ('clf__subsample', 0.6269028068529697), ('kbest__k', 27)])
+    Tuned threshold for XGBoost (fold 2): 0.67 (Balanced Accuracy=0.910)
+    cumulative_dynamic_auc stored (fold 2): 0.765 over 25 t's
+    Fold 2 XGBoost: AP=0.527, ROC AUC=0.776
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.016349744595784897), ('kbest__k', 22)])
+    Tuned threshold for LogisticRegression (fold 2): 0.55 (Balanced Accuracy=0.606)
+    cumulative_dynamic_auc stored (fold 2): 0.795 over 25 t's
+    Fold 2 LogisticRegression: AP=0.468, ROC AUC=0.742
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.41908319127660043), ('clf__criterion__gamma', 6.947344323357392), ('clf__lr', 0.0008582756936564352), ('clf__module__dropout_rate', 0.24308643921920853), ('clf__module__hidden_dim', 88), ('clf__module__num_layers', 2), ('kbest__k', 58)])
+    Tuned threshold for ANN (fold 2): 0.50 (Balanced Accuracy=0.848)
+    cumulative_dynamic_auc stored (fold 2): 0.772 over 25 t's
+    Fold 2 ANN: AP=0.409, ROC AUC=0.770
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.47 (Balanced Accuracy=0.785)
+    cumulative_dynamic_auc stored (fold 2): 0.772 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.12283010011425205), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 3): 0.40 (Balanced Accuracy=0.656)
+    cumulative_dynamic_auc stored (fold 3): 0.838 over 22 t's
+    Fold 3 SVM: AP=0.371, ROC AUC=0.768
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 2), ('clf__n_estimators', 218), ('kbest__k', 25)])
+    Tuned threshold for RandomForest (fold 3): 0.45 (Balanced Accuracy=0.800)
+    cumulative_dynamic_auc stored (fold 3): 0.843 over 22 t's
+    Fold 3 RandomForest: AP=0.377, ROC AUC=0.745
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.004068437311802509), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 2.15318001173766), ('clf__subsample', 0.6606444926175843), ('kbest__k', 42)])
+    Tuned threshold for XGBoost (fold 3): 0.32 (Balanced Accuracy=0.631)
+    cumulative_dynamic_auc stored (fold 3): 0.820 over 22 t's
+    Fold 3 XGBoost: AP=0.395, ROC AUC=0.749
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.06025487530182685), ('kbest__k', 58)])
+    Tuned threshold for LogisticRegression (fold 3): 0.50 (Balanced Accuracy=0.634)
+    cumulative_dynamic_auc stored (fold 3): 0.812 over 22 t's
+    Fold 3 LogisticRegression: AP=0.405, ROC AUC=0.720
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 3): 0.56 (Balanced Accuracy=0.857)
+    cumulative_dynamic_auc stored (fold 3): 0.780 over 22 t's
+    Fold 3 ANN: AP=0.312, ROC AUC=0.706
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.42 (Balanced Accuracy=0.746)
+    cumulative_dynamic_auc stored (fold 3): 0.780 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 3
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 23)])
+    Tuned threshold for SVM (fold 1): 0.55 (Balanced Accuracy=0.841)
+    cumulative_dynamic_auc stored (fold 1): 0.849 over 24 t's
+    Fold 1 SVM: AP=0.512, ROC AUC=0.827
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 18), ('clf__min_samples_leaf', 8), ('clf__min_samples_split', 19), ('clf__n_estimators', 84), ('kbest__k', 22)])
+    Tuned threshold for RandomForest (fold 1): 0.48 (Balanced Accuracy=0.825)
+    cumulative_dynamic_auc stored (fold 1): 0.889 over 24 t's
+    Fold 1 RandomForest: AP=0.672, ROC AUC=0.847
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.5), ('clf__learning_rate', 0.018791469075760008), ('clf__max_depth', 5), ('clf__n_estimators', 163), ('clf__scale_pos_weight', 4.70853875167888), ('clf__subsample', 0.5957087372429488), ('kbest__k', 37)])
+    Tuned threshold for XGBoost (fold 1): 0.58 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.871 over 24 t's
+    Fold 1 XGBoost: AP=0.572, ROC AUC=0.836
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.038554513400070024), ('kbest__k', 23)])
+    Tuned threshold for LogisticRegression (fold 1): 0.53 (Balanced Accuracy=0.569)
+    cumulative_dynamic_auc stored (fold 1): 0.862 over 24 t's
+    Fold 1 LogisticRegression: AP=0.589, ROC AUC=0.821
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.00027140618080502744), ('clf__module__dropout_rate', 0.4244597597749044), ('clf__module__hidden_dim', 111), ('clf__module__num_layers', 1), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.53 (Balanced Accuracy=0.677)
+    cumulative_dynamic_auc stored (fold 1): 0.814 over 24 t's
+    Fold 1 ANN: AP=0.398, ROC AUC=0.784
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.46 (Balanced Accuracy=0.833)
+    cumulative_dynamic_auc stored (fold 1): 0.814 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.001), ('kbest__k', 27)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.211 over 25 t's
+    Fold 2 SVM: AP=0.118, ROC AUC=0.226
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 14), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 14), ('clf__n_estimators', 50), ('kbest__k', 23)])
+    Tuned threshold for RandomForest (fold 2): 0.50 (Balanced Accuracy=0.855)
+    cumulative_dynamic_auc stored (fold 2): 0.773 over 25 t's
+    Fold 2 RandomForest: AP=0.554, ROC AUC=0.779
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.9060281400438934), ('clf__learning_rate', 0.004728380622462849), ('clf__max_depth', 2), ('clf__n_estimators', 357), ('clf__scale_pos_weight', 10.0), ('clf__subsample', 0.6380208130215489), ('kbest__k', 28)])
+    Tuned threshold for XGBoost (fold 2): 0.74 (Balanced Accuracy=0.699)
+    cumulative_dynamic_auc stored (fold 2): 0.764 over 25 t's
+    Fold 2 XGBoost: AP=0.510, ROC AUC=0.770
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.007399229910325408), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.56 (Balanced Accuracy=0.599)
+    cumulative_dynamic_auc stored (fold 2): 0.771 over 25 t's
+    Fold 2 LogisticRegression: AP=0.438, ROC AUC=0.750
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 5.547527024517192), ('clf__lr', 4.511732136381085e-05), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 242), ('clf__module__num_layers', 4), ('kbest__k', 48)])
+    Tuned threshold for ANN (fold 2): 0.54 (Balanced Accuracy=0.891)
+    cumulative_dynamic_auc stored (fold 2): 0.781 over 25 t's
+    Fold 2 ANN: AP=0.430, ROC AUC=0.706
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.51 (Balanced Accuracy=0.740)
+    cumulative_dynamic_auc stored (fold 2): 0.781 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.9985506502070975), ('kbest__k', 36)])
+    Tuned threshold for SVM (fold 3): 0.51 (Balanced Accuracy=0.836)
+    cumulative_dynamic_auc stored (fold 3): 0.805 over 22 t's
+    Fold 3 SVM: AP=0.376, ROC AUC=0.767
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 17), ('clf__min_samples_leaf', 1), ('clf__min_samples_split', 4), ('clf__n_estimators', 497), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 3): 0.32 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 3): 0.830 over 22 t's
+    Fold 3 RandomForest: AP=0.356, ROC AUC=0.748
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.9908286948330803), ('clf__learning_rate', 0.01026421676970049), ('clf__max_depth', 6), ('clf__n_estimators', 126), ('clf__scale_pos_weight', 3.257779580656488), ('clf__subsample', 0.9352277523069562), ('kbest__k', 43)])
+    Tuned threshold for XGBoost (fold 3): 0.62 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 3): 0.792 over 22 t's
+    Fold 3 XGBoost: AP=0.403, ROC AUC=0.727
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.06524271665153678), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.53 (Balanced Accuracy=0.622)
+    cumulative_dynamic_auc stored (fold 3): 0.811 over 22 t's
+    Fold 3 LogisticRegression: AP=0.358, ROC AUC=0.726
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 108), ('clf__module__num_layers', 4), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 3): 0.51 (Balanced Accuracy=0.808)
+    cumulative_dynamic_auc stored (fold 3): 0.737 over 22 t's
+    Fold 3 ANN: AP=0.286, ROC AUC=0.700
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.49 (Balanced Accuracy=0.937)
+    cumulative_dynamic_auc stored (fold 3): 0.737 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 4
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.10343692931555466), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.39 (Balanced Accuracy=0.615)
+    cumulative_dynamic_auc stored (fold 1): 0.835 over 24 t's
+    Fold 1 SVM: AP=0.552, ROC AUC=0.800
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 2), ('clf__n_estimators', 500), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 1): 0.51 (Balanced Accuracy=0.797)
+    cumulative_dynamic_auc stored (fold 1): 0.867 over 24 t's
+    Fold 1 RandomForest: AP=0.610, ROC AUC=0.827
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.642839024625297), ('clf__learning_rate', 0.1), ('clf__max_depth', 20), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 1.0), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 1): 0.07 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.790 over 24 t's
+    Fold 1 XGBoost: AP=0.513, ROC AUC=0.784
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.613795321613104), ('kbest__k', 28)])
+    Tuned threshold for LogisticRegression (fold 1): 0.54 (Balanced Accuracy=0.564)
+    cumulative_dynamic_auc stored (fold 1): 0.787 over 24 t's
+    Fold 1 LogisticRegression: AP=0.436, ROC AUC=0.771
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.19091712075843748), ('clf__criterion__gamma', 2.1026540893267383), ('clf__lr', 0.0012103027079573116), ('clf__module__dropout_rate', 0.33763263313903996), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 1), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.56 (Balanced Accuracy=0.837)
+    cumulative_dynamic_auc stored (fold 1): 0.795 over 24 t's
+    Fold 1 ANN: AP=0.371, ROC AUC=0.780
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.51 (Balanced Accuracy=0.929)
+    cumulative_dynamic_auc stored (fold 1): 0.795 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.001), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.217 over 25 t's
+    Fold 2 SVM: AP=0.118, ROC AUC=0.235
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 3), ('clf__min_samples_split', 12), ('clf__n_estimators', 50), ('kbest__k', 22)])
+    Tuned threshold for RandomForest (fold 2): 0.49 (Balanced Accuracy=0.931)
+    cumulative_dynamic_auc stored (fold 2): 0.752 over 25 t's
+    Fold 2 RandomForest: AP=0.532, ROC AUC=0.771
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.5011231518085393), ('clf__learning_rate', 0.003641004502472565), ('clf__max_depth', 5), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.4457758539855845), ('clf__subsample', 0.5), ('kbest__k', 22)])
+    Tuned threshold for XGBoost (fold 2): 0.28 (Balanced Accuracy=0.746)
+    cumulative_dynamic_auc stored (fold 2): 0.763 over 25 t's
+    Fold 2 XGBoost: AP=0.531, ROC AUC=0.793
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.001), ('kbest__k', 29)])
+    Tuned threshold for LogisticRegression (fold 2): 0.51 (Balanced Accuracy=0.551)
+    cumulative_dynamic_auc stored (fold 2): 0.751 over 25 t's
+    Fold 2 LogisticRegression: AP=0.398, ROC AUC=0.734
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4773665007586956), ('clf__criterion__gamma', 3.2626389337353148), ('clf__lr', 5.287965068269911e-05), ('clf__module__dropout_rate', 0.3918069004399548), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 4), ('kbest__k', 34)])
+    Tuned threshold for ANN (fold 2): 0.56 (Balanced Accuracy=0.704)
+    cumulative_dynamic_auc stored (fold 2): 0.753 over 25 t's
+    Fold 2 ANN: AP=0.434, ROC AUC=0.763
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.41 (Balanced Accuracy=0.803)
+    cumulative_dynamic_auc stored (fold 2): 0.753 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.004983587463782147), ('kbest__k', 31)])
+    Tuned threshold for SVM (fold 3): 0.00 (Balanced Accuracy=0.307)
+    cumulative_dynamic_auc stored (fold 3): 0.185 over 22 t's
+    Fold 3 SVM: AP=0.122, ROC AUC=0.271
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 14), ('clf__min_samples_leaf', 1), ('clf__min_samples_split', 2), ('clf__n_estimators', 500), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 3): 0.27 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 3): 0.804 over 22 t's
+    Fold 3 RandomForest: AP=0.363, ROC AUC=0.731
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.6717245398279006), ('clf__learning_rate', 0.001), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.625221532010635), ('kbest__k', 52)])
+    Tuned threshold for XGBoost (fold 3): 0.19 (Balanced Accuracy=0.613)
+    cumulative_dynamic_auc stored (fold 3): 0.835 over 22 t's
+    Fold 3 XGBoost: AP=0.410, ROC AUC=0.766
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.0568639239044897), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.58 (Balanced Accuracy=0.622)
+    cumulative_dynamic_auc stored (fold 3): 0.821 over 22 t's
+    Fold 3 LogisticRegression: AP=0.359, ROC AUC=0.722
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 5.438881030931296), ('clf__lr', 0.00028833869100186284), ('clf__module__dropout_rate', 0.1173418843215078), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 4), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 3): 0.54 (Balanced Accuracy=0.959)
+    cumulative_dynamic_auc stored (fold 3): 0.729 over 22 t's
+    Fold 3 ANN: AP=0.301, ROC AUC=0.648
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.39 (Balanced Accuracy=0.984)
+    cumulative_dynamic_auc stored (fold 3): 0.729 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 5
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.4189794807887421), ('kbest__k', 47)])
+    Tuned threshold for SVM (fold 1): 0.46 (Balanced Accuracy=0.686)
+    cumulative_dynamic_auc stored (fold 1): 0.870 over 24 t's
+    Fold 1 SVM: AP=0.612, ROC AUC=0.843
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 17), ('clf__n_estimators', 277), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 1): 0.47 (Balanced Accuracy=0.762)
+    cumulative_dynamic_auc stored (fold 1): 0.872 over 24 t's
+    Fold 1 RandomForest: AP=0.601, ROC AUC=0.828
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.9043433437995445), ('clf__learning_rate', 0.001), ('clf__max_depth', 12), ('clf__n_estimators', 472), ('clf__scale_pos_weight', 7.956928900920792), ('clf__subsample', 0.5877040373456929), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 1): 0.62 (Balanced Accuracy=0.945)
+    cumulative_dynamic_auc stored (fold 1): 0.866 over 24 t's
+    Fold 1 XGBoost: AP=0.592, ROC AUC=0.830
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.033999077954387856), ('kbest__k', 44)])
+    Tuned threshold for LogisticRegression (fold 1): 0.47 (Balanced Accuracy=0.558)
+    cumulative_dynamic_auc stored (fold 1): 0.862 over 24 t's
+    Fold 1 LogisticRegression: AP=0.563, ROC AUC=0.824
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.12122697908918187), ('clf__criterion__gamma', 2.5356756483068397), ('clf__lr', 0.0011054726510678428), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 145), ('clf__module__num_layers', 2), ('kbest__k', 38)])
+    Tuned threshold for ANN (fold 1): 0.62 (Balanced Accuracy=0.889)
+    cumulative_dynamic_auc stored (fold 1): 0.824 over 24 t's
+    Fold 1 ANN: AP=0.419, ROC AUC=0.788
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.48 (Balanced Accuracy=0.800)
+    cumulative_dynamic_auc stored (fold 1): 0.824 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.006774989130665106), ('kbest__k', 22)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.258 over 25 t's
+    Fold 2 SVM: AP=0.124, ROC AUC=0.259
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 11), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 15), ('clf__n_estimators', 62), ('kbest__k', 22)])
+    Tuned threshold for RandomForest (fold 2): 0.51 (Balanced Accuracy=0.785)
+    cumulative_dynamic_auc stored (fold 2): 0.780 over 25 t's
+    Fold 2 RandomForest: AP=0.524, ROC AUC=0.777
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.9190831912766004), ('clf__learning_rate', 0.09603910580153618), ('clf__max_depth', 15), ('clf__n_estimators', 269), ('clf__scale_pos_weight', 4.0007835106371346), ('clf__subsample', 0.6397934660675846), ('kbest__k', 58)])
+    Tuned threshold for XGBoost (fold 2): 0.09 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 2): 0.781 over 25 t's
+    Fold 2 XGBoost: AP=0.544, ROC AUC=0.796
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.0269800048406551), ('kbest__k', 32)])
+    Tuned threshold for LogisticRegression (fold 2): 0.64 (Balanced Accuracy=0.591)
+    cumulative_dynamic_auc stored (fold 2): 0.783 over 25 t's
+    Fold 2 LogisticRegression: AP=0.438, ROC AUC=0.752
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.3280622253278622), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.00010831956144725505), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 2), ('kbest__k', 32)])
+    Tuned threshold for ANN (fold 2): 0.53 (Balanced Accuracy=0.815)
+    cumulative_dynamic_auc stored (fold 2): 0.812 over 25 t's
+    Fold 2 ANN: AP=0.477, ROC AUC=0.800
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.49 (Balanced Accuracy=0.975)
+    cumulative_dynamic_auc stored (fold 2): 0.812 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.33899959035215443), ('kbest__k', 53)])
+    Tuned threshold for SVM (fold 3): 0.37 (Balanced Accuracy=0.768)
+    cumulative_dynamic_auc stored (fold 3): 0.836 over 22 t's
+    Fold 3 SVM: AP=0.355, ROC AUC=0.745
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 5), ('clf__min_samples_leaf', 1), ('clf__min_samples_split', 6), ('clf__n_estimators', 50), ('kbest__k', 38)])
+    Tuned threshold for RandomForest (fold 3): 0.47 (Balanced Accuracy=0.931)
+    cumulative_dynamic_auc stored (fold 3): 0.842 over 22 t's
+    Fold 3 RandomForest: AP=0.381, ROC AUC=0.779
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.7552445232092422), ('clf__learning_rate', 0.011322910189953789), ('clf__max_depth', 15), ('clf__n_estimators', 62), ('clf__scale_pos_weight', 1.474531723241193), ('clf__subsample', 0.6201158574566924), ('kbest__k', 26)])
+    Tuned threshold for XGBoost (fold 3): 0.31 (Balanced Accuracy=0.908)
+    cumulative_dynamic_auc stored (fold 3): 0.842 over 22 t's
+    Fold 3 XGBoost: AP=0.383, ROC AUC=0.742
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.02192051011123685), ('kbest__k', 65)])
+    Tuned threshold for LogisticRegression (fold 3): 0.60 (Balanced Accuracy=0.677)
+    cumulative_dynamic_auc stored (fold 3): 0.805 over 22 t's
+    Fold 3 LogisticRegression: AP=0.360, ROC AUC=0.695
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.02844100888912319), ('clf__criterion__gamma', 6.987678629479872), ('clf__lr', 0.0005163028195285672), ('clf__module__dropout_rate', 0.05942140579908462), ('clf__module__hidden_dim', 74), ('clf__module__num_layers', 3), ('kbest__k', 65)])
+    Tuned threshold for ANN (fold 3): 0.55 (Balanced Accuracy=0.876)
+    cumulative_dynamic_auc stored (fold 3): 0.789 over 22 t's
+    Fold 3 ANN: AP=0.387, ROC AUC=0.685
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.45 (Balanced Accuracy=0.825)
+    cumulative_dynamic_auc stored (fold 3): 0.789 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 6
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 26)])
+    Tuned threshold for SVM (fold 1): 0.45 (Balanced Accuracy=0.807)
+    cumulative_dynamic_auc stored (fold 1): 0.838 over 24 t's
+    Fold 1 SVM: AP=0.501, ROC AUC=0.799
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 2), ('clf__min_samples_leaf', 4), ('clf__min_samples_split', 2), ('clf__n_estimators', 286), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 1): 0.48 (Balanced Accuracy=0.616)
+    cumulative_dynamic_auc stored (fold 1): 0.876 over 24 t's
+    Fold 1 RandomForest: AP=0.655, ROC AUC=0.838
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.9443707388042512), ('clf__learning_rate', 0.02257257216733232), ('clf__max_depth', 2), ('clf__n_estimators', 62), ('clf__scale_pos_weight', 7.769216760751383), ('clf__subsample', 0.8664782882632356), ('kbest__k', 51)])
+    Tuned threshold for XGBoost (fold 1): 0.65 (Balanced Accuracy=0.692)
+    cumulative_dynamic_auc stored (fold 1): 0.861 over 24 t's
+    Fold 1 XGBoost: AP=0.618, ROC AUC=0.817
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.069028901583586), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 1): 0.52 (Balanced Accuracy=0.527)
+    cumulative_dynamic_auc stored (fold 1): 0.895 over 24 t's
+    Fold 1 LogisticRegression: AP=0.569, ROC AUC=0.838
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 1): 0.55 (Balanced Accuracy=0.626)
+    cumulative_dynamic_auc stored (fold 1): 0.848 over 24 t's
+    Fold 1 ANN: AP=0.440, ROC AUC=0.791
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.54 (Balanced Accuracy=0.688)
+    cumulative_dynamic_auc stored (fold 1): 0.848 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.01032775796696243), ('kbest__k', 53)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.247 over 25 t's
+    Fold 2 SVM: AP=0.124, ROC AUC=0.254
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 6), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 4), ('clf__n_estimators', 106), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 2): 0.60 (Balanced Accuracy=0.776)
+    cumulative_dynamic_auc stored (fold 2): 0.759 over 25 t's
+    Fold 2 RandomForest: AP=0.500, ROC AUC=0.777
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.003984376145155795), ('clf__max_depth', 2), ('clf__n_estimators', 281), ('clf__scale_pos_weight', 5.486414844822389), ('clf__subsample', 0.6305090787032747), ('kbest__k', 52)])
+    Tuned threshold for XGBoost (fold 2): 0.63 (Balanced Accuracy=0.689)
+    cumulative_dynamic_auc stored (fold 2): 0.762 over 25 t's
+    Fold 2 XGBoost: AP=0.504, ROC AUC=0.769
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.0032297342532870803), ('kbest__k', 62)])
+    Tuned threshold for LogisticRegression (fold 2): 0.55 (Balanced Accuracy=0.567)
+    cumulative_dynamic_auc stored (fold 2): 0.771 over 25 t's
+    Fold 2 LogisticRegression: AP=0.397, ROC AUC=0.755
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.17230007364556021), ('clf__criterion__gamma', 5.495296894992645), ('clf__lr', 2.93480467441086e-05), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 239), ('clf__module__num_layers', 4), ('kbest__k', 39)])
+    Tuned threshold for ANN (fold 2): 0.52 (Balanced Accuracy=0.515)
+    cumulative_dynamic_auc stored (fold 2): 0.693 over 25 t's
+    Fold 2 ANN: AP=0.331, ROC AUC=0.723
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.50 (Balanced Accuracy=0.706)
+    cumulative_dynamic_auc stored (fold 2): 0.693 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.9712680459922802), ('kbest__k', 26)])
+    Tuned threshold for SVM (fold 3): 0.41 (Balanced Accuracy=0.843)
+    cumulative_dynamic_auc stored (fold 3): 0.815 over 22 t's
+    Fold 3 SVM: AP=0.357, ROC AUC=0.724
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 13), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 20), ('clf__n_estimators', 473), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 3): 0.48 (Balanced Accuracy=0.878)
+    cumulative_dynamic_auc stored (fold 3): 0.842 over 22 t's
+    Fold 3 RandomForest: AP=0.364, ROC AUC=0.732
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.778953174729543), ('clf__learning_rate', 0.001), ('clf__max_depth', 8), ('clf__n_estimators', 66), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.5326558348016603), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 3): 0.18 (Balanced Accuracy=0.738)
+    cumulative_dynamic_auc stored (fold 3): 0.832 over 22 t's
+    Fold 3 XGBoost: AP=0.404, ROC AUC=0.733
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.012841357364460768), ('kbest__k', 40)])
+    Tuned threshold for LogisticRegression (fold 3): 0.53 (Balanced Accuracy=0.629)
+    cumulative_dynamic_auc stored (fold 3): 0.871 over 22 t's
+    Fold 3 LogisticRegression: AP=0.391, ROC AUC=0.748
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.11625701411513248), ('clf__criterion__gamma', 2.460015612810394), ('clf__lr', 0.0008179462331758119), ('clf__module__dropout_rate', 0.14276877470576219), ('clf__module__hidden_dim', 50), ('clf__module__num_layers', 2), ('kbest__k', 21)])
+    Tuned threshold for ANN (fold 3): 0.54 (Balanced Accuracy=0.847)
+    cumulative_dynamic_auc stored (fold 3): 0.737 over 22 t's
+    Fold 3 ANN: AP=0.311, ROC AUC=0.623
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.38 (Balanced Accuracy=0.829)
+    cumulative_dynamic_auc stored (fold 3): 0.737 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 7
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.60 (Balanced Accuracy=0.788)
+    cumulative_dynamic_auc stored (fold 1): 0.859 over 24 t's
+    Fold 1 SVM: AP=0.607, ROC AUC=0.814
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 12), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 8), ('clf__n_estimators', 136), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 1): 0.49 (Balanced Accuracy=0.976)
+    cumulative_dynamic_auc stored (fold 1): 0.870 over 24 t's
+    Fold 1 RandomForest: AP=0.642, ROC AUC=0.824
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.9367373654124984), ('clf__learning_rate', 0.032998975741601204), ('clf__max_depth', 5), ('clf__n_estimators', 459), ('clf__scale_pos_weight', 8.48469355096535), ('clf__subsample', 0.9369922556413433), ('kbest__k', 21)])
+    Tuned threshold for XGBoost (fold 1): 0.12 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.838 over 24 t's
+    Fold 1 XGBoost: AP=0.503, ROC AUC=0.799
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.3963291806906272), ('kbest__k', 43)])
+    Tuned threshold for LogisticRegression (fold 1): 0.55 (Balanced Accuracy=0.626)
+    cumulative_dynamic_auc stored (fold 1): 0.777 over 24 t's
+    Fold 1 LogisticRegression: AP=0.445, ROC AUC=0.775
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.01865950655187585), ('clf__criterion__gamma', 4.925036657688988), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 214), ('clf__module__num_layers', 3), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 1): 0.52 (Balanced Accuracy=0.628)
+    cumulative_dynamic_auc stored (fold 1): 0.854 over 24 t's
+    Fold 1 ANN: AP=0.556, ROC AUC=0.815
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.54 (Balanced Accuracy=0.966)
+    cumulative_dynamic_auc stored (fold 1): 0.854 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.001013695266502122), ('kbest__k', 21)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.202 over 25 t's
+    Fold 2 SVM: AP=0.114, ROC AUC=0.207
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 19), ('clf__min_samples_leaf', 8), ('clf__min_samples_split', 10), ('clf__n_estimators', 133), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 2): 0.49 (Balanced Accuracy=0.806)
+    cumulative_dynamic_auc stored (fold 2): 0.785 over 25 t's
+    Fold 2 RandomForest: AP=0.529, ROC AUC=0.796
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.64213814701585), ('clf__learning_rate', 0.00470157374170991), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.7962122991864925), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 2): 0.19 (Balanced Accuracy=0.642)
+    cumulative_dynamic_auc stored (fold 2): 0.768 over 25 t's
+    Fold 2 XGBoost: AP=0.491, ROC AUC=0.787
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.007327787020591789), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.54 (Balanced Accuracy=0.563)
+    cumulative_dynamic_auc stored (fold 2): 0.775 over 25 t's
+    Fold 2 LogisticRegression: AP=0.423, ROC AUC=0.770
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.11343857192840705), ('clf__criterion__gamma', 2.645658683224993), ('clf__lr', 0.00048050190688362303), ('clf__module__dropout_rate', 0.2733229812588835), ('clf__module__hidden_dim', 175), ('clf__module__num_layers', 4), ('kbest__k', 60)])
+    Tuned threshold for ANN (fold 2): 0.62 (Balanced Accuracy=0.862)
+    cumulative_dynamic_auc stored (fold 2): 0.779 over 25 t's
+    Fold 2 ANN: AP=0.417, ROC AUC=0.743
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.40 (Balanced Accuracy=0.788)
+    cumulative_dynamic_auc stored (fold 2): 0.779 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.10336478686348217), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 3): 0.45 (Balanced Accuracy=0.661)
+    cumulative_dynamic_auc stored (fold 3): 0.877 over 22 t's
+    Fold 3 SVM: AP=0.432, ROC AUC=0.748
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 19), ('clf__min_samples_leaf', 8), ('clf__min_samples_split', 10), ('clf__n_estimators', 133), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 3): 0.45 (Balanced Accuracy=0.822)
+    cumulative_dynamic_auc stored (fold 3): 0.820 over 22 t's
+    Fold 3 RandomForest: AP=0.357, ROC AUC=0.726
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.8663248330751414), ('clf__learning_rate', 0.04194897633594249), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 8.102007099902131), ('clf__subsample', 0.5645924742876516), ('kbest__k', 64)])
+    Tuned threshold for XGBoost (fold 3): 0.68 (Balanced Accuracy=0.787)
+    cumulative_dynamic_auc stored (fold 3): 0.827 over 22 t's
+    Fold 3 XGBoost: AP=0.346, ROC AUC=0.729
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.012646557515817128), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.58 (Balanced Accuracy=0.605)
+    cumulative_dynamic_auc stored (fold 3): 0.875 over 22 t's
+    Fold 3 LogisticRegression: AP=0.406, ROC AUC=0.742
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 3): 0.55 (Balanced Accuracy=0.913)
+    cumulative_dynamic_auc stored (fold 3): 0.759 over 22 t's
+    Fold 3 ANN: AP=0.301, ROC AUC=0.674
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.44 (Balanced Accuracy=0.795)
+    cumulative_dynamic_auc stored (fold 3): 0.759 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 8
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.012791395882472944), ('kbest__k', 52)])
+    Tuned threshold for SVM (fold 1): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 1): 0.124 over 24 t's
+    Fold 1 SVM: AP=0.118, ROC AUC=0.232
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 17), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 19), ('clf__n_estimators', 82), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 1): 0.45 (Balanced Accuracy=0.923)
+    cumulative_dynamic_auc stored (fold 1): 0.869 over 24 t's
+    Fold 1 RandomForest: AP=0.574, ROC AUC=0.799
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.7654820824760737), ('clf__learning_rate', 0.02249878252254894), ('clf__max_depth', 13), ('clf__n_estimators', 341), ('clf__scale_pos_weight', 8.728694484896252), ('clf__subsample', 0.9902781313389692), ('kbest__k', 26)])
+    Tuned threshold for XGBoost (fold 1): 0.19 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.837 over 24 t's
+    Fold 1 XGBoost: AP=0.542, ROC AUC=0.800
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 27)])
+    Tuned threshold for LogisticRegression (fold 1): 0.54 (Balanced Accuracy=0.577)
+    cumulative_dynamic_auc stored (fold 1): 0.835 over 24 t's
+    Fold 1 LogisticRegression: AP=0.503, ROC AUC=0.774
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.20695909515753722), ('clf__criterion__gamma', 1.3108723888576668), ('clf__lr', 4.906333216752423e-06), ('clf__module__dropout_rate', 0.136985016306038), ('clf__module__hidden_dim', 201), ('clf__module__num_layers', 2), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.59 (Balanced Accuracy=0.567)
+    cumulative_dynamic_auc stored (fold 1): 0.829 over 24 t's
+    Fold 1 ANN: AP=0.464, ROC AUC=0.776
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.47 (Balanced Accuracy=0.934)
+    cumulative_dynamic_auc stored (fold 1): 0.829 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.003871601308431188), ('kbest__k', 39)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.254 over 25 t's
+    Fold 2 SVM: AP=0.127, ROC AUC=0.274
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 6), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 18), ('clf__n_estimators', 295), ('kbest__k', 56)])
+    Tuned threshold for RandomForest (fold 2): 0.53 (Balanced Accuracy=0.824)
+    cumulative_dynamic_auc stored (fold 2): 0.754 over 25 t's
+    Fold 2 RandomForest: AP=0.444, ROC AUC=0.766
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.7643458710377254), ('clf__learning_rate', 0.00130555654824358), ('clf__max_depth', 8), ('clf__n_estimators', 136), ('clf__scale_pos_weight', 3.164168370753818), ('clf__subsample', 0.6710635126567753), ('kbest__k', 49)])
+    Tuned threshold for XGBoost (fold 2): 0.43 (Balanced Accuracy=0.941)
+    cumulative_dynamic_auc stored (fold 2): 0.744 over 25 t's
+    Fold 2 XGBoost: AP=0.525, ROC AUC=0.763
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.026215995079211355), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.56 (Balanced Accuracy=0.589)
+    cumulative_dynamic_auc stored (fold 2): 0.738 over 25 t's
+    Fold 2 LogisticRegression: AP=0.367, ROC AUC=0.718
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.31817738251954303), ('clf__criterion__gamma', 2.662193756971935), ('clf__lr', 1.4533803268030369e-05), ('clf__module__dropout_rate', 0.27484963569339343), ('clf__module__hidden_dim', 190), ('clf__module__num_layers', 2), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.58 (Balanced Accuracy=0.721)
+    cumulative_dynamic_auc stored (fold 2): 0.722 over 25 t's
+    Fold 2 ANN: AP=0.361, ROC AUC=0.683
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.45 (Balanced Accuracy=0.742)
+    cumulative_dynamic_auc stored (fold 2): 0.722 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.29241777682339315), ('kbest__k', 40)])
+    Tuned threshold for SVM (fold 3): 0.57 (Balanced Accuracy=0.752)
+    cumulative_dynamic_auc stored (fold 3): 0.848 over 22 t's
+    Fold 3 SVM: AP=0.374, ROC AUC=0.731
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 12), ('clf__min_samples_leaf', 5), ('clf__min_samples_split', 9), ('clf__n_estimators', 67), ('kbest__k', 22)])
+    Tuned threshold for RandomForest (fold 3): 0.53 (Balanced Accuracy=0.896)
+    cumulative_dynamic_auc stored (fold 3): 0.815 over 22 t's
+    Fold 3 RandomForest: AP=0.368, ROC AUC=0.728
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.5761654982158727), ('clf__learning_rate', 0.0013095902486728278), ('clf__max_depth', 4), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.9957711464990802), ('kbest__k', 46)])
+    Tuned threshold for XGBoost (fold 3): 0.19 (Balanced Accuracy=0.810)
+    cumulative_dynamic_auc stored (fold 3): 0.819 over 22 t's
+    Fold 3 XGBoost: AP=0.399, ROC AUC=0.710
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.033999077954387856), ('kbest__k', 44)])
+    Tuned threshold for LogisticRegression (fold 3): 0.65 (Balanced Accuracy=0.650)
+    cumulative_dynamic_auc stored (fold 3): 0.851 over 22 t's
+    Fold 3 LogisticRegression: AP=0.375, ROC AUC=0.734
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.04602724845260792), ('clf__criterion__gamma', 6.377035707152073), ('clf__lr', 0.0014925475787589805), ('clf__module__dropout_rate', 0.4667174965031086), ('clf__module__hidden_dim', 117), ('clf__module__num_layers', 3), ('kbest__k', 37)])
+    Tuned threshold for ANN (fold 3): 0.52 (Balanced Accuracy=0.879)
+    cumulative_dynamic_auc stored (fold 3): 0.754 over 22 t's
+    Fold 3 ANN: AP=0.298, ROC AUC=0.654
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.38 (Balanced Accuracy=0.774)
+    cumulative_dynamic_auc stored (fold 3): 0.754 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 9
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.28 (Balanced Accuracy=0.712)
+    cumulative_dynamic_auc stored (fold 1): 0.852 over 24 t's
+    Fold 1 SVM: AP=0.567, ROC AUC=0.800
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 19), ('clf__min_samples_leaf', 8), ('clf__min_samples_split', 10), ('clf__n_estimators', 133), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 1): 0.48 (Balanced Accuracy=0.823)
+    cumulative_dynamic_auc stored (fold 1): 0.880 over 24 t's
+    Fold 1 RandomForest: AP=0.604, ROC AUC=0.818
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.5), ('clf__learning_rate', 0.045785386799813595), ('clf__max_depth', 8), ('clf__n_estimators', 474), ('clf__scale_pos_weight', 1.0348915588576808), ('clf__subsample', 0.8481188233586239), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 1): 0.14 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.818 over 24 t's
+    Fold 1 XGBoost: AP=0.447, ROC AUC=0.790
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 1): 0.65 (Balanced Accuracy=0.547)
+    cumulative_dynamic_auc stored (fold 1): 0.866 over 24 t's
+    Fold 1 LogisticRegression: AP=0.587, ROC AUC=0.835
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.0942477989892318), ('clf__criterion__gamma', 6.852780057741874), ('clf__lr', 0.002256262231204779), ('clf__module__dropout_rate', 0.43366808467497364), ('clf__module__hidden_dim', 169), ('clf__module__num_layers', 3), ('kbest__k', 23)])
+    Tuned threshold for ANN (fold 1): 0.53 (Balanced Accuracy=0.746)
+    cumulative_dynamic_auc stored (fold 1): 0.818 over 24 t's
+    Fold 1 ANN: AP=0.388, ROC AUC=0.765
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.50 (Balanced Accuracy=0.891)
+    cumulative_dynamic_auc stored (fold 1): 0.818 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.004983587463782147), ('kbest__k', 31)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.218 over 25 t's
+    Fold 2 SVM: AP=0.122, ROC AUC=0.208
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 5), ('clf__n_estimators', 119), ('kbest__k', 28)])
+    Tuned threshold for RandomForest (fold 2): 0.59 (Balanced Accuracy=0.773)
+    cumulative_dynamic_auc stored (fold 2): 0.771 over 25 t's
+    Fold 2 RandomForest: AP=0.524, ROC AUC=0.791
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.642872601814334), ('clf__learning_rate', 0.001), ('clf__max_depth', 2), ('clf__n_estimators', 63), ('clf__scale_pos_weight', 6.181629284359346), ('clf__subsample', 0.5394327446163709), ('kbest__k', 51)])
+    Tuned threshold for XGBoost (fold 2): 0.57 (Balanced Accuracy=0.623)
+    cumulative_dynamic_auc stored (fold 2): 0.767 over 25 t's
+    Fold 2 XGBoost: AP=0.506, ROC AUC=0.763
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.003402145073664603), ('kbest__k', 65)])
+    Tuned threshold for LogisticRegression (fold 2): 0.55 (Balanced Accuracy=0.563)
+    cumulative_dynamic_auc stored (fold 2): 0.810 over 25 t's
+    Fold 2 LogisticRegression: AP=0.455, ROC AUC=0.804
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.57 (Balanced Accuracy=0.821)
+    cumulative_dynamic_auc stored (fold 2): 0.762 over 25 t's
+    Fold 2 ANN: AP=0.416, ROC AUC=0.752
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.50 (Balanced Accuracy=0.741)
+    cumulative_dynamic_auc stored (fold 2): 0.762 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.323156424089023), ('kbest__k', 30)])
+    Tuned threshold for SVM (fold 3): 0.57 (Balanced Accuracy=0.729)
+    cumulative_dynamic_auc stored (fold 3): 0.855 over 22 t's
+    Fold 3 SVM: AP=0.377, ROC AUC=0.762
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 17), ('clf__min_samples_leaf', 4), ('clf__min_samples_split', 13), ('clf__n_estimators', 264), ('kbest__k', 64)])
+    Tuned threshold for RandomForest (fold 3): 0.49 (Balanced Accuracy=0.932)
+    cumulative_dynamic_auc stored (fold 3): 0.822 over 22 t's
+    Fold 3 RandomForest: AP=0.354, ROC AUC=0.732
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.0013616655475683366), ('clf__max_depth', 7), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 10.0), ('clf__subsample', 0.6285242528485293), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 3): 0.68 (Balanced Accuracy=0.969)
+    cumulative_dynamic_auc stored (fold 3): 0.804 over 22 t's
+    Fold 3 XGBoost: AP=0.320, ROC AUC=0.702
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.15790430197326688), ('kbest__k', 39)])
+    Tuned threshold for LogisticRegression (fold 3): 0.63 (Balanced Accuracy=0.687)
+    cumulative_dynamic_auc stored (fold 3): 0.844 over 22 t's
+    Fold 3 LogisticRegression: AP=0.440, ROC AUC=0.731
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.11412651787047952), ('clf__criterion__gamma', 3.884169891709775), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.15614161846957647), ('clf__module__hidden_dim', 32), ('clf__module__num_layers', 3), ('kbest__k', 44)])
+    Tuned threshold for ANN (fold 3): 0.61 (Balanced Accuracy=0.836)
+    cumulative_dynamic_auc stored (fold 3): 0.774 over 22 t's
+    Fold 3 ANN: AP=0.352, ROC AUC=0.705
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.47 (Balanced Accuracy=0.843)
+    cumulative_dynamic_auc stored (fold 3): 0.774 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 10
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.8886443096315644), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.39 (Balanced Accuracy=0.790)
+    cumulative_dynamic_auc stored (fold 1): 0.828 over 24 t's
+    Fold 1 SVM: AP=0.450, ROC AUC=0.800
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 6), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 20), ('clf__n_estimators', 500), ('kbest__k', 53)])
+    Tuned threshold for RandomForest (fold 1): 0.50 (Balanced Accuracy=0.891)
+    cumulative_dynamic_auc stored (fold 1): 0.881 over 24 t's
+    Fold 1 RandomForest: AP=0.599, ROC AUC=0.827
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.6847684887002612), ('clf__learning_rate', 0.007592193485698972), ('clf__max_depth', 7), ('clf__n_estimators', 409), ('clf__scale_pos_weight', 1.631101512501576), ('clf__subsample', 0.871504897201705), ('kbest__k', 53)])
+    Tuned threshold for XGBoost (fold 1): 0.26 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.864 over 24 t's
+    Fold 1 XGBoost: AP=0.591, ROC AUC=0.819
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.009556483828020372), ('kbest__k', 65)])
+    Tuned threshold for LogisticRegression (fold 1): 0.50 (Balanced Accuracy=0.587)
+    cumulative_dynamic_auc stored (fold 1): 0.874 over 24 t's
+    Fold 1 LogisticRegression: AP=0.531, ROC AUC=0.818
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.4366520169383993), ('clf__criterion__gamma', 3.5975519984599673), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.42886209273628306), ('clf__module__hidden_dim', 36), ('clf__module__num_layers', 3), ('kbest__k', 24)])
+    Tuned threshold for ANN (fold 1): 0.58 (Balanced Accuracy=0.757)
+    cumulative_dynamic_auc stored (fold 1): 0.809 over 24 t's
+    Fold 1 ANN: AP=0.395, ROC AUC=0.759
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.49 (Balanced Accuracy=0.919)
+    cumulative_dynamic_auc stored (fold 1): 0.809 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.003756560149668465), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.242 over 25 t's
+    Fold 2 SVM: AP=0.120, ROC AUC=0.247
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 11), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 20), ('clf__n_estimators', 288), ('kbest__k', 27)])
+    Tuned threshold for RandomForest (fold 2): 0.58 (Balanced Accuracy=0.767)
+    cumulative_dynamic_auc stored (fold 2): 0.781 over 25 t's
+    Fold 2 RandomForest: AP=0.531, ROC AUC=0.786
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.7475260465291794), ('clf__learning_rate', 0.0017343063709664764), ('clf__max_depth', 5), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 6.856491302977771), ('clf__subsample', 0.566520011657471), ('kbest__k', 52)])
+    Tuned threshold for XGBoost (fold 2): 0.59 (Balanced Accuracy=0.844)
+    cumulative_dynamic_auc stored (fold 2): 0.791 over 25 t's
+    Fold 2 XGBoost: AP=0.564, ROC AUC=0.779
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.0066579904276534985), ('kbest__k', 24)])
+    Tuned threshold for LogisticRegression (fold 2): 0.57 (Balanced Accuracy=0.586)
+    cumulative_dynamic_auc stored (fold 2): 0.770 over 25 t's
+    Fold 2 LogisticRegression: AP=0.437, ROC AUC=0.747
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.55 (Balanced Accuracy=0.838)
+    cumulative_dynamic_auc stored (fold 2): 0.752 over 25 t's
+    Fold 2 ANN: AP=0.426, ROC AUC=0.705
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.50 (Balanced Accuracy=0.744)
+    cumulative_dynamic_auc stored (fold 2): 0.752 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.4299388560584422), ('kbest__k', 42)])
+    Tuned threshold for SVM (fold 3): 0.43 (Balanced Accuracy=0.794)
+    cumulative_dynamic_auc stored (fold 3): 0.802 over 22 t's
+    Fold 3 SVM: AP=0.346, ROC AUC=0.737
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 12), ('clf__min_samples_leaf', 7), ('clf__min_samples_split', 13), ('clf__n_estimators', 341), ('kbest__k', 59)])
+    Tuned threshold for RandomForest (fold 3): 0.50 (Balanced Accuracy=0.919)
+    cumulative_dynamic_auc stored (fold 3): 0.822 over 22 t's
+    Fold 3 RandomForest: AP=0.357, ROC AUC=0.729
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.9000300521944622), ('clf__learning_rate', 0.0044384063474876305), ('clf__max_depth', 9), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 3.0229027915093214), ('clf__subsample', 0.5455495988451717), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 3): 0.41 (Balanced Accuracy=0.930)
+    cumulative_dynamic_auc stored (fold 3): 0.828 over 22 t's
+    Fold 3 XGBoost: AP=0.392, ROC AUC=0.739
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.11883394452138049), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.61 (Balanced Accuracy=0.642)
+    cumulative_dynamic_auc stored (fold 3): 0.820 over 22 t's
+    Fold 3 LogisticRegression: AP=0.393, ROC AUC=0.721
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.48613304055414097), ('clf__criterion__gamma', 5.571776304017479), ('clf__lr', 0.00039905059703672607), ('clf__module__dropout_rate', 0.13068667045529472), ('clf__module__hidden_dim', 20), ('clf__module__num_layers', 4), ('kbest__k', 33)])
+    Tuned threshold for ANN (fold 3): 0.53 (Balanced Accuracy=0.771)
+    cumulative_dynamic_auc stored (fold 3): 0.720 over 22 t's
+    Fold 3 ANN: AP=0.323, ROC AUC=0.669
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.44 (Balanced Accuracy=0.806)
+    cumulative_dynamic_auc stored (fold 3): 0.720 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 11
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.004620013544242761), ('kbest__k', 29)])
+    Tuned threshold for SVM (fold 1): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 1): 0.128 over 24 t's
+    Fold 1 SVM: AP=0.111, ROC AUC=0.179
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 2), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 10), ('clf__n_estimators', 163), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 1): 0.47 (Balanced Accuracy=0.613)
+    cumulative_dynamic_auc stored (fold 1): 0.880 over 24 t's
+    Fold 1 RandomForest: AP=0.602, ROC AUC=0.826
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.6637227587683591), ('clf__learning_rate', 0.007129401007223534), ('clf__max_depth', 8), ('clf__n_estimators', 483), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.8311261533080753), ('kbest__k', 55)])
+    Tuned threshold for XGBoost (fold 1): 0.26 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.867 over 24 t's
+    Fold 1 XGBoost: AP=0.581, ROC AUC=0.830
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.9910317668291533), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 1): 0.72 (Balanced Accuracy=0.526)
+    cumulative_dynamic_auc stored (fold 1): 0.855 over 24 t's
+    Fold 1 LogisticRegression: AP=0.530, ROC AUC=0.758
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.4310478546455302), ('clf__criterion__gamma', 4.369736534651716), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 167), ('clf__module__num_layers', 4), ('kbest__k', 35)])
+    Tuned threshold for ANN (fold 1): 0.54 (Balanced Accuracy=0.718)
+    cumulative_dynamic_auc stored (fold 1): 0.824 over 24 t's
+    Fold 1 ANN: AP=0.431, ROC AUC=0.767
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.41 (Balanced Accuracy=0.837)
+    cumulative_dynamic_auc stored (fold 1): 0.824 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.0010239350609297774), ('kbest__k', 24)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.192 over 25 t's
+    Fold 2 SVM: AP=0.118, ROC AUC=0.233
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 18), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 14), ('clf__n_estimators', 50), ('kbest__k', 25)])
+    Tuned threshold for RandomForest (fold 2): 0.51 (Balanced Accuracy=0.746)
+    cumulative_dynamic_auc stored (fold 2): 0.798 over 25 t's
+    Fold 2 RandomForest: AP=0.451, ROC AUC=0.792
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.5821438813840045), ('clf__learning_rate', 0.0017625381225675793), ('clf__max_depth', 3), ('clf__n_estimators', 98), ('clf__scale_pos_weight', 10.0), ('clf__subsample', 0.5446750659815105), ('kbest__k', 36)])
+    Tuned threshold for XGBoost (fold 2): 0.68 (Balanced Accuracy=0.721)
+    cumulative_dynamic_auc stored (fold 2): 0.792 over 25 t's
+    Fold 2 XGBoost: AP=0.573, ROC AUC=0.797
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.03432667654736215), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.64 (Balanced Accuracy=0.560)
+    cumulative_dynamic_auc stored (fold 2): 0.801 over 25 t's
+    Fold 2 LogisticRegression: AP=0.431, ROC AUC=0.779
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.53 (Balanced Accuracy=0.688)
+    cumulative_dynamic_auc stored (fold 2): 0.748 over 25 t's
+    Fold 2 ANN: AP=0.414, ROC AUC=0.694
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.47 (Balanced Accuracy=0.676)
+    cumulative_dynamic_auc stored (fold 2): 0.748 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.3269634051397783), ('kbest__k', 65)])
+    Tuned threshold for SVM (fold 3): 0.58 (Balanced Accuracy=0.781)
+    cumulative_dynamic_auc stored (fold 3): 0.804 over 22 t's
+    Fold 3 SVM: AP=0.384, ROC AUC=0.751
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 12), ('clf__min_samples_leaf', 1), ('clf__min_samples_split', 14), ('clf__n_estimators', 86), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 3): 0.47 (Balanced Accuracy=0.939)
+    cumulative_dynamic_auc stored (fold 3): 0.792 over 22 t's
+    Fold 3 RandomForest: AP=0.360, ROC AUC=0.728
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.9368721117550295), ('clf__learning_rate', 0.001), ('clf__max_depth', 4), ('clf__n_estimators', 68), ('clf__scale_pos_weight', 2.400349005871935), ('clf__subsample', 0.7127965164741809), ('kbest__k', 62)])
+    Tuned threshold for XGBoost (fold 3): 0.36 (Balanced Accuracy=0.873)
+    cumulative_dynamic_auc stored (fold 3): 0.784 over 22 t's
+    Fold 3 XGBoost: AP=0.393, ROC AUC=0.736
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.13894818045197932), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.49 (Balanced Accuracy=0.619)
+    cumulative_dynamic_auc stored (fold 3): 0.833 over 22 t's
+    Fold 3 LogisticRegression: AP=0.371, ROC AUC=0.748
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.16062655158254346), ('clf__criterion__gamma', 6.178710357978586), ('clf__lr', 0.00015796400075989382), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 28), ('clf__module__num_layers', 2), ('kbest__k', 32)])
+    Tuned threshold for ANN (fold 3): 0.51 (Balanced Accuracy=0.832)
+    cumulative_dynamic_auc stored (fold 3): 0.720 over 22 t's
+    Fold 3 ANN: AP=0.290, ROC AUC=0.630
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.43 (Balanced Accuracy=0.780)
+    cumulative_dynamic_auc stored (fold 3): 0.720 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 12
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.001), ('kbest__k', 25)])
+    Tuned threshold for SVM (fold 1): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 1): 0.109 over 24 t's
+    Fold 1 SVM: AP=0.110, ROC AUC=0.173
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 15), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 18), ('clf__n_estimators', 207), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 1): 0.46 (Balanced Accuracy=0.789)
+    cumulative_dynamic_auc stored (fold 1): 0.884 over 24 t's
+    Fold 1 RandomForest: AP=0.571, ROC AUC=0.826
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.65729170399059), ('clf__learning_rate', 0.07695362497311993), ('clf__max_depth', 20), ('clf__n_estimators', 425), ('clf__scale_pos_weight', 4.9543840292892165), ('clf__subsample', 1.0), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 1): 0.08 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.817 over 24 t's
+    Fold 1 XGBoost: AP=0.440, ROC AUC=0.773
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.038554513400070024), ('kbest__k', 23)])
+    Tuned threshold for LogisticRegression (fold 1): 0.47 (Balanced Accuracy=0.541)
+    cumulative_dynamic_auc stored (fold 1): 0.865 over 24 t's
+    Fold 1 LogisticRegression: AP=0.587, ROC AUC=0.820
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 1): 0.56 (Balanced Accuracy=0.790)
+    cumulative_dynamic_auc stored (fold 1): 0.798 over 24 t's
+    Fold 1 ANN: AP=0.507, ROC AUC=0.817
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.49 (Balanced Accuracy=0.975)
+    cumulative_dynamic_auc stored (fold 1): 0.798 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.0033799489978859052), ('kbest__k', 21)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.237 over 25 t's
+    Fold 2 SVM: AP=0.121, ROC AUC=0.248
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 7), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 19), ('clf__n_estimators', 50), ('kbest__k', 22)])
+    Tuned threshold for RandomForest (fold 2): 0.51 (Balanced Accuracy=0.770)
+    cumulative_dynamic_auc stored (fold 2): 0.765 over 25 t's
+    Fold 2 RandomForest: AP=0.518, ROC AUC=0.770
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.9626886101166445), ('clf__learning_rate', 0.001), ('clf__max_depth', 7), ('clf__n_estimators', 82), ('clf__scale_pos_weight', 5.341827327373529), ('clf__subsample', 0.6744667124516208), ('kbest__k', 45)])
+    Tuned threshold for XGBoost (fold 2): 0.54 (Balanced Accuracy=0.889)
+    cumulative_dynamic_auc stored (fold 2): 0.776 over 25 t's
+    Fold 2 XGBoost: AP=0.598, ROC AUC=0.789
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.07895959424483562), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.63 (Balanced Accuracy=0.587)
+    cumulative_dynamic_auc stored (fold 2): 0.783 over 25 t's
+    Fold 2 LogisticRegression: AP=0.445, ROC AUC=0.772
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4176776579940892), ('clf__criterion__gamma', 5.857591978461496), ('clf__lr', 8.594409648489328e-05), ('clf__module__dropout_rate', 0.17959702133989044), ('clf__module__hidden_dim', 29), ('clf__module__num_layers', 2), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.54 (Balanced Accuracy=0.732)
+    cumulative_dynamic_auc stored (fold 2): 0.737 over 25 t's
+    Fold 2 ANN: AP=0.519, ROC AUC=0.761
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.45 (Balanced Accuracy=0.681)
+    cumulative_dynamic_auc stored (fold 2): 0.737 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.08325946083197279), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 3): 0.41 (Balanced Accuracy=0.591)
+    cumulative_dynamic_auc stored (fold 3): 0.848 over 22 t's
+    Fold 3 SVM: AP=0.422, ROC AUC=0.754
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 3), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 15), ('clf__n_estimators', 167), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 3): 0.55 (Balanced Accuracy=0.759)
+    cumulative_dynamic_auc stored (fold 3): 0.846 over 22 t's
+    Fold 3 RandomForest: AP=0.359, ROC AUC=0.736
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.001), ('clf__max_depth', 20), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.5), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 3): 0.20 (Balanced Accuracy=0.817)
+    cumulative_dynamic_auc stored (fold 3): 0.830 over 22 t's
+    Fold 3 XGBoost: AP=0.387, ROC AUC=0.743
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.2172140090914841), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.61 (Balanced Accuracy=0.618)
+    cumulative_dynamic_auc stored (fold 3): 0.840 over 22 t's
+    Fold 3 LogisticRegression: AP=0.434, ROC AUC=0.736
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 3.39800532613582), ('clf__lr', 1.5886826274421764e-05), ('clf__module__dropout_rate', 0.2384291656806545), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 3), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 3): 0.61 (Balanced Accuracy=0.774)
+    cumulative_dynamic_auc stored (fold 3): 0.790 over 22 t's
+    Fold 3 ANN: AP=0.356, ROC AUC=0.706
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.40 (Balanced Accuracy=0.691)
+    cumulative_dynamic_auc stored (fold 3): 0.790 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 13
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.4148596871980547), ('kbest__k', 31)])
+    Tuned threshold for SVM (fold 1): 0.42 (Balanced Accuracy=0.692)
+    cumulative_dynamic_auc stored (fold 1): 0.800 over 24 t's
+    Fold 1 SVM: AP=0.544, ROC AUC=0.805
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 13), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 17), ('clf__n_estimators', 163), ('kbest__k', 28)])
+    Tuned threshold for RandomForest (fold 1): 0.49 (Balanced Accuracy=0.837)
+    cumulative_dynamic_auc stored (fold 1): 0.841 over 24 t's
+    Fold 1 RandomForest: AP=0.569, ROC AUC=0.810
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.03908840403580475), ('clf__max_depth', 2), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.9323578597185388), ('kbest__k', 30)])
+    Tuned threshold for XGBoost (fold 1): 0.37 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.759 over 24 t's
+    Fold 1 XGBoost: AP=0.495, ROC AUC=0.768
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.05123217823217737), ('kbest__k', 31)])
+    Tuned threshold for LogisticRegression (fold 1): 0.48 (Balanced Accuracy=0.554)
+    cumulative_dynamic_auc stored (fold 1): 0.858 over 24 t's
+    Fold 1 LogisticRegression: AP=0.573, ROC AUC=0.840
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 4), ('clf__module__num_layers', 1), ('kbest__k', 44)])
+    Tuned threshold for ANN (fold 1): 0.52 (Balanced Accuracy=0.598)
+    cumulative_dynamic_auc stored (fold 1): 0.765 over 24 t's
+    Fold 1 ANN: AP=0.363, ROC AUC=0.733
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.43 (Balanced Accuracy=0.827)
+    cumulative_dynamic_auc stored (fold 1): 0.765 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.23775321336857735), ('kbest__k', 65)])
+    Tuned threshold for SVM (fold 2): 0.45 (Balanced Accuracy=0.667)
+    cumulative_dynamic_auc stored (fold 2): 0.807 over 25 t's
+    Fold 2 SVM: AP=0.473, ROC AUC=0.782
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 19), ('clf__min_samples_leaf', 8), ('clf__min_samples_split', 10), ('clf__n_estimators', 133), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 2): 0.45 (Balanced Accuracy=0.773)
+    cumulative_dynamic_auc stored (fold 2): 0.777 over 25 t's
+    Fold 2 RandomForest: AP=0.493, ROC AUC=0.786
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.9648545308123753), ('clf__learning_rate', 0.001), ('clf__max_depth', 8), ('clf__n_estimators', 134), ('clf__scale_pos_weight', 10.0), ('clf__subsample', 0.5), ('kbest__k', 57)])
+    Tuned threshold for XGBoost (fold 2): 0.66 (Balanced Accuracy=0.898)
+    cumulative_dynamic_auc stored (fold 2): 0.805 over 25 t's
+    Fold 2 XGBoost: AP=0.542, ROC AUC=0.797
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.004983587463782147), ('kbest__k', 31)])
+    Tuned threshold for LogisticRegression (fold 2): 0.46 (Balanced Accuracy=0.567)
+    cumulative_dynamic_auc stored (fold 2): 0.795 over 25 t's
+    Fold 2 LogisticRegression: AP=0.462, ROC AUC=0.749
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.52 (Balanced Accuracy=0.759)
+    cumulative_dynamic_auc stored (fold 2): 0.740 over 25 t's
+    Fold 2 ANN: AP=0.329, ROC AUC=0.721
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.48 (Balanced Accuracy=0.731)
+    cumulative_dynamic_auc stored (fold 2): 0.740 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.9913527817094883), ('kbest__k', 32)])
+    Tuned threshold for SVM (fold 3): 0.49 (Balanced Accuracy=0.829)
+    cumulative_dynamic_auc stored (fold 3): 0.832 over 22 t's
+    Fold 3 SVM: AP=0.374, ROC AUC=0.754
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 5), ('clf__n_estimators', 353), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 3): 0.47 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 3): 0.825 over 22 t's
+    Fold 3 RandomForest: AP=0.358, ROC AUC=0.738
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.84179690388521), ('clf__learning_rate', 0.001), ('clf__max_depth', 12), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.7747947299457654), ('kbest__k', 40)])
+    Tuned threshold for XGBoost (fold 3): 0.24 (Balanced Accuracy=0.912)
+    cumulative_dynamic_auc stored (fold 3): 0.824 over 22 t's
+    Fold 3 XGBoost: AP=0.403, ROC AUC=0.749
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.015247895593447849), ('kbest__k', 56)])
+    Tuned threshold for LogisticRegression (fold 3): 0.59 (Balanced Accuracy=0.631)
+    cumulative_dynamic_auc stored (fold 3): 0.856 over 22 t's
+    Fold 3 LogisticRegression: AP=0.454, ROC AUC=0.781
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 3): 0.58 (Balanced Accuracy=0.828)
+    cumulative_dynamic_auc stored (fold 3): 0.764 over 22 t's
+    Fold 3 ANN: AP=0.335, ROC AUC=0.707
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.41 (Balanced Accuracy=0.884)
+    cumulative_dynamic_auc stored (fold 3): 0.764 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 14
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.9394112641154982), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.47 (Balanced Accuracy=0.788)
+    cumulative_dynamic_auc stored (fold 1): 0.841 over 24 t's
+    Fold 1 SVM: AP=0.540, ROC AUC=0.793
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 8), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 16), ('clf__n_estimators', 285), ('kbest__k', 21)])
+    Tuned threshold for RandomForest (fold 1): 0.50 (Balanced Accuracy=0.789)
+    cumulative_dynamic_auc stored (fold 1): 0.881 over 24 t's
+    Fold 1 RandomForest: AP=0.634, ROC AUC=0.829
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.5), ('clf__learning_rate', 0.007531550265089264), ('clf__max_depth', 2), ('clf__n_estimators', 468), ('clf__scale_pos_weight', 10.0), ('clf__subsample', 1.0), ('kbest__k', 48)])
+    Tuned threshold for XGBoost (fold 1): 0.69 (Balanced Accuracy=0.786)
+    cumulative_dynamic_auc stored (fold 1): 0.843 over 24 t's
+    Fold 1 XGBoost: AP=0.567, ROC AUC=0.812
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.32161824239528053), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 1): 0.48 (Balanced Accuracy=0.537)
+    cumulative_dynamic_auc stored (fold 1): 0.867 over 24 t's
+    Fold 1 LogisticRegression: AP=0.533, ROC AUC=0.802
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.2552445232092422), ('clf__criterion__gamma', 4.1618741878901115), ('clf__lr', 0.0007710977429921893), ('clf__module__dropout_rate', 0.01364748065693078), ('clf__module__hidden_dim', 17), ('clf__module__num_layers', 2), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 1): 0.60 (Balanced Accuracy=0.912)
+    cumulative_dynamic_auc stored (fold 1): 0.830 over 24 t's
+    Fold 1 ANN: AP=0.414, ROC AUC=0.779
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.50 (Balanced Accuracy=0.791)
+    cumulative_dynamic_auc stored (fold 1): 0.830 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.001), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.242 over 25 t's
+    Fold 2 SVM: AP=0.119, ROC AUC=0.234
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 2), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 20), ('clf__n_estimators', 50), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 2): 0.50 (Balanced Accuracy=0.653)
+    cumulative_dynamic_auc stored (fold 2): 0.744 over 25 t's
+    Fold 2 RandomForest: AP=0.480, ROC AUC=0.770
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.00190271632171806), ('clf__max_depth', 2), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 7.4050450804776515), ('clf__subsample', 0.5), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 2): 0.60 (Balanced Accuracy=0.653)
+    cumulative_dynamic_auc stored (fold 2): 0.768 over 25 t's
+    Fold 2 XGBoost: AP=0.498, ROC AUC=0.772
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.02932732229514422), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.61 (Balanced Accuracy=0.603)
+    cumulative_dynamic_auc stored (fold 2): 0.784 over 25 t's
+    Fold 2 LogisticRegression: AP=0.423, ROC AUC=0.783
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4562034893975674), ('clf__criterion__gamma', 6.411024147466952), ('clf__lr', 9.914920311621236e-05), ('clf__module__dropout_rate', 0.24430601482386002), ('clf__module__hidden_dim', 39), ('clf__module__num_layers', 1), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 2): 0.52 (Balanced Accuracy=0.554)
+    cumulative_dynamic_auc stored (fold 2): 0.808 over 25 t's
+    Fold 2 ANN: AP=0.451, ROC AUC=0.815
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.47 (Balanced Accuracy=0.625)
+    cumulative_dynamic_auc stored (fold 2): 0.808 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.10010597320449927), ('kbest__k', 28)])
+    Tuned threshold for SVM (fold 3): 0.48 (Balanced Accuracy=0.648)
+    cumulative_dynamic_auc stored (fold 3): 0.839 over 22 t's
+    Fold 3 SVM: AP=0.417, ROC AUC=0.756
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 4), ('clf__min_samples_leaf', 1), ('clf__min_samples_split', 11), ('clf__n_estimators', 369), ('kbest__k', 36)])
+    Tuned threshold for RandomForest (fold 3): 0.47 (Balanced Accuracy=0.847)
+    cumulative_dynamic_auc stored (fold 3): 0.841 over 22 t's
+    Fold 3 RandomForest: AP=0.372, ROC AUC=0.738
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.0018671431469527244), ('clf__max_depth', 3), ('clf__n_estimators', 94), ('clf__scale_pos_weight', 1.387164447659916), ('clf__subsample', 0.8596046511368205), ('kbest__k', 41)])
+    Tuned threshold for XGBoost (fold 3): 0.26 (Balanced Accuracy=0.714)
+    cumulative_dynamic_auc stored (fold 3): 0.800 over 22 t's
+    Fold 3 XGBoost: AP=0.392, ROC AUC=0.727
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.01630570681688945), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.61 (Balanced Accuracy=0.602)
+    cumulative_dynamic_auc stored (fold 3): 0.834 over 22 t's
+    Fold 3 LogisticRegression: AP=0.376, ROC AUC=0.731
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 4.5798856488483155), ('clf__lr', 2.307645229995789e-05), ('clf__module__dropout_rate', 0.08529859883460195), ('clf__module__hidden_dim', 169), ('clf__module__num_layers', 4), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 3): 0.52 (Balanced Accuracy=0.816)
+    cumulative_dynamic_auc stored (fold 3): 0.787 over 22 t's
+    Fold 3 ANN: AP=0.326, ROC AUC=0.714
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.37 (Balanced Accuracy=0.727)
+    cumulative_dynamic_auc stored (fold 3): 0.787 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 15
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.4142185442489597), ('kbest__k', 45)])
+    Tuned threshold for SVM (fold 1): 0.45 (Balanced Accuracy=0.680)
+    cumulative_dynamic_auc stored (fold 1): 0.809 over 24 t's
+    Fold 1 SVM: AP=0.485, ROC AUC=0.773
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 2), ('clf__min_samples_leaf', 8), ('clf__min_samples_split', 7), ('clf__n_estimators', 333), ('kbest__k', 25)])
+    Tuned threshold for RandomForest (fold 1): 0.54 (Balanced Accuracy=0.598)
+    cumulative_dynamic_auc stored (fold 1): 0.864 over 24 t's
+    Fold 1 RandomForest: AP=0.545, ROC AUC=0.821
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.1), ('clf__max_depth', 15), ('clf__n_estimators', 87), ('clf__scale_pos_weight', 1.6889688596201975), ('clf__subsample', 0.9950563126914944), ('kbest__k', 40)])
+    Tuned threshold for XGBoost (fold 1): 0.13 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.842 over 24 t's
+    Fold 1 XGBoost: AP=0.546, ROC AUC=0.789
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.07686961524706167), ('kbest__k', 42)])
+    Tuned threshold for LogisticRegression (fold 1): 0.62 (Balanced Accuracy=0.569)
+    cumulative_dynamic_auc stored (fold 1): 0.834 over 24 t's
+    Fold 1 LogisticRegression: AP=0.478, ROC AUC=0.778
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.04602724845260792), ('clf__criterion__gamma', 6.377035707152073), ('clf__lr', 0.0014925475787589805), ('clf__module__dropout_rate', 0.4667174965031086), ('clf__module__hidden_dim', 117), ('clf__module__num_layers', 3), ('kbest__k', 37)])
+    Tuned threshold for ANN (fold 1): 0.56 (Balanced Accuracy=0.797)
+    cumulative_dynamic_auc stored (fold 1): 0.816 over 24 t's
+    Fold 1 ANN: AP=0.443, ROC AUC=0.802
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.45 (Balanced Accuracy=0.843)
+    cumulative_dynamic_auc stored (fold 1): 0.816 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.6334114702903405), ('kbest__k', 55)])
+    Tuned threshold for SVM (fold 2): 0.46 (Balanced Accuracy=0.786)
+    cumulative_dynamic_auc stored (fold 2): 0.741 over 25 t's
+    Fold 2 SVM: AP=0.444, ROC AUC=0.748
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 11), ('clf__min_samples_leaf', 7), ('clf__min_samples_split', 8), ('clf__n_estimators', 443), ('kbest__k', 40)])
+    Tuned threshold for RandomForest (fold 2): 0.45 (Balanced Accuracy=0.814)
+    cumulative_dynamic_auc stored (fold 2): 0.731 over 25 t's
+    Fold 2 RandomForest: AP=0.475, ROC AUC=0.744
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.5), ('clf__learning_rate', 0.001759475320000314), ('clf__max_depth', 3), ('clf__n_estimators', 123), ('clf__scale_pos_weight', 3.4533255573410395), ('clf__subsample', 0.6906320663263259), ('kbest__k', 60)])
+    Tuned threshold for XGBoost (fold 2): 0.43 (Balanced Accuracy=0.729)
+    cumulative_dynamic_auc stored (fold 2): 0.760 over 25 t's
+    Fold 2 XGBoost: AP=0.537, ROC AUC=0.772
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.03866127444682281), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 2): 0.52 (Balanced Accuracy=0.599)
+    cumulative_dynamic_auc stored (fold 2): 0.721 over 25 t's
+    Fold 2 LogisticRegression: AP=0.414, ROC AUC=0.726
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 1.4426430485853121), ('clf__lr', 1.8296455813877645e-05), ('clf__module__dropout_rate', 0.21557851272372264), ('clf__module__hidden_dim', 162), ('clf__module__num_layers', 2), ('kbest__k', 24)])
+    Tuned threshold for ANN (fold 2): 0.59 (Balanced Accuracy=0.619)
+    cumulative_dynamic_auc stored (fold 2): 0.657 over 25 t's
+    Fold 2 ANN: AP=0.384, ROC AUC=0.706
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.50 (Balanced Accuracy=0.708)
+    cumulative_dynamic_auc stored (fold 2): 0.657 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.4449889390376737), ('kbest__k', 28)])
+    Tuned threshold for SVM (fold 3): 0.58 (Balanced Accuracy=0.720)
+    cumulative_dynamic_auc stored (fold 3): 0.829 over 22 t's
+    Fold 3 SVM: AP=0.385, ROC AUC=0.762
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 12), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 8), ('clf__n_estimators', 136), ('kbest__k', 31)])
+    Tuned threshold for RandomForest (fold 3): 0.54 (Balanced Accuracy=0.992)
+    cumulative_dynamic_auc stored (fold 3): 0.809 over 22 t's
+    Fold 3 RandomForest: AP=0.372, ROC AUC=0.736
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.5237165891029049), ('clf__learning_rate', 0.001), ('clf__max_depth', 12), ('clf__n_estimators', 303), ('clf__scale_pos_weight', 2.009104696790162), ('clf__subsample', 0.5951155045808049), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 3): 0.33 (Balanced Accuracy=0.932)
+    cumulative_dynamic_auc stored (fold 3): 0.823 over 22 t's
+    Fold 3 XGBoost: AP=0.375, ROC AUC=0.731
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.038554513400070024), ('kbest__k', 23)])
+    Tuned threshold for LogisticRegression (fold 3): 0.61 (Balanced Accuracy=0.592)
+    cumulative_dynamic_auc stored (fold 3): 0.843 over 22 t's
+    Fold 3 LogisticRegression: AP=0.396, ROC AUC=0.743
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 3): 0.55 (Balanced Accuracy=0.896)
+    cumulative_dynamic_auc stored (fold 3): 0.751 over 22 t's
+    Fold 3 ANN: AP=0.326, ROC AUC=0.699
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.39 (Balanced Accuracy=0.844)
+    cumulative_dynamic_auc stored (fold 3): 0.751 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 16
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.15436188576848106), ('kbest__k', 25)])
+    Tuned threshold for SVM (fold 1): 0.49 (Balanced Accuracy=0.556)
+    cumulative_dynamic_auc stored (fold 1): 0.857 over 24 t's
+    Fold 1 SVM: AP=0.560, ROC AUC=0.805
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 17), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 19), ('clf__n_estimators', 93), ('kbest__k', 25)])
+    Tuned threshold for RandomForest (fold 1): 0.45 (Balanced Accuracy=0.779)
+    cumulative_dynamic_auc stored (fold 1): 0.887 over 24 t's
+    Fold 1 RandomForest: AP=0.620, ROC AUC=0.835
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.689479580703422), ('clf__learning_rate', 0.020975706034086376), ('clf__max_depth', 18), ('clf__n_estimators', 419), ('clf__scale_pos_weight', 9.575547091511563), ('clf__subsample', 0.8131300104925261), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 1): 0.24 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 1): 0.846 over 24 t's
+    Fold 1 XGBoost: AP=0.501, ROC AUC=0.801
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.20735156486569603), ('kbest__k', 24)])
+    Tuned threshold for LogisticRegression (fold 1): 0.52 (Balanced Accuracy=0.529)
+    cumulative_dynamic_auc stored (fold 1): 0.878 over 24 t's
+    Fold 1 LogisticRegression: AP=0.552, ROC AUC=0.817
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 1): 0.53 (Balanced Accuracy=0.764)
+    cumulative_dynamic_auc stored (fold 1): 0.817 over 24 t's
+    Fold 1 ANN: AP=0.452, ROC AUC=0.784
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.49 (Balanced Accuracy=0.868)
+    cumulative_dynamic_auc stored (fold 1): 0.817 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.8557795408917147), ('kbest__k', 28)])
+    Tuned threshold for SVM (fold 2): 0.43 (Balanced Accuracy=0.775)
+    cumulative_dynamic_auc stored (fold 2): 0.793 over 25 t's
+    Fold 2 SVM: AP=0.463, ROC AUC=0.782
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 4), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 16), ('clf__n_estimators', 470), ('kbest__k', 40)])
+    Tuned threshold for RandomForest (fold 2): 0.58 (Balanced Accuracy=0.750)
+    cumulative_dynamic_auc stored (fold 2): 0.774 over 25 t's
+    Fold 2 RandomForest: AP=0.511, ROC AUC=0.779
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 0.6847684887002612), ('clf__learning_rate', 0.007592193485698972), ('clf__max_depth', 7), ('clf__n_estimators', 409), ('clf__scale_pos_weight', 1.631101512501576), ('clf__subsample', 0.871504897201705), ('kbest__k', 53)])
+    Tuned threshold for XGBoost (fold 2): 0.26 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 2): 0.780 over 25 t's
+    Fold 2 XGBoost: AP=0.566, ROC AUC=0.794
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.04290431470388633), ('kbest__k', 28)])
+    Tuned threshold for LogisticRegression (fold 2): 0.61 (Balanced Accuracy=0.598)
+    cumulative_dynamic_auc stored (fold 2): 0.794 over 25 t's
+    Fold 2 LogisticRegression: AP=0.473, ROC AUC=0.774
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 2): 0.58 (Balanced Accuracy=0.746)
+    cumulative_dynamic_auc stored (fold 2): 0.788 over 25 t's
+    Fold 2 ANN: AP=0.437, ROC AUC=0.763
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.47 (Balanced Accuracy=0.837)
+    cumulative_dynamic_auc stored (fold 2): 0.788 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.27120455244245195), ('kbest__k', 24)])
+    Tuned threshold for SVM (fold 3): 0.59 (Balanced Accuracy=0.701)
+    cumulative_dynamic_auc stored (fold 3): 0.833 over 22 t's
+    Fold 3 SVM: AP=0.414, ROC AUC=0.754
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 3), ('clf__min_samples_leaf', 2), ('clf__min_samples_split', 14), ('clf__n_estimators', 230), ('kbest__k', 27)])
+    Tuned threshold for RandomForest (fold 3): 0.48 (Balanced Accuracy=0.714)
+    cumulative_dynamic_auc stored (fold 3): 0.824 over 22 t's
+    Fold 3 RandomForest: AP=0.363, ROC AUC=0.742
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.5750510501309251), ('clf__learning_rate', 0.01729752645340632), ('clf__max_depth', 2), ('clf__n_estimators', 293), ('clf__scale_pos_weight', 2.635350080842099), ('clf__subsample', 0.5844042070679205), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 3): 0.49 (Balanced Accuracy=0.862)
+    cumulative_dynamic_auc stored (fold 3): 0.807 over 22 t's
+    Fold 3 XGBoost: AP=0.336, ROC AUC=0.711
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.20390182773697746), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.69 (Balanced Accuracy=0.619)
+    cumulative_dynamic_auc stored (fold 3): 0.829 over 22 t's
+    Fold 3 LogisticRegression: AP=0.424, ROC AUC=0.726
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.2552445232092422), ('clf__criterion__gamma', 4.1618741878901115), ('clf__lr', 0.0007710977429921893), ('clf__module__dropout_rate', 0.01364748065693078), ('clf__module__hidden_dim', 17), ('clf__module__num_layers', 2), ('kbest__k', 26)])
+    Tuned threshold for ANN (fold 3): 0.54 (Balanced Accuracy=0.901)
+    cumulative_dynamic_auc stored (fold 3): 0.765 over 22 t's
+    Fold 3 ANN: AP=0.293, ROC AUC=0.680
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.38 (Balanced Accuracy=0.747)
+    cumulative_dynamic_auc stored (fold 3): 0.765 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 17
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 0.20518881858548885), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.31 (Balanced Accuracy=0.510)
+    cumulative_dynamic_auc stored (fold 1): 0.745 over 24 t's
+    Fold 1 SVM: AP=0.345, ROC AUC=0.667
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 15), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 16), ('clf__n_estimators', 234), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 1): 0.49 (Balanced Accuracy=0.746)
+    cumulative_dynamic_auc stored (fold 1): 0.748 over 24 t's
+    Fold 1 RandomForest: AP=0.329, ROC AUC=0.661
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.7715423167020871), ('clf__learning_rate', 0.010441409415474766), ('clf__max_depth', 12), ('clf__n_estimators', 305), ('clf__scale_pos_weight', 3.4206748369167377), ('clf__subsample', 0.5133990522685808), ('kbest__k', 62)])
+    Tuned threshold for XGBoost (fold 1): 0.41 (Balanced Accuracy=0.992)
+    cumulative_dynamic_auc stored (fold 1): 0.739 over 24 t's
+    Fold 1 XGBoost: AP=0.323, ROC AUC=0.654
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.19641086445021147), ('kbest__k', 34)])
+    Tuned threshold for LogisticRegression (fold 1): 0.58 (Balanced Accuracy=0.489)
+    cumulative_dynamic_auc stored (fold 1): 0.693 over 24 t's
+    Fold 1 LogisticRegression: AP=0.350, ROC AUC=0.612
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.0), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.0022533284108271967), ('clf__module__dropout_rate', 0.33973895322235276), ('clf__module__hidden_dim', 99), ('clf__module__num_layers', 4), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.37 (Balanced Accuracy=0.353)
+    cumulative_dynamic_auc stored (fold 1): 0.705 over 24 t's
+    Fold 1 ANN: AP=0.289, ROC AUC=0.642
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.41 (Balanced Accuracy=0.824)
+    cumulative_dynamic_auc stored (fold 1): 0.705 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 0.0010262862145554463), ('kbest__k', 24)])
+    Tuned threshold for SVM (fold 2): 0.00 (Balanced Accuracy=0.303)
+    cumulative_dynamic_auc stored (fold 2): 0.346 over 25 t's
+    Fold 2 SVM: AP=0.136, ROC AUC=0.321
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 17), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 18), ('clf__n_estimators', 53), ('kbest__k', 64)])
+    Tuned threshold for RandomForest (fold 2): 0.53 (Balanced Accuracy=0.797)
+    cumulative_dynamic_auc stored (fold 2): 0.688 over 25 t's
+    Fold 2 RandomForest: AP=0.278, ROC AUC=0.654
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.1), ('clf__max_depth', 2), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 1.0), ('kbest__k', 65)])
+    Tuned threshold for XGBoost (fold 2): 0.24 (Balanced Accuracy=1.000)
+    cumulative_dynamic_auc stored (fold 2): 0.614 over 25 t's
+    Fold 2 XGBoost: AP=0.231, ROC AUC=0.593
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.0036729134510257756), ('kbest__k', 62)])
+    Tuned threshold for LogisticRegression (fold 2): 0.55 (Balanced Accuracy=0.455)
+    cumulative_dynamic_auc stored (fold 2): 0.637 over 25 t's
+    Fold 2 LogisticRegression: AP=0.340, ROC AUC=0.592
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.18960536543250797), ('clf__criterion__gamma', 1.0), ('clf__lr', 0.01), ('clf__module__dropout_rate', 0.25816633384851245), ('clf__module__hidden_dim', 38), ('clf__module__num_layers', 1), ('kbest__k', 54)])
+    Tuned threshold for ANN (fold 2): 0.59 (Balanced Accuracy=0.758)
+    cumulative_dynamic_auc stored (fold 2): 0.667 over 25 t's
+    Fold 2 ANN: AP=0.293, ROC AUC=0.614
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.43 (Balanced Accuracy=0.945)
+    cumulative_dynamic_auc stored (fold 2): 0.667 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 0.1739305669850773), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 3): 0.41 (Balanced Accuracy=0.529)
+    cumulative_dynamic_auc stored (fold 3): 0.669 over 22 t's
+    Fold 3 SVM: AP=0.306, ROC AUC=0.634
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 8), ('clf__min_samples_leaf', 3), ('clf__min_samples_split', 9), ('clf__n_estimators', 422), ('kbest__k', 64)])
+    Tuned threshold for RandomForest (fold 3): 0.50 (Balanced Accuracy=0.984)
+    cumulative_dynamic_auc stored (fold 3): 0.690 over 22 t's
+    Fold 3 RandomForest: AP=0.257, ROC AUC=0.606
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.6406093054115861), ('clf__learning_rate', 0.0011808161005152447), ('clf__max_depth', 16), ('clf__n_estimators', 74), ('clf__scale_pos_weight', 2.249796436933329), ('clf__subsample', 0.5), ('kbest__k', 20)])
+    Tuned threshold for XGBoost (fold 3): 0.34 (Balanced Accuracy=0.853)
+    cumulative_dynamic_auc stored (fold 3): 0.657 over 22 t's
+    Fold 3 XGBoost: AP=0.276, ROC AUC=0.592
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.3522469406998789), ('kbest__k', 20)])
+    Tuned threshold for LogisticRegression (fold 3): 0.64 (Balanced Accuracy=0.468)
+    cumulative_dynamic_auc stored (fold 3): 0.643 over 22 t's
+    Fold 3 LogisticRegression: AP=0.308, ROC AUC=0.599
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.41908319127660043), ('clf__criterion__gamma', 6.947344323357392), ('clf__lr', 0.0008582756936564352), ('clf__module__dropout_rate', 0.24308643921920853), ('clf__module__hidden_dim', 88), ('clf__module__num_layers', 2), ('kbest__k', 58)])
+    Tuned threshold for ANN (fold 3): 0.54 (Balanced Accuracy=0.893)
+    cumulative_dynamic_auc stored (fold 3): 0.663 over 22 t's
+    Fold 3 ANN: AP=0.243, ROC AUC=0.643
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.39 (Balanced Accuracy=0.803)
+    cumulative_dynamic_auc stored (fold 3): 0.663 over 22 t's
+
+Starting training run for Random State = 0 and Dataset ID = 18
+
+
+Starting training run for Random State = 0 and Dataset ID = 18
+
+Starting nested cross-validation...
+
+Outer Fold: 1/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 1): OrderedDict([('clf__C', 1.0), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 1): 0.46 (Balanced Accuracy=0.699)
+    cumulative_dynamic_auc stored (fold 1): 0.846 over 24 t's
+    Fold 1 SVM: AP=0.581, ROC AUC=0.848
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 1): OrderedDict([('clf__max_depth', 19), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 10), ('clf__n_estimators', 50), ('kbest__k', 65)])
+    Tuned threshold for RandomForest (fold 1): 0.50 (Balanced Accuracy=0.716)
+    cumulative_dynamic_auc stored (fold 1): 0.850 over 24 t's
+    Fold 1 RandomForest: AP=0.532, ROC AUC=0.788
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 1): OrderedDict([('clf__colsample_bytree', 0.9574252586637185), ('clf__learning_rate', 0.020071472363415388), ('clf__max_depth', 2), ('clf__n_estimators', 328), ('clf__scale_pos_weight', 7.411764316660136), ('clf__subsample', 0.5), ('kbest__k', 58)])
+    Tuned threshold for XGBoost (fold 1): 0.70 (Balanced Accuracy=0.825)
+    cumulative_dynamic_auc stored (fold 1): 0.860 over 24 t's
+    Fold 1 XGBoost: AP=0.639, ROC AUC=0.826
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 1): OrderedDict([('clf__C', 0.796881371691501), ('kbest__k', 54)])
+    Tuned threshold for LogisticRegression (fold 1): 0.64 (Balanced Accuracy=0.637)
+    cumulative_dynamic_auc stored (fold 1): 0.762 over 24 t's
+    Fold 1 LogisticRegression: AP=0.575, ROC AUC=0.758
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.0774041362159547), ('clf__criterion__gamma', 1.0), ('clf__lr', 7.486947187440957e-05), ('clf__module__dropout_rate', 0.040565111153838755), ('clf__module__hidden_dim', 136), ('clf__module__num_layers', 1), ('kbest__k', 20)])
+    Tuned threshold for ANN (fold 1): 0.59 (Balanced Accuracy=0.549)
+    cumulative_dynamic_auc stored (fold 1): 0.841 over 24 t's
+    Fold 1 ANN: AP=0.463, ROC AUC=0.829
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 1): 0.49 (Balanced Accuracy=0.709)
+    cumulative_dynamic_auc stored (fold 1): 0.841 over 24 t's
+
+Outer Fold: 2/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 2): OrderedDict([('clf__C', 1.0), ('kbest__k', 38)])
+    Tuned threshold for SVM (fold 2): 0.51 (Balanced Accuracy=0.828)
+    cumulative_dynamic_auc stored (fold 2): 0.709 over 25 t's
+    Fold 2 SVM: AP=0.359, ROC AUC=0.711
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 2): OrderedDict([('clf__max_depth', 8), ('clf__min_samples_leaf', 5), ('clf__min_samples_split', 14), ('clf__n_estimators', 364), ('kbest__k', 25)])
+    Tuned threshold for RandomForest (fold 2): 0.54 (Balanced Accuracy=0.775)
+    cumulative_dynamic_auc stored (fold 2): 0.735 over 25 t's
+    Fold 2 RandomForest: AP=0.435, ROC AUC=0.738
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 2): OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.001), ('clf__max_depth', 4), ('clf__n_estimators', 492), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 1.0), ('kbest__k', 34)])
+    Tuned threshold for XGBoost (fold 2): 0.23 (Balanced Accuracy=0.703)
+    cumulative_dynamic_auc stored (fold 2): 0.699 over 25 t's
+    Fold 2 XGBoost: AP=0.364, ROC AUC=0.715
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 2): OrderedDict([('clf__C', 0.3062201575330264), ('kbest__k', 25)])
+    Tuned threshold for LogisticRegression (fold 2): 0.69 (Balanced Accuracy=0.593)
+    cumulative_dynamic_auc stored (fold 2): 0.722 over 25 t's
+    Fold 2 LogisticRegression: AP=0.368, ROC AUC=0.679
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.4835656124421499), ('clf__criterion__gamma', 5.539317436252298), ('clf__lr', 5.0995275996499617e-05), ('clf__module__dropout_rate', 0.09213961885805234), ('clf__module__hidden_dim', 64), ('clf__module__num_layers', 4), ('kbest__k', 40)])
+    Tuned threshold for ANN (fold 2): 0.55 (Balanced Accuracy=0.819)
+    cumulative_dynamic_auc stored (fold 2): 0.729 over 25 t's
+    Fold 2 ANN: AP=0.393, ROC AUC=0.675
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 2): 0.50 (Balanced Accuracy=0.752)
+    cumulative_dynamic_auc stored (fold 2): 0.729 over 25 t's
+
+Outer Fold: 3/3
+
+Tuning and Fitting: SVM
+    Best params for SVM (fold 3): OrderedDict([('clf__C', 1.0), ('kbest__k', 20)])
+    Tuned threshold for SVM (fold 3): 0.43 (Balanced Accuracy=0.735)
+    cumulative_dynamic_auc stored (fold 3): 0.821 over 22 t's
+    Fold 3 SVM: AP=0.394, ROC AUC=0.755
+
+Tuning and Fitting: RandomForest
+    Best params for RandomForest (fold 3): OrderedDict([('clf__max_depth', 14), ('clf__min_samples_leaf', 1), ('clf__min_samples_split', 6), ('clf__n_estimators', 138), ('kbest__k', 20)])
+    Tuned threshold for RandomForest (fold 3): 0.57 (Balanced Accuracy=0.992)
+    cumulative_dynamic_auc stored (fold 3): 0.809 over 22 t's
+    Fold 3 RandomForest: AP=0.408, ROC AUC=0.735
+
+Tuning and Fitting: XGBoost
+    Best params for XGBoost (fold 3): OrderedDict([('clf__colsample_bytree', 0.6162570141151325), ('clf__learning_rate', 0.003066704079650788), ('clf__max_depth', 15), ('clf__n_estimators', 178), ('clf__scale_pos_weight', 2.6298677076393044), ('clf__subsample', 0.626801819113796), ('kbest__k', 21)])
+    Tuned threshold for XGBoost (fold 3): 0.42 (Balanced Accuracy=0.894)
+    cumulative_dynamic_auc stored (fold 3): 0.801 over 22 t's
+    Fold 3 XGBoost: AP=0.432, ROC AUC=0.730
+
+Tuning and Fitting: LogisticRegression
+    Best params for LogisticRegression (fold 3): OrderedDict([('clf__C', 0.038554513400070024), ('kbest__k', 23)])
+    Tuned threshold for LogisticRegression (fold 3): 0.51 (Balanced Accuracy=0.616)
+    cumulative_dynamic_auc stored (fold 3): 0.829 over 22 t's
+    Fold 3 LogisticRegression: AP=0.382, ROC AUC=0.725
+
+Tuning and Fitting: ANN
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.4050216413126619), ('clf__criterion__gamma', 3.7924445636780337), ('clf__lr', 0.0005463035353207721), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 42), ('clf__module__num_layers', 2), ('kbest__k', 21)])
+    Tuned threshold for ANN (fold 3): 0.55 (Balanced Accuracy=0.577)
+    cumulative_dynamic_auc stored (fold 3): 0.801 over 22 t's
+    Fold 3 ANN: AP=0.343, ROC AUC=0.693
+
+Tuning Ensemble:
+    Tuned threshold for Ensemble (fold 3): 0.49 (Balanced Accuracy=0.797)
+    cumulative_dynamic_auc stored (fold 3): 0.801 over 22 t's
