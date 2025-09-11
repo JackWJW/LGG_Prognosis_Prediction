@@ -199,7 +199,7 @@ def compute_metrics(y_true, probs, threshold=0.5):
             'roc_auc': roc_auc_score(y_true, probs),
             'pr_auc': average_precision_score(y_true, probs)}
 
-# Function for tuning thresholds with Balanced Accuracy
+# Function for tuning thresholds with Binary F1
 def tune_threshold(probs, y_true):
     thresholds = np.linspace(0.0, 1.0, 101)
     best_thr, best_score = 0.5, -1.0
@@ -870,7 +870,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             thr, thr_ba = tune_threshold(probs_train, y_train)
             per_fold_tuned_thresholds[model_name].append(thr)
             with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
-                print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Balanced Accuracy={thr_ba:.3f})",file=file)
+                print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Binary F1 Score={thr_ba:.3f})",file=file)
 
             # Predict proba on the test set
             test_X = X_test.astype(np.float32) if model_name == 'ANN' else X_test
@@ -928,7 +928,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
         with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
-            print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Balanced Accuracy={thr_ens_ba:.3f})",file=file)
+            print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Binary F1 Score={thr_ens_ba:.3f})",file=file)
         # Computing Ensemble predictions for this fold against the test set
         probs_stack_test = []
         for m in model_list:
@@ -1017,8 +1017,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(2 ,3):
-    for dataset_id in range(1,19):
+for rs_number in range(3 ,4):
+    for dataset_id in range(13,19):
         with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Prognosis_Results/RS-{rs_number}_DS-{dataset_id}_Results"
