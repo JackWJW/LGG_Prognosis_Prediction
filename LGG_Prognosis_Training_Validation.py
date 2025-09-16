@@ -201,7 +201,7 @@ def compute_metrics(y_true, probs, threshold=0.5):
 
 # Function for tuning thresholds with Binary F1
 def tune_threshold(probs, y_true):
-    thresholds = np.linspace(0.0, 1.0, 101)
+    thresholds = np.linspace(0.25, 0.75, 101)
     best_thr, best_score = 0.5, -1.0
     for t in thresholds:
         preds = (probs >= t).astype(int)
@@ -1017,7 +1017,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(4 ,5):
+for rs_number in range(0 ,3):
     for dataset_id in range(1,19):
         with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)

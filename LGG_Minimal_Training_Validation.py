@@ -201,7 +201,7 @@ def compute_metrics(y_true, probs, threshold=0.5):
 
 # Function for tuning thresholds with Binary F1
 def tune_threshold(probs, y_true):
-    thresholds = np.linspace(0.0, 1.0, 101)
+    thresholds = np.linspace(0.25, 0.75, 101)
     best_thr, best_score = 0.5, -1.0
     for t in thresholds:
         preds = (probs >= t).astype(int)
@@ -927,7 +927,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         with open("./LGG_Minimal_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
             print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Binary F1 Score={thr_ens_ba:.3f})",file=file)
-            
+
         # Computing Ensemble predictions for this fold against the test set
         probs_stack_test = []
         for m in model_list:
@@ -1016,7 +1016,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0,5):
+for rs_number in range(0,3):
     with open("./LGG_Minimal_Results/training_log.txt", "a") as file:
         print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = Minimal\n", file=file)
     directory = f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results"
