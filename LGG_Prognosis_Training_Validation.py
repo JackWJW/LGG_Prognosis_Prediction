@@ -800,7 +800,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
             # prefix search space
             space_prefixed = {f'clf__{k}': v for k, v in space.items()}
-            space_prefixed['kbest__k'] = Integer(20, 65)
+            space_prefixed['kbest__k'] = Integer(30, 65)
 
             #Selecting iterations
             n_iter = N_ITER_ANN if model_name == 'ANN' else N_ITER_INNER
@@ -937,7 +937,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         ensemble_mean_fold = np.mean(probs_stack_test, axis=0)
 
         try:
-            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, probs, fold_time_grid)
+            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
             if t_eval.size >= 2:
                 per_fold_cd_auc['Ensemble (Mean)'].append((t_eval, auc_vec))
                 with open("./LGG_Prognosis_Results/training_log.txt", "a") as file:

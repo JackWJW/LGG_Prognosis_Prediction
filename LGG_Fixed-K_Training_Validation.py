@@ -934,7 +934,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         ensemble_mean_fold = np.mean(probs_stack_test, axis=0)
 
         try:
-            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, probs, fold_time_grid)
+            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
             if t_eval.size >= 2:
                 per_fold_cd_auc['Ensemble (Mean)'].append((t_eval, auc_vec))
                 with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
@@ -1020,7 +1020,7 @@ for rs_number in range(0 ,5):
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=5,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")

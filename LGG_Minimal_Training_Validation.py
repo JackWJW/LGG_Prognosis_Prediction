@@ -927,6 +927,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         with open("./LGG_Minimal_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
             print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Binary F1 Score={thr_ens_ba:.3f})",file=file)
+            
         # Computing Ensemble predictions for this fold against the test set
         probs_stack_test = []
         for m in model_list:
@@ -935,7 +936,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         ensemble_mean_fold = np.mean(probs_stack_test, axis=0)
 
         try:
-            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, probs, fold_time_grid)
+            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
             if t_eval.size >= 2:
                 per_fold_cd_auc['Ensemble (Mean)'].append((t_eval, auc_vec))
                 with open("./LGG_Minimal_Results/training_log.txt", "a") as file:
