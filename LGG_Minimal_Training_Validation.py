@@ -496,8 +496,8 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
         pooled_df = pd.concat(dfs, ignore_index=True)
 
         cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
-        cph = CoxPHFitter()
-        cph.fit(cph_df, duration_col="time", event_col="event")
+        cph = CoxPHFitter(penalizer=0.1, l1_ratio=0.0)
+        cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
         summary = cph.summary.loc["pred_class"]
 
         c_index = getattr(cph, "concordance_index_", None)

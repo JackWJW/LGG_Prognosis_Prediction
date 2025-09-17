@@ -30,13 +30,13 @@ Tuning and Fitting: LogisticRegression
     Fold 1 LogisticRegression: AP=0.555, ROC AUC=0.819
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.30568375176324153), ('clf__criterion__gamma', 1.6167274601490624), ('clf__lr', 0.0005558754650963314), ('clf__module__dropout_rate', 0.372542612141574), ('clf__module__hidden_dim', 38), ('clf__module__num_layers', 4)])
-    Tuned threshold for ANN (fold 1): 0.62 (Binary F1 Score=0.681)
-    cumulative_dynamic_auc stored (fold 1): 0.877 over 24 t's
-    Fold 1 ANN: AP=0.520, ROC AUC=0.843
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.11649150451667392), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.007816102635555116), ('clf__module__dropout_rate', 0.46037113012194436), ('clf__module__hidden_dim', 117), ('clf__module__num_layers', 3)])
+    Tuned threshold for ANN (fold 1): 0.54 (Binary F1 Score=0.609)
+    cumulative_dynamic_auc stored (fold 1): 0.884 over 24 t's
+    Fold 1 ANN: AP=0.524, ROC AUC=0.830
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 1): 0.40 (Binary F1 Score=0.625)
+    Tuned threshold for Ensemble (fold 1): 0.43 (Binary F1 Score=0.592)
     cumulative_dynamic_auc stored (fold 1): 0.895 over 24 t's
 
 Outer Fold: 2/3
@@ -66,14 +66,14 @@ Tuning and Fitting: LogisticRegression
     Fold 2 LogisticRegression: AP=0.460, ROC AUC=0.757
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.2654820824760737), ('clf__criterion__gamma', 5.056477053261482), ('clf__lr', 0.0003096271323503426), ('clf__module__dropout_rate', 0.3233399705358286), ('clf__module__hidden_dim', 220), ('clf__module__num_layers', 4)])
-    Tuned threshold for ANN (fold 2): 0.54 (Binary F1 Score=0.721)
-    cumulative_dynamic_auc stored (fold 2): 0.713 over 25 t's
-    Fold 2 ANN: AP=0.366, ROC AUC=0.715
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.25798095130772997), ('clf__criterion__gamma', 1.1569004355895773), ('clf__lr', 7.439790201084152e-06), ('clf__module__dropout_rate', 0.06227544503155076), ('clf__module__hidden_dim', 142), ('clf__module__num_layers', 4)])
+    Tuned threshold for ANN (fold 2): 0.55 (Binary F1 Score=0.593)
+    cumulative_dynamic_auc stored (fold 2): 0.786 over 25 t's
+    Fold 2 ANN: AP=0.481, ROC AUC=0.788
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 2): 0.34 (Binary F1 Score=0.690)
-    cumulative_dynamic_auc stored (fold 2): 0.764 over 25 t's
+    Tuned threshold for Ensemble (fold 2): 0.39 (Binary F1 Score=0.644)
+    cumulative_dynamic_auc stored (fold 2): 0.781 over 25 t's
 
 Outer Fold: 3/3
 
@@ -102,14 +102,14 @@ Tuning and Fitting: LogisticRegression
     Fold 3 LogisticRegression: AP=0.383, ROC AUC=0.723
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.30893239425286495), ('clf__criterion__gamma', 1.353679531516737), ('clf__lr', 5.287223192119973e-05), ('clf__module__dropout_rate', 0.16391102772880667), ('clf__module__hidden_dim', 58), ('clf__module__num_layers', 1)])
-    Tuned threshold for ANN (fold 3): 0.61 (Binary F1 Score=0.571)
-    cumulative_dynamic_auc stored (fold 3): 0.845 over 22 t's
-    Fold 3 ANN: AP=0.449, ROC AUC=0.769
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.26434587103772544), ('clf__criterion__gamma', 1.3473870621611814), ('clf__lr', 2.339557894410756e-05), ('clf__module__dropout_rate', 0.09573282099219879), ('clf__module__hidden_dim', 65), ('clf__module__num_layers', 2)])
+    Tuned threshold for ANN (fold 3): 0.60 (Binary F1 Score=0.590)
+    cumulative_dynamic_auc stored (fold 3): 0.822 over 22 t's
+    Fold 3 ANN: AP=0.441, ROC AUC=0.736
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 3): 0.46 (Binary F1 Score=0.628)
-    cumulative_dynamic_auc stored (fold 3): 0.864 over 22 t's
+    Tuned threshold for Ensemble (fold 3): 0.43 (Binary F1 Score=0.631)
+    cumulative_dynamic_auc stored (fold 3): 0.857 over 22 t's
 
 Starting training run for Random State = 1 and Dataset ID = Minimal
 
@@ -142,14 +142,14 @@ Tuning and Fitting: LogisticRegression
     Fold 1 LogisticRegression: AP=0.636, ROC AUC=0.866
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.20367142182090728), ('clf__criterion__gamma', 3.667096316993898), ('clf__lr', 4.900806702524732e-05), ('clf__module__dropout_rate', 0.12923282371729553), ('clf__module__hidden_dim', 66), ('clf__module__num_layers', 1)])
-    Tuned threshold for ANN (fold 1): 0.55 (Binary F1 Score=0.548)
-    cumulative_dynamic_auc stored (fold 1): 0.775 over 26 t's
-    Fold 1 ANN: AP=0.397, ROC AUC=0.788
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.2880166850066161), ('clf__criterion__gamma', 1.2225403907855281), ('clf__lr', 7.393746768594504e-06), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 3)])
+    Tuned threshold for ANN (fold 1): 0.59 (Binary F1 Score=0.692)
+    cumulative_dynamic_auc stored (fold 1): 0.844 over 26 t's
+    Fold 1 ANN: AP=0.533, ROC AUC=0.821
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 1): 0.44 (Binary F1 Score=0.878)
-    cumulative_dynamic_auc stored (fold 1): 0.837 over 26 t's
+    Tuned threshold for Ensemble (fold 1): 0.45 (Binary F1 Score=0.876)
+    cumulative_dynamic_auc stored (fold 1): 0.839 over 26 t's
 
 Outer Fold: 2/3
 
@@ -178,14 +178,14 @@ Tuning and Fitting: LogisticRegression
     Fold 2 LogisticRegression: AP=0.321, ROC AUC=0.678
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.07459549928589383), ('clf__criterion__gamma', 2.472046766728565), ('clf__lr', 0.00010869760550013538), ('clf__module__dropout_rate', 0.08506719525135746), ('clf__module__hidden_dim', 27), ('clf__module__num_layers', 3)])
-    Tuned threshold for ANN (fold 2): 0.56 (Binary F1 Score=0.696)
-    cumulative_dynamic_auc stored (fold 2): 0.740 over 21 t's
-    Fold 2 ANN: AP=0.312, ROC AUC=0.648
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.09075284323671788), ('clf__criterion__gamma', 1.750770572509121), ('clf__lr', 0.007878345509498444), ('clf__module__dropout_rate', 0.24379169579531132), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 4)])
+    Tuned threshold for ANN (fold 2): 0.54 (Binary F1 Score=0.857)
+    cumulative_dynamic_auc stored (fold 2): 0.758 over 21 t's
+    Fold 2 ANN: AP=0.335, ROC AUC=0.652
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 2): 0.60 (Binary F1 Score=0.723)
-    cumulative_dynamic_auc stored (fold 2): 0.767 over 21 t's
+    Tuned threshold for Ensemble (fold 2): 0.40 (Binary F1 Score=0.816)
+    cumulative_dynamic_auc stored (fold 2): 0.769 over 21 t's
 
 Outer Fold: 3/3
 
@@ -214,14 +214,14 @@ Tuning and Fitting: LogisticRegression
     Fold 3 LogisticRegression: AP=0.514, ROC AUC=0.806
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.38060183558118416), ('clf__criterion__gamma', 4.127301678008039), ('clf__lr', 0.00046632205017815734), ('clf__module__dropout_rate', 0.0), ('clf__module__hidden_dim', 53), ('clf__module__num_layers', 2)])
-    Tuned threshold for ANN (fold 3): 0.54 (Binary F1 Score=0.930)
-    cumulative_dynamic_auc stored (fold 3): 0.838 over 23 t's
-    Fold 3 ANN: AP=0.426, ROC AUC=0.740
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.30129266107609587), ('clf__criterion__gamma', 5.636701576481421), ('clf__lr', 0.00044171368321044903), ('clf__module__dropout_rate', 0.36809379101257383), ('clf__module__hidden_dim', 254), ('clf__module__num_layers', 4)])
+    Tuned threshold for ANN (fold 3): 0.56 (Binary F1 Score=0.756)
+    cumulative_dynamic_auc stored (fold 3): 0.847 over 23 t's
+    Fold 3 ANN: AP=0.456, ROC AUC=0.783
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 3): 0.43 (Binary F1 Score=0.633)
-    cumulative_dynamic_auc stored (fold 3): 0.896 over 23 t's
+    Tuned threshold for Ensemble (fold 3): 0.41 (Binary F1 Score=0.608)
+    cumulative_dynamic_auc stored (fold 3): 0.883 over 23 t's
 
 Starting training run for Random State = 2 and Dataset ID = Minimal
 
@@ -254,14 +254,14 @@ Tuning and Fitting: LogisticRegression
     Fold 1 LogisticRegression: AP=0.372, ROC AUC=0.735
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.15577581696526369), ('clf__criterion__gamma', 5.250041682718335), ('clf__lr', 1.1402657125814929e-05), ('clf__module__dropout_rate', 0.21517989587761716), ('clf__module__hidden_dim', 130), ('clf__module__num_layers', 3)])
-    Tuned threshold for ANN (fold 1): 0.56 (Binary F1 Score=0.640)
-    cumulative_dynamic_auc stored (fold 1): 0.757 over 23 t's
-    Fold 1 ANN: AP=0.446, ROC AUC=0.703
+    Best params for ANN (fold 1): OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 3.1776076854388142), ('clf__lr', 1.2618760263571841e-05), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 2)])
+    Tuned threshold for ANN (fold 1): 0.59 (Binary F1 Score=0.645)
+    cumulative_dynamic_auc stored (fold 1): 0.795 over 23 t's
+    Fold 1 ANN: AP=0.444, ROC AUC=0.723
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 1): 0.53 (Binary F1 Score=0.650)
-    cumulative_dynamic_auc stored (fold 1): 0.795 over 23 t's
+    Tuned threshold for Ensemble (fold 1): 0.54 (Binary F1 Score=0.650)
+    cumulative_dynamic_auc stored (fold 1): 0.801 over 23 t's
 
 Outer Fold: 2/3
 
@@ -290,14 +290,14 @@ Tuning and Fitting: LogisticRegression
     Fold 2 LogisticRegression: AP=0.619, ROC AUC=0.881
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.06005162803120785), ('clf__criterion__gamma', 2.1975971859404857), ('clf__lr', 8.316594933076668e-06), ('clf__module__dropout_rate', 0.21561731688581054), ('clf__module__hidden_dim', 108), ('clf__module__num_layers', 2)])
-    Tuned threshold for ANN (fold 2): 0.54 (Binary F1 Score=0.440)
-    cumulative_dynamic_auc stored (fold 2): 0.826 over 25 t's
-    Fold 2 ANN: AP=0.495, ROC AUC=0.839
+    Best params for ANN (fold 2): OrderedDict([('clf__criterion__alpha', 0.20834954210043183), ('clf__criterion__gamma', 1.4022173055543754), ('clf__lr', 5.960762715650486e-05), ('clf__module__dropout_rate', 0.3423944435349295), ('clf__module__hidden_dim', 199), ('clf__module__num_layers', 3)])
+    Tuned threshold for ANN (fold 2): 0.74 (Binary F1 Score=0.649)
+    cumulative_dynamic_auc stored (fold 2): 0.795 over 25 t's
+    Fold 2 ANN: AP=0.429, ROC AUC=0.798
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 2): 0.42 (Binary F1 Score=0.789)
-    cumulative_dynamic_auc stored (fold 2): 0.868 over 25 t's
+    Tuned threshold for Ensemble (fold 2): 0.43 (Binary F1 Score=0.806)
+    cumulative_dynamic_auc stored (fold 2): 0.857 over 25 t's
 
 Outer Fold: 3/3
 
@@ -326,11 +326,11 @@ Tuning and Fitting: LogisticRegression
     Fold 3 LogisticRegression: AP=0.401, ROC AUC=0.712
 
 Tuning and Fitting: ANN
-    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.07094374282647666), ('clf__criterion__gamma', 6.433463575030285), ('clf__lr', 1.4143549729525446e-05), ('clf__module__dropout_rate', 0.3922200173464069), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 2)])
-    Tuned threshold for ANN (fold 3): 0.56 (Binary F1 Score=0.578)
-    cumulative_dynamic_auc stored (fold 3): 0.712 over 24 t's
-    Fold 3 ANN: AP=0.355, ROC AUC=0.703
+    Best params for ANN (fold 3): OrderedDict([('clf__criterion__alpha', 0.3057253774096689), ('clf__criterion__gamma', 7.0), ('clf__lr', 0.0044355920577251705), ('clf__module__dropout_rate', 0.1722337601587551), ('clf__module__hidden_dim', 248), ('clf__module__num_layers', 2)])
+    Tuned threshold for ANN (fold 3): 0.54 (Binary F1 Score=0.640)
+    cumulative_dynamic_auc stored (fold 3): 0.768 over 24 t's
+    Fold 3 ANN: AP=0.431, ROC AUC=0.714
 
 Tuning Ensemble:
-    Tuned threshold for Ensemble (fold 3): 0.41 (Binary F1 Score=0.711)
-    cumulative_dynamic_auc stored (fold 3): 0.794 over 24 t's
+    Tuned threshold for Ensemble (fold 3): 0.38 (Binary F1 Score=0.719)
+    cumulative_dynamic_auc stored (fold 3): 0.800 over 24 t's

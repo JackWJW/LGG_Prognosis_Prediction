@@ -496,8 +496,8 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
         pooled_df = pd.concat(dfs, ignore_index=True)
 
         cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
-        cph = CoxPHFitter()
-        cph.fit(cph_df, duration_col="time", event_col="event")
+        cph = CoxPHFitter(penalizer=0.1, l1_ratio=0.0)
+        cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
         summary = cph.summary.loc["pred_class"]
 
         c_index = getattr(cph, "concordance_index_", None)
@@ -1014,8 +1014,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,3):
-    for dataset_id in range(1,19):
+for rs_number in range(2 ,3):
+    for dataset_id in range(15,16):
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
