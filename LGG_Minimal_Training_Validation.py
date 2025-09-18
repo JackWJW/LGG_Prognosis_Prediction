@@ -11,6 +11,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 import torch
 import torch.nn as nn
@@ -53,6 +54,8 @@ from statsmodels.stats.multitest import multipletests
 from itertools import product
 
 from typing import Dict, List, Tuple
+
+from dcurves import dca, plot_graphs
 
 #######################################
 ### Defining Helper Classes for ANN ###
@@ -482,7 +485,6 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     Model names appear on the leftmost axis (concordance). Continuous separators
     span the full figure so lines meet across panels.
     """
-    from matplotlib.lines import Line2D
     results = []
     model_list_local = list(survival_results.keys())
 
@@ -496,7 +498,7 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
         pooled_df = pd.concat(dfs, ignore_index=True)
 
         cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
-        cph = CoxPHFitter(penalizer=0.1, l1_ratio=0.0)
+        cph = CoxPHFitter(penalizer=0.01, l1_ratio=0.0)
         cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
         summary = cph.summary.loc["pred_class"]
 
@@ -1016,12 +1018,12 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0,3):
+for rs_number in range(0,1):
     with open("./LGG_Minimal_Results/training_log.txt", "a") as file:
         print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = Minimal\n", file=file)
     directory = f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results"
     os.makedirs(directory)
-    oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=0, save_dir=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results")
+    oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=2,inner_folds=2,inner_iterations=5,ANN_iterations=5, dataset_id=0, save_dir=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results")
 
     plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/ROC-AUC.png")
     plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/PR-AUC.png")
@@ -1029,5 +1031,23 @@ for rs_number in range(0,3):
     plot_km_curves(survival_results, savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/KM_plots.png")
     plot_forest(survival_results,metrics_summary,savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/Results_Summary")
     plot_mean_cumulative_dynamic_auc(cauc_agg, savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/Cumulative_Dynamic_AUC.png",time_unit="years",)
+    
+    oof_df["DSS.years"] = oof_df["DSS.time"]/365
+    model_prob_cols = [c for c in oof_df.columns if c.startswith("prob_")]
+    df_dca = dca(data=oof_df,outcome='DSS',modelnames=model_prob_cols, thresholds=np.arange(0,0.75,0.01),time_to_outcome_col='DSS.years',time=5)
+    models_in_plot = [m for m in df_dca["model"].unique()]
+    tab10 = plt.get_cmap("tab10")
+    palette = [tab10(i % 10) for i in range(len(models_in_plot))]
+    plt.figure()
+    plot_graphs(plot_df=df_dca, graph_type='net_benefit',y_limits=[-0.05,0.4],color_names=palette)
+    plt.xlabel("Threshold Probability",fontsize=16)
+    plt.ylabel("Net Benefit",fontsize=16)
+    plt.tick_params(axis="both", labelsize=14)
+    plt.title("Decision Curve", fontsize=18)
+    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/Decision_Curve.png")
+    plt.close()
 
     oof_df.to_csv(f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/Predictions_Probabilities.csv")
