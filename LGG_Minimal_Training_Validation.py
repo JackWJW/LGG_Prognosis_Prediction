@@ -1018,12 +1018,12 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0,1):
+for rs_number in range(0,3):
     with open("./LGG_Minimal_Results/training_log.txt", "a") as file:
         print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = Minimal\n", file=file)
     directory = f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results"
     os.makedirs(directory)
-    oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=2,inner_folds=2,inner_iterations=5,ANN_iterations=5, dataset_id=0, save_dir=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results")
+    oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=0, save_dir=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results")
 
     plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/ROC-AUC.png")
     plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Minimal_Results/RS-{rs_number}_DS-Minimal_Results/PR-AUC.png")
