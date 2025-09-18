@@ -1016,7 +1016,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(1 ,3):
+for rs_number in range(0 ,3):
     for dataset_id in range(1,19):
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
