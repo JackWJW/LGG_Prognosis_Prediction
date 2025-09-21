@@ -17,7 +17,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import WeightedRandomSampler
 
-from scipy.special import expit
+from scipy.special import expit, logit
+from scipy.stats import zscore
 
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import StratifiedKFold
@@ -213,6 +214,50 @@ def tune_threshold(probs, y_true):
             best_score, best_thr = score, t
     return best_thr, best_score
 
+# Alternative Function for tuning on log-rank z
+def tune_threshold_by_logrank(
+    probs_train: np.ndarray,
+    time_train: np.ndarray,
+    event_train: np.ndarray,
+) -> tuple[float, float]:
+    
+    probs_train = np.asarray(probs_train, float).ravel()
+    time_train  = np.asarray(time_train,  float).ravel()
+    event_train = np.asarray(event_train, bool).ravel()
+
+    # Candidate thresholds from fixed quantiles in [0.20, 0.80]
+    qs    = np.linspace(0.20, 0.80, 41)
+    cands = np.unique(np.quantile(probs_train, qs))
+
+    best_thr  = float(np.median(probs_train))
+    best_stat = -np.inf
+    found     = False
+
+    for thr in cands:
+        hi = probs_train >= thr
+        lo = ~hi
+        if hi.sum() == 0 or lo.sum() == 0:
+            continue
+        try:
+            lr = logrank_test(
+                time_train[hi], time_train[lo],
+                event_observed_A=event_train[hi],
+                event_observed_B=event_train[lo],
+            )
+            chi2 = float(lr.test_statistic)
+            if np.isfinite(chi2) and chi2 > best_stat:
+                best_stat = chi2
+                best_thr  = float(thr)
+                found     = True
+        except Exception:
+            continue
+
+    if not found:
+        # fallback: median threshold, 0 separation
+        return float(np.median(probs_train)), 0.0
+
+    return best_thr, best_stat
+
 # Function to calculate pooled curves over cross-validation
 def compute_pooled_curve(oof_probs_list, oof_true_list, curve_type="roc"):
     # Pool predictions and true labels across folds
@@ -227,44 +272,6 @@ def compute_pooled_curve(oof_probs_list, oof_true_list, curve_type="roc"):
         return recall, precision
     else:
         raise ValueError("curve_type must be 'roc' or 'pr'")
-
-# Setting grid for cumulative AUC aggregation
-def _safe_time_grid(train_times: np.ndarray,
-    test_times: np.ndarray,
-    n_times: int = 60,
-    lower_q: float = 0.10,
-    upper_q: float = 0.90) -> np.ndarray:
-    """Build a per-fold evaluation grid that (1) lies inside the test follow-up
-    and (2) does not exceed the train follow-up, as required by scikit-survival.
-
-
-    Uses inner quantiles for numerical stability (avoids extremes where # at risk is tiny).
-    """
-    train_times = np.asarray(train_times, dtype=float)
-    test_times = np.asarray(test_times, dtype=float)
-
-
-    # Bounds inside both train and test support (see scikit-survival docs)
-    lo_test = np.quantile(test_times, lower_q)
-    hi_test = np.quantile(test_times, upper_q)
-    hi_train = np.max(train_times)
-
-
-    eps = 1e-8
-    t_lo = max(lo_test, np.min(test_times[test_times > 0]) + eps)
-    t_hi = min(hi_test, hi_train - eps, np.max(test_times) - eps)
-
-
-    if not np.isfinite(t_lo) or not np.isfinite(t_hi) or t_hi <= t_lo:
-    # Fallback: use a conservative slice strictly inside the overlapping range
-        t_lo = np.percentile(test_times, 20)
-        t_hi = min(np.percentile(test_times, 80), hi_train - eps)
-    if t_hi <= t_lo:
-    # As a last resort, return 2 points to avoid errors downstream
-        t_lo = max(np.min(test_times) + eps, 1.0)
-        t_hi = max(t_lo + 1.0, np.max(test_times) - eps)
-
-    return np.linspace(t_lo, t_hi, n_times)
 
 # aggregaring folds for cumulative auc plotting
 def _aggregate_cd_auc(per_fold_cd: Dict[str, List[Tuple[np.ndarray, np.ndarray]]],
@@ -436,9 +443,9 @@ def plot_km_curves(survival_results, max_years=5, savepath=None):
 
         # Pool all folds
         dfs = []
-        for dss_val, pred_class in survival_results[model_name]:
+        for dss_val, pred_dict in survival_results[model_name]:
             temp = dss_val.copy()
-            temp["pred_class"] = pred_class
+            temp["pred_class"] = pred_dict["class"]
             dfs.append(temp)
         pooled_df = pd.concat(dfs, ignore_index=True)
 
@@ -491,16 +498,16 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     # Fit Cox model per model and collect HR / CI / p and c-index (assumes cph.concordance_index_ set)
     for model_name in model_list_local:
         dfs = []
-        for dss_val, pred_class in survival_results[model_name]:
+        for dss_val, probs_dict in survival_results[model_name]:
             temp = dss_val.copy()
-            temp["pred_class"] = pred_class
+            temp["logit_scaled"] = probs_dict["logit_scaled"]
             dfs.append(temp)
         pooled_df = pd.concat(dfs, ignore_index=True)
 
         cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
-        cph = CoxPHFitter(penalizer=0.01, l1_ratio=0.0)
+        cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
         cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
-        summary = cph.summary.loc["pred_class"]
+        summary = cph.summary.loc["logit_scaled"]
 
         c_index = getattr(cph, "concordance_index_", None)
 
@@ -866,10 +873,10 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             probs_train = best.predict_proba(train_preds_input)[:, 1].ravel()
             per_fold_train_probs[model_name].append({'train_idx': train_idx, 'probs': probs_train, 'y_true': y_train})
 
-            thr, thr_ba = tune_threshold(probs_train, y_train)
+            thr, thr_best = tune_threshold_by_logrank(probs_train=probs_train, time_train=train_time,event_train=train_event)
             per_fold_tuned_thresholds[model_name].append(thr)
             with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
-                print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Binary F1 Score={thr_ba:.3f})",file=file)
+                print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Log-Rank Chi2={thr_best:.3f})",file=file)
 
             # Predict proba on the test set
             test_X = X_test.astype(np.float32) if model_name == 'ANN' else X_test
@@ -921,13 +928,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         ensemble_train_mean = np.mean(probs_stack_train, axis=0)
 
         # Tuning Ensemble threshold on ensemble_train_mean
-        thr_ens, thr_ens_ba = tune_threshold(ensemble_train_mean, y_train)
+        thr_ens, thr_ens_best = tune_threshold_by_logrank(probs_train=ensemble_train_mean, time_train=train_time,event_train=train_event)
         per_fold_tuned_thresholds['Ensemble (Mean)'].append(thr_ens)
         per_fold_train_probs['Ensemble (Mean)'].append({'train_idx': train_idx, 'probs': ensemble_train_mean, 'y_true': y_train})
 
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
-            print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Binary F1 Score={thr_ens_ba:.3f})",file=file)
+            print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Log-Rank Chi2={thr_ens_best:.3f})",file=file)
         # Computing Ensemble predictions for this fold against the test set
         probs_stack_test = []
         for m in model_list:
@@ -1005,7 +1012,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     # Preparing survival resutls dictionaries
     survival_results = {}
     for m in base_models:
-        survival_results[m] = [(oof_df[['DSS.time', 'DSS']], oof_df[f'pred_{m}'])]
+        p = np.clip(oof_df[f'prob_{m}'].values, 1e-6, 1-1e-6)
+        logit_p = logit(p)
+        logit_scaled = zscore(logit_p)
+
+        survival_results[m] = [(oof_df[['DSS.time', 'DSS']], 
+                                {"class": oof_df[f'pred_{m}'].values.astype(int),
+                                 "logit_scaled": logit_scaled})]
     
     # Preparing results for cumulative auc
     cauc_agg = _aggregate_cd_auc(per_fold_cd_auc, n_times_common=50)
@@ -1016,13 +1029,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,3):
-    for dataset_id in range(1,19):
+for rs_number in range(0 ,1):
+    for dataset_id in range(1,2):
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=2,inner_folds=2,inner_iterations=5,ANN_iterations=5, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
