@@ -20,7 +20,7 @@ from torch.utils.data import WeightedRandomSampler
 from scipy.special import expit, logit
 from scipy.stats import zscore
 
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder, MinMaxScaler
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score,
                              roc_auc_score, average_precision_score,
@@ -618,7 +618,7 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
 
     ax_hr.axvline(1, color='red', linestyle='--')
     hr_max = np.nanmax(df_forest[["CI_upper", "HR"]].values) * 1.1
-    hr_xlim = max(8, hr_max)
+    hr_xlim = max(2, hr_max)
     ax_hr.set_xlim(0, hr_xlim)
     ax_hr.set_xlabel("Hazard Ratio (HR)", fontsize=12)
     ax_hr.set_title("Forest Plot", fontsize=14, fontweight='bold')
@@ -671,6 +671,92 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     # finalize
     savepath_plot = savepath+".png"
     plt.savefig(savepath_plot)
+    plt.close()
+
+def plot_multivariate(surv_df, p_thresh=0.05, savepath="./"):
+    multivar_list = ["SVM","RandomForest","XGBoost","LogisticRegression","ANN"]
+    hr_df = surv_df[["DSS", "DSS.time"]].copy()
+
+    for m in multivar_list:
+        p = np.clip(surv_df[f'prob_{m}'].values, 1e-6, 1-1e-6)
+        logit_p = logit(p)
+        logit_scaled = zscore(logit_p)
+        hr_df[m] = logit_scaled
+    
+    cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
+    cph.fit(hr_df,duration_col="DSS.time",event_col="DSS",robust=True)
+
+    cindex = cph.concordance_index_
+
+    summary = cph.summary.reset_index().rename(columns={'index': 'Model'})
+    sig_df = summary.rename(columns={
+        "exp(coef)": "HR",
+        "exp(coef) lower 95%": "CI_lower",
+        "exp(coef) upper 95%": "CI_upper",
+        "covariate":"Model"
+    })
+
+    def sig_class(p, hr):
+        if p < p_thresh:
+            if hr > 1:
+                return 2
+            elif hr < 1:
+                return 1
+        else:
+            return 0
+    
+    sig_df["Sig"] = sig_df.apply(lambda x: sig_class(x.p, x.HR),axis=1)
+
+    # Create grid spec with extra column for colorbar
+    fig = plt.figure(figsize=(12,12),constrained_layout=True)  # extra width for colorbar
+    gs = fig.add_gridspec(4, 2, width_ratios=[1,0.7])
+
+    ax = fig.add_subplot(gs[1, 1])
+
+    df_cancer = sig_df
+    ax.errorbar(df_cancer["HR"], df_cancer["Model"],
+                xerr=[df_cancer["HR"] - df_cancer["CI_lower"], df_cancer["CI_upper"] - df_cancer["HR"]],
+                fmt='none', ecolor='black', capsize=5, elinewidth=1.5, capthick=1.5,zorder=1)
+
+    ax.scatter(df_cancer["HR"], df_cancer["Model"],
+                c=df_cancer["Sig"], cmap='Set2_r',
+                linewidths=1.5, edgecolors='black',
+                zorder=2,vmin=0,s=150)
+    
+    for y, hr, p, low_ci, up_ci in zip(df_cancer["Model"], df_cancer["HR"] ,df_cancer["p"], df_cancer["CI_lower"],df_cancer["CI_upper"]):
+        ax.text(2.1, y, f"{hr:.2f}", va='center', fontsize=12)
+        ax.text(2.6, y, f"{low_ci:.2f}", va='center', fontsize=12)
+        ax.text(3.25, y, f"{up_ci:.2f}", va='center', fontsize=12)
+        ax.text(4.25, y, f"{p:.2e}", va='center', fontsize=12)
+
+    ax.text(2.1, -0.7, "HR", fontsize=14, fontweight='bold')
+    ax.text(2.6, -0.7, "CI(-)", fontsize=14, fontweight='bold')
+    ax.text(3.25, -0.7, "CI(+)", fontsize=14, fontweight='bold')
+    ax.text(4.25, -0.7, "p", fontsize=14, fontweight='bold')
+
+    ax.axvline(1, color='red', linestyle='--')
+    ax.set_xlim(0.5,2)
+    ax.set_ylim(-0.5,4.5)
+    ax.invert_yaxis()
+    ax.set_title(f"Multivariate Cox Regression\nC-Index = {cindex:.2f}",fontsize=16)
+    ax.set_xlabel("Hazard Ratio (HR)",fontsize=16)
+    ax.semilogx()
+    plt.xticks(ticks=[0.5,0.6,1,2], labels=[0.5,"",1,2])
+    ax.tick_params(axis='both',labelsize=14)
+    for line_pos in range(0,4):
+        ax.axhline(line_pos+0.5,color='lightgray', linestyle='--', linewidth=1)
+    fig.canvas.draw()
+    x_left_fig = ax.get_position().x0
+    x_right_fig = ax.get_position().x1
+    for yi in range(0,4):
+        y_data = yi + 0.5
+        _, y_disp = ax.transData.transform((0, y_data))
+        _, y_fig = fig.transFigure.inverted().transform((0, y_disp))
+        line = Line2D([x_left_fig, x_right_fig+0.22], [y_fig, y_fig], transform=fig.transFigure,
+                      color='lightgray', linestyle='--', linewidth=1, zorder=0)
+        fig.add_artist(line)
+
+    plt.savefig(savepath,bbox_inches='tight')
     plt.close()
 
 # Plotting Cumulative Dynamic AUC
@@ -919,13 +1005,40 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                 print(f"    Fold {fold_idx+1} {model_name}: AP={m['pr_auc']:.3f}, ROC AUC={m['roc_auc']:.3f}", file=file)
         
         # Computing Ensemble predictions for this fold against the train set for threshold tuning
-        probs_stack_train = []
+        L_train_cols = []
         for m in model_list:
-            entry = per_fold_train_probs[m][-1]   # matches current fold
-            probs_stack_train.append(entry['probs'])
-        probs_stack_train = np.vstack(probs_stack_train)
+            p = np.clip(per_fold_train_probs[m][-1]['probs'], 1e-6, 1-1e-6)
+            L_train_cols.append(logit(p))
+        L_train = np.vstack(L_train_cols).T   # columns ordered as model_list
 
-        ensemble_train_mean = np.mean(probs_stack_train, axis=0)
+        # Fit scaler on TRAIN, transform TRAIN
+        std_scaler = StandardScaler().fit(L_train)
+        Z_train = std_scaler.transform(L_train)
+
+        probs_train_df = pd.DataFrame(Z_train, columns=[m for m in model_list])
+        probs_train_df["DSS"] = train_event
+        probs_train_df["DSS.time"] = train_time
+
+        cph_train_models = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
+        cph_train_models.fit(probs_train_df, duration_col = "DSS.time", event_col="DSS", robust=True)
+
+        models_train_cindex = cph_train_models.concordance_index_
+        with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+            print(f"\nTraining Multivariate C-Index={models_train_cindex}\n", file=file)
+        
+        train_summary = cph_train_models.summary.reset_index().rename(columns={'index': 'Gene'})
+        train_summary_extraction = train_summary.set_index('covariate')
+
+        cox_weights_train = {}
+        weighted_probs_train = []
+        for m in model_list:
+            cox_weights_train[m] = train_summary_extraction.loc[m]["coef"]
+            weighted_probs_train.append((probs_train_df[m]*cox_weights_train[m]))
+        weighted_probs_stack_train = np.vstack(weighted_probs_train)
+
+        ensemble_train_mean = np.sum(weighted_probs_stack_train,axis=0)
+        probs_min_scaler = MinMaxScaler()
+        ensemble_train_mean = probs_min_scaler.fit_transform(ensemble_train_mean.reshape(-1,1)).flatten()
 
         # Tuning Ensemble threshold on ensemble_train_mean
         thr_ens, thr_ens_best = tune_threshold_by_logrank(probs_train=ensemble_train_mean, time_train=train_time,event_train=train_event)
@@ -935,12 +1048,27 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
             print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Log-Rank Chi2={thr_ens_best:.3f})",file=file)
+
         # Computing Ensemble predictions for this fold against the test set
-        probs_stack_test = []
+        L_test_cols = []
         for m in model_list:
-            probs_stack_test.append(per_fold_probs[m][-1]['probs'])
-        probs_stack_test = np.vstack(probs_stack_test)
-        ensemble_mean_fold = np.mean(probs_stack_test, axis=0)
+            p = np.clip(per_fold_probs[m][-1]['probs'], 1e-6, 1-1e-6)
+            L_test_cols.append(logit(p))
+        L_test = np.vstack(L_test_cols).T
+        
+        Z_test = std_scaler.transform(L_test)
+
+        probs_test_df = pd.DataFrame(Z_test, columns=[m for m in model_list])
+        probs_test_df["DSS"] = test_event
+        probs_test_df["DSS.time"] = test_time
+    
+        weighted_probs_test = []
+        for m in model_list:
+            weighted_probs_test.append((probs_test_df[m]*cox_weights_train[m]))
+        weighted_probs_stack_test = np.vstack(weighted_probs_test)
+
+        ensemble_mean_fold = np.sum(weighted_probs_stack_test,axis=0)
+        ensemble_mean_fold = probs_min_scaler.transform(ensemble_mean_fold.reshape(-1,1)).flatten()
 
         try:
             t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
@@ -1035,13 +1163,14 @@ for rs_number in range(0 ,3):
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=2,inner_folds=2,inner_iterations=2,ANN_iterations=2, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
 
         plot_km_curves(survival_results, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/KM_plots.png")
         plot_forest(survival_results,metrics_summary,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Summary")
+        plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
         plot_mean_cumulative_dynamic_auc(cauc_agg, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Cumulative_Dynamic_AUC.png",time_unit="years",)
 
         oof_df["DSS.years"] = oof_df["DSS.time"]/365
