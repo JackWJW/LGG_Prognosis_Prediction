@@ -673,6 +673,193 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     plt.savefig(savepath_plot)
     plt.close()
 
+def plot_forest_class(survival_results, metrics_summary_dict, savepath=None):
+    """
+    Plot Concordance (left) | HR (forest) (middle) | metrics table (right).
+    Model names appear on the leftmost axis (concordance). Continuous separators
+    span the full figure so lines meet across panels.
+    """
+    results = []
+    model_list_local = list(survival_results.keys())
+
+    # Fit Cox model per model and collect HR / CI / p and c-index (assumes cph.concordance_index_ set)
+    for model_name in model_list_local:
+        dfs = []
+        for dss_val, probs_dict in survival_results[model_name]:
+            temp = dss_val.copy()
+            temp["pred_class"] = probs_dict["class"]
+            dfs.append(temp)
+        pooled_df = pd.concat(dfs, ignore_index=True)
+
+        cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
+        cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
+        cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
+        summary = cph.summary.loc["pred_class"]
+
+        c_index = getattr(cph, "concordance_index_", None)
+
+        results.append({
+            'Model': model_name,
+            'HR': summary['exp(coef)'],
+            'CI_lower': summary['exp(coef) lower 95%'],
+            'CI_upper': summary['exp(coef) upper 95%'],
+            'p': summary['p'],
+            'cindex': c_index
+        })
+
+    sig_df = pd.DataFrame(results)
+
+    # Build metrics table
+    rows = []
+    for model_name in model_list_local:
+        row = {'Model': model_name}
+        ms = metrics_summary_dict.get(model_name, {})
+        if ms:
+            def to_tuple(x):
+                return x if isinstance(x, (list, tuple, np.ndarray)) else (x, np.nan)
+            row.update({
+                'accuracy_mean': to_tuple(ms.get('accuracy', (np.nan, np.nan)))[0],
+                'accuracy_std' : to_tuple(ms.get('accuracy', (np.nan, np.nan)))[1],
+                'precision_mean': to_tuple(ms.get('precision', (np.nan, np.nan)))[0],
+                'precision_std' : to_tuple(ms.get('precision', (np.nan, np.nan)))[1],
+                'recall_mean': to_tuple(ms.get('recall', (np.nan, np.nan)))[0],
+                'recall_std' : to_tuple(ms.get('recall', (np.nan, np.nan)))[1],
+                'f1_mean': to_tuple(ms.get('f1', (np.nan, np.nan)))[0],
+                'f1_std' : to_tuple(ms.get('f1', (np.nan, np.nan)))[1],
+                'roc_auc_mean': to_tuple(ms.get('roc_auc', (np.nan, np.nan)))[0],
+                'roc_auc_std' : to_tuple(ms.get('roc_auc', (np.nan, np.nan)))[1],
+                'pr_auc_mean': to_tuple(ms.get('pr_auc', (np.nan, np.nan)))[0],
+                'pr_auc_std' : to_tuple(ms.get('pr_auc', (np.nan, np.nan)))[1],
+            })
+        rows.append(row)
+    metrics_df = pd.DataFrame(rows)
+
+    # Merge and compute FDR / significance
+    sig_df = pd.merge(sig_df, metrics_df, on="Model", how="left")
+    sig_df["FDR"] = multipletests(sig_df["p"], method="fdr_bh")[1]
+    sig_df["Sig"] = sig_df["FDR"] < 0.05
+    savepath_csv = savepath+".csv"
+    sig_df.to_csv(savepath_csv)
+    # Keep original order
+    ordered_models = [m for m in model_list_local if m in sig_df["Model"].values]
+    df_forest = sig_df.set_index("Model").loc[ordered_models].reset_index()
+
+    # y positions
+    n_models = len(df_forest)
+    y = np.arange(n_models)
+
+    # Figure & GridSpec (left: concordance, mid: HR, right: table)
+    fig = plt.figure(figsize=(14, 6))
+    gs = gridspec.GridSpec(1, 3, width_ratios=[1.0, 1.0, 3.0], wspace=0.075)
+
+    # Create axes in the new order: concordance left, HR middle, table right
+    ax_cindex = fig.add_subplot(gs[0])
+    ax_hr = fig.add_subplot(gs[1])
+    ax_table = fig.add_subplot(gs[2])
+    ax_table.set_axis_off()
+
+    # ---------- Concordance (left) ----------
+    ax_cindex.barh(y, df_forest["cindex"], align='center', height=0.6, zorder=2,
+                   edgecolor="black", color="#7FC97F")
+    ax_cindex.set_xlim(0, 1)
+    ax_cindex.set_xlabel("C-index", fontsize=12)
+    ax_cindex.set_xticks(ticks=[0.0,0.2,0.4,0.6,0.8,1.0])
+    # put model names on the LEFT axis (concordance)
+    ax_cindex.set_yticks(y)
+    ax_cindex.set_yticklabels(df_forest["Model"].tolist(), fontsize=11)
+    ax_cindex.yaxis.set_ticks_position('left')
+    ax_cindex.yaxis.set_label_position('left')
+    ax_cindex.tick_params(axis='y', labelleft=True)
+    ax_cindex.invert_yaxis()
+    ax_cindex.set_title("Concordance", fontsize=12, fontweight='bold')
+    ax_cindex.tick_params(axis='x', labelsize=10)
+
+    for yi, cval in zip(y, df_forest["cindex"]):
+        # annotate c-index values to the right of bars
+        if not np.isnan(cval):
+            ax_cindex.text(cval + 0.01, yi, f"{cval:.2f}", va='center', fontsize=9)
+
+    # ---------- Hazard Ratio (forest) (middle) ----------
+    hr_err_low = df_forest["HR"] - df_forest["CI_lower"]
+    hr_err_high = df_forest["CI_upper"] - df_forest["HR"]
+    ax_hr.errorbar(df_forest["HR"], y,
+                   xerr=[hr_err_low, hr_err_high],
+                   fmt='none', ecolor='black', capsize=5, elinewidth=1.5, capthick=1.5, zorder=1)
+    ax_hr.scatter(df_forest["HR"], y,
+                  c=df_forest["Sig"], cmap='Set2_r',
+                  linewidths=1.5, edgecolors='black', zorder=2, vmin=0, s=150)
+
+    # hide y labels on the middle HR axis (they are on the left axis)
+    ax_hr.set_yticks(y)
+    ax_hr.set_yticklabels([])
+    ax_hr.tick_params(axis='y', length=0)
+
+    # set consistent y-limits on all axes then invert for plotting order
+    ymin, ymax = -0.5, n_models - 0.5
+    ax_cindex.set_ylim(ymin, ymax)
+    ax_hr.set_ylim(ymin, ymax)
+    ax_table.set_ylim(ymin, ymax)
+    ax_cindex.invert_yaxis()
+    ax_hr.invert_yaxis()
+    ax_table.invert_yaxis()
+
+    ax_hr.axvline(1, color='red', linestyle='--')
+    hr_max = np.nanmax(df_forest[["CI_upper", "HR"]].values) * 1.1
+    hr_xlim = max(8, hr_max)
+    ax_hr.set_xlim(0, hr_xlim)
+    ax_hr.set_xlabel("Hazard Ratio (HR)", fontsize=12)
+    ax_hr.set_title("Forest Plot", fontsize=14, fontweight='bold')
+    ax_hr.tick_params(axis='x', labelsize=10)
+
+    # ---------- Metrics table (text) (right) ----------
+    headers = ["HR", "FDR", "ACC", "PRC", "REC", "F1", "ROC", "AP"]
+    col_x = np.linspace(0, 1, len(headers))
+
+    # header: just above the top row (top is at y = 0 after inversion)
+    header_y = ymin - 0.05
+    for x, h in zip(col_x, headers):
+        ax_table.text(x, header_y, h, fontsize=12, fontweight="bold", ha="center", va="bottom")
+
+    # metric rows aligned with y positions
+    for row_idx, row in enumerate(df_forest.itertuples(), start=0):
+        values = [
+            f"{row.HR:.2f}",
+            f"{row.FDR:.2e}",
+            f"{row.accuracy_mean:.2f}\u00B1{row.accuracy_std:.2f}",
+            f"{row.precision_mean:.2f}\u00B1{row.precision_std:.2f}",
+            f"{row.recall_mean:.2f}\u00B1{row.recall_std:.2f}",
+            f"{row.f1_mean:.2f}\u00B1{row.f1_std:.2f}",
+            f"{row.roc_auc_mean:.2f}\u00B1{row.roc_auc_std:.2f}",
+            f"{row.pr_auc_mean:.2f}\u00B1{row.pr_auc_std:.2f}"
+        ]
+        for x, val in zip(col_x, values):
+            ax_table.text(x, row_idx, val, fontsize=10, ha="center", va="center")
+
+    # horizontal separators for readability
+    for yi in range(0,5):
+        ax_hr.hlines(yi + 0.5, xmin=ax_hr.get_xlim()[0], xmax=ax_hr.get_xlim()[1],
+                     colors='lightgray', linestyles='--', linewidth=1, zorder=0)
+        ax_cindex.hlines(yi + 0.5, xmin=ax_cindex.get_xlim()[0], xmax=ax_cindex.get_xlim()[1],
+                         colors='lightgray', linestyles='--', linewidth=1, zorder=0)
+
+    # ---------- Continuous separators across all panels ----------
+    # Draw full-figure separators so they meet across axes
+    fig.canvas.draw()
+    x_left_fig = ax_cindex.get_position().x0
+    x_right_fig = ax_table.get_position().x1
+    for yi in range(0,5):
+        y_data = yi + 0.5
+        _, y_disp = ax_cindex.transData.transform((0, y_data))
+        _, y_fig = fig.transFigure.inverted().transform((0, y_disp))
+        line = Line2D([x_left_fig, x_right_fig+0.025], [y_fig, y_fig], transform=fig.transFigure,
+                      color='lightgray', linestyle='--', linewidth=1, zorder=0)
+        fig.add_artist(line)
+
+    # finalize
+    savepath_plot = savepath+".png"
+    plt.savefig(savepath_plot)
+    plt.close()
+
 def plot_multivariate(surv_df, p_thresh=0.05, savepath="./"):
     multivar_list = ["SVM","RandomForest","XGBoost","LogisticRegression","ANN"]
     hr_df = surv_df[["DSS", "DSS.time"]].copy()
@@ -826,7 +1013,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             'Predicted Class': np.full(len(y), -1, dtype=int)
         } for name in models_info
     }
-    oof_results['Ensemble (Mean)'] = {'y_true': np.zeros(len(y), dtype=int),
+    oof_results['Ensemble'] = {'y_true': np.zeros(len(y), dtype=int),
                                     'probs': np.full(len(y), np.nan, dtype=float),
                                     'Predicted Class': np.full(len(y), -1, dtype=int)}
 
@@ -836,21 +1023,21 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
     # Storing the per fold probabilities
     per_fold_probs = {name: [] for name in models_info}
-    per_fold_probs['Ensemble (Mean)'] = []
+    per_fold_probs['Ensemble'] = []
 
     # Setting up Ensemble placeholders
-    per_fold_metrics['Ensemble (Mean)'] = []
-    per_fold_curves['Ensemble (Mean)'] = {'roc': [], 'pr': []}
+    per_fold_metrics['Ensemble'] = []
+    per_fold_curves['Ensemble'] = {'roc': [], 'pr': []}
 
     #Setting up stoage dictionaries for threshold tuning
     per_fold_train_probs = {name: [] for name in models_info}
     per_fold_tuned_thresholds = {name: [] for name in models_info}
-    per_fold_tuned_thresholds['Ensemble (Mean)'] = []
-    per_fold_train_probs['Ensemble (Mean)'] = []
+    per_fold_tuned_thresholds['Ensemble'] = []
+    per_fold_train_probs['Ensemble'] = []
 
     #Storage for cumulative auc curves
     per_fold_cd_auc = {name: [] for name in models_info}
-    per_fold_cd_auc['Ensemble (Mean)'] = []
+    per_fold_cd_auc['Ensemble'] = []
 
     # Iterate over the outer folds
     model_list = list(models_info.keys())
@@ -1042,8 +1229,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
         # Tuning Ensemble threshold on ensemble_train_mean
         thr_ens, thr_ens_best = tune_threshold_by_logrank(probs_train=ensemble_train_mean, time_train=train_time,event_train=train_event)
-        per_fold_tuned_thresholds['Ensemble (Mean)'].append(thr_ens)
-        per_fold_train_probs['Ensemble (Mean)'].append({'train_idx': train_idx, 'probs': ensemble_train_mean, 'y_true': y_train})
+        per_fold_tuned_thresholds['Ensemble'].append(thr_ens)
+        per_fold_train_probs['Ensemble'].append({'train_idx': train_idx, 'probs': ensemble_train_mean, 'y_true': y_train})
 
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
@@ -1073,7 +1260,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         try:
             t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
             if t_eval.size >= 2:
-                per_fold_cd_auc['Ensemble (Mean)'].append((t_eval, auc_vec))
+                per_fold_cd_auc['Ensemble'].append((t_eval, auc_vec))
                 with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
                     print(f"    cumulative_dynamic_auc stored (fold {fold_idx+1}): {auc_vec.mean():.3f} over {t_eval.size} t's", file=file)
             else:
@@ -1085,23 +1272,23 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
         y_true_fold = per_fold_probs[model_list[0]][-1]['y_true']
 
-        per_fold_probs['Ensemble (Mean)'].append({'test_idx': test_idx, 'probs': ensemble_mean_fold, 'y_true': y_true_fold})
+        per_fold_probs['Ensemble'].append({'test_idx': test_idx, 'probs': ensemble_mean_fold, 'y_true': y_true_fold})
 
         #Calculating ensemble predictions
         ensemble_preds = (ensemble_mean_fold >= thr_ens).astype(int)
-        oof_results['Ensemble (Mean)']['Predicted Class'][test_idx] = ensemble_preds
+        oof_results['Ensemble']['Predicted Class'][test_idx] = ensemble_preds
 
         # Store ensemble OOF probs (if you keep same oof_results structure)
-        oof_results['Ensemble (Mean)']['probs'][test_idx] = ensemble_mean_fold
-        oof_results['Ensemble (Mean)']['y_true'][test_idx] = y_true_fold
+        oof_results['Ensemble']['probs'][test_idx] = ensemble_mean_fold
+        oof_results['Ensemble']['y_true'][test_idx] = y_true_fold
 
         # Store ensemble metrics and curves
         m_mean = compute_metrics(y_true_fold, ensemble_mean_fold, threshold=thr_ens)
-        per_fold_metrics['Ensemble (Mean)'].append(m_mean)
+        per_fold_metrics['Ensemble'].append(m_mean)
         fpr, tpr, _ = roc_curve(y_true_fold, ensemble_mean_fold)
         prec, rec, _ = precision_recall_curve(y_true_fold, ensemble_mean_fold)
-        per_fold_curves['Ensemble (Mean)']['roc'].append((fpr, tpr))
-        per_fold_curves['Ensemble (Mean)']['pr'].append((rec, prec))
+        per_fold_curves['Ensemble']['roc'].append((fpr, tpr))
+        per_fold_curves['Ensemble']['pr'].append((rec, prec))
     
     base_models = [m for m in oof_results.keys()]
     oof_df = pd.DataFrame({'y_true': oof_results[base_models[0]]['y_true']})
@@ -1114,15 +1301,15 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         oof_df[f'pred_{m}'] = oof_results[m]['Predicted Class']
     
     metrics_summary = {}
-    for m in model_list + ['Ensemble (Mean)']:
+    for m in model_list + ['Ensemble']:
         vals = per_fold_metrics[m]
         summary = {k: (np.mean([v[k] for v in vals]), np.std([v[k] for v in vals])) for k in vals[0].keys()}
         metrics_summary[m] = summary
     curves_summary = {'roc': {}, 'pr': {}}
-    all_models_for_plot = model_list + ['Ensemble (Mean)']
+    all_models_for_plot = model_list + ['Ensemble']
     for m in all_models_for_plot:
         if m.startswith("Ensemble"):
-            y_probs = oof_df['prob_Ensemble (Mean)'].values
+            y_probs = oof_df['prob_Ensemble'].values
         else:
             y_probs = oof_df[f'prob_{m}'].values
         y_true = oof_df['y_true'].values
@@ -1132,7 +1319,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
     # Prepare metrics dictionary
     metrics_for_plot = {m: per_fold_metrics.get(m, []) for m in model_list}
-    metrics_for_plot['Ensemble (Mean)'] = per_fold_metrics.get('Ensemble (Mean)', [])
+    metrics_for_plot['Ensemble'] = per_fold_metrics.get('Ensemble', [])
 
     oof_df['DSS.time'] = dss_info['DSS.time']
     oof_df['DSS'] = dss_info['DSS']
@@ -1157,19 +1344,20 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,3):
-    for dataset_id in range(1,19):
+for rs_number in range(0 ,1):
+    for dataset_id in range(1,2):
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=2,inner_folds=2,inner_iterations=2,ANN_iterations=2, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
 
         plot_km_curves(survival_results, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/KM_plots.png")
-        plot_forest(survival_results,metrics_summary,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Summary")
+        plot_forest(survival_results,metrics_summary,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Probs_Summary")
+        plot_forest_class(survival_results,metrics_summary,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
         plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
         plot_mean_cumulative_dynamic_auc(cauc_agg, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Cumulative_Dynamic_AUC.png",time_unit="years",)
 
