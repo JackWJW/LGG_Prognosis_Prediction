@@ -399,7 +399,7 @@ def compute_cd_auc_robust(y_train_struct, y_test_struct, risk_scores: np.ndarray
 
 # Function to plot mean ROC curves
 def plot_mean_roc(curves_summary, metrics_dict, savepath=None):
-    plt.figure(figsize=(7,6))
+    plt.figure(figsize=(6,5))
     for model_name, (fpr, mean_tpr) in curves_summary['roc'].items():
         mean_auc = np.mean([m['roc_auc'] for m in metrics_dict[model_name]])
         plt.plot(fpr, mean_tpr, label=f'{model_name} (AUC={mean_auc:.2f})')
@@ -415,7 +415,7 @@ def plot_mean_roc(curves_summary, metrics_dict, savepath=None):
 
 # Function to plot mean PR curves
 def plot_mean_pr(curves_summary, metrics_dict, savepath=None):
-    plt.figure(figsize=(7,6))
+    plt.figure(figsize=(6,5))
     for model_name, (recall, mean_prec) in curves_summary['pr'].items():
         mean_ap = np.mean([m['pr_auc'] for m in metrics_dict[model_name]])
         plt.plot(recall, mean_prec, label=f'{model_name} (AP={mean_ap:.2f})')
@@ -457,8 +457,7 @@ def plot_km_curves(survival_results, max_years=5, savepath=None):
         )
         p_val = lr_res.p_value
         logrank_ps.append(p_val)
-        fdr_vals = multipletests(logrank_ps, method="fdr_bh")[1]
-        ax.set_title(f"{model_name}\nLog-Rank p FDR = {fdr_vals[iteration]:.2e}", fontsize=16)
+        ax.set_title(f"{model_name}\nLog-Rank p = {logrank_ps[iteration]:.2e}", fontsize=16)
         iteration += 1
         # KM curves
         kmf = KaplanMeierFitter()
@@ -547,10 +546,9 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
         rows.append(row)
     metrics_df = pd.DataFrame(rows)
 
-    # Merge and compute FDR / significance
+    # Merge and compute significance
     sig_df = pd.merge(sig_df, metrics_df, on="Model", how="left")
-    sig_df["FDR"] = multipletests(sig_df["p"], method="fdr_bh")[1]
-    sig_df["Sig"] = sig_df["FDR"] < 0.05
+    sig_df["Sig"] = sig_df["p"] < 0.05
     savepath_csv = savepath+".csv"
     sig_df.to_csv(savepath_csv)
     # Keep original order
@@ -625,7 +623,7 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     ax_hr.tick_params(axis='x', labelsize=10)
 
     # ---------- Metrics table (text) (right) ----------
-    headers = ["HR", "FDR", "ACC", "PRC", "REC", "F1", "ROC", "AP"]
+    headers = ["HR", "p", "ACC", "PRC", "REC", "F1", "ROC", "AP"]
     col_x = np.linspace(0, 1, len(headers))
 
     # header: just above the top row (top is at y = 0 after inversion)
@@ -637,7 +635,7 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     for row_idx, row in enumerate(df_forest.itertuples(), start=0):
         values = [
             f"{row.HR:.2f}",
-            f"{row.FDR:.2e}",
+            f"{row.p:.2e}",
             f"{row.accuracy_mean:.2f}\u00B1{row.accuracy_std:.2f}",
             f"{row.precision_mean:.2f}\u00B1{row.precision_std:.2f}",
             f"{row.recall_mean:.2f}\u00B1{row.recall_std:.2f}",
@@ -734,10 +732,9 @@ def plot_forest_class(survival_results, metrics_summary_dict, savepath=None):
         rows.append(row)
     metrics_df = pd.DataFrame(rows)
 
-    # Merge and compute FDR / significance
+    # Merge and compute significance
     sig_df = pd.merge(sig_df, metrics_df, on="Model", how="left")
-    sig_df["FDR"] = multipletests(sig_df["p"], method="fdr_bh")[1]
-    sig_df["Sig"] = sig_df["FDR"] < 0.05
+    sig_df["Sig"] = sig_df["p"] < 0.05
     savepath_csv = savepath+".csv"
     sig_df.to_csv(savepath_csv)
     # Keep original order
@@ -812,7 +809,7 @@ def plot_forest_class(survival_results, metrics_summary_dict, savepath=None):
     ax_hr.tick_params(axis='x', labelsize=10)
 
     # ---------- Metrics table (text) (right) ----------
-    headers = ["HR", "FDR", "ACC", "PRC", "REC", "F1", "ROC", "AP"]
+    headers = ["HR", "p", "ACC", "PRC", "REC", "F1", "ROC", "AP"]
     col_x = np.linspace(0, 1, len(headers))
 
     # header: just above the top row (top is at y = 0 after inversion)
@@ -824,7 +821,7 @@ def plot_forest_class(survival_results, metrics_summary_dict, savepath=None):
     for row_idx, row in enumerate(df_forest.itertuples(), start=0):
         values = [
             f"{row.HR:.2f}",
-            f"{row.FDR:.2e}",
+            f"{row.p:.2e}",
             f"{row.accuracy_mean:.2f}\u00B1{row.accuracy_std:.2f}",
             f"{row.precision_mean:.2f}\u00B1{row.precision_std:.2f}",
             f"{row.recall_mean:.2f}\u00B1{row.recall_std:.2f}",
@@ -953,7 +950,7 @@ def plot_mean_cumulative_dynamic_auc(cauc_agg: Dict[str, dict],
     """Plot mean ± std cumulative_dynamic_auc across folds for each model.
     time_unit: "years" (default) or "days".
     """
-    plt.figure(figsize=(7, 6))
+    plt.figure(figsize=(6, 5))
     for model, stats in cauc_agg.items():
         if time_unit == "years":
             tx = stats["times_years"]
@@ -968,10 +965,9 @@ def plot_mean_cumulative_dynamic_auc(cauc_agg: Dict[str, dict],
 
     plt.ylim(0.0, 1.0)
     plt.xlabel(xlab, fontsize=16)
-    plt.ylabel("Time-dependent AUC (mean ± sd across folds)", fontsize=16)
+    plt.ylabel("Time-dependent AUC", fontsize=16)
     plt.tick_params(axis="both", labelsize=14)
     plt.title("Cumulative/Dynamic AUC", fontsize=18)
-    plt.grid(True, linestyle="--", alpha=0.4)
     plt.legend()
     plt.tight_layout()
     plt.savefig(savepath)
@@ -980,17 +976,17 @@ def plot_mean_cumulative_dynamic_auc(cauc_agg: Dict[str, dict],
 def plot_decision_curve(oof_df, savepath="./"):
     oof_df["DSS.years"] = oof_df["DSS.time"]/365
     model_prob_cols = [c for c in oof_df.columns if c.startswith("prob_")]
-    df_dca = dca(data=oof_df,outcome='DSS',modelnames=model_prob_cols, thresholds=np.arange(0,0.75,0.01),time_to_outcome_col='DSS.years',time=5)
+    df_dca = dca(data=oof_df,outcome='DSS',modelnames=model_prob_cols, thresholds=np.arange(0,0.80,0.01),time_to_outcome_col='DSS.years',time=5)
     models_in_plot = [m for m in df_dca["model"].unique()]
     tab10 = plt.get_cmap("tab10")
     palette = [tab10(i % 10) for i in range(len(models_in_plot))]
-    plt.figure()
-    plot_graphs(plot_df=df_dca, graph_type='net_benefit',y_limits=[-0.05,0.4],color_names=palette)
+    plt.figure(figsize=(6, 5))
+    plot_graphs(plot_df=df_dca, graph_type='net_benefit',y_limits=[-0.05,0.4],color_names=palette,linewidths=[2],linestyles=['-','-','-','-','-','-',':','--'])
     plt.xlabel("Threshold Probability",fontsize=16)
+    plt.yticks(ticks=[0.0,0.1,0.2,0.3,0.4],labels=[0.0,0.1,0.2,0.3,0.4])
     plt.ylabel("Net Benefit",fontsize=16)
     plt.tick_params(axis="both", labelsize=14)
-    plt.title("Decision Curve", fontsize=18)
-    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.grid(visible=False)
     plt.legend()
     plt.tight_layout()
     plt.savefig(savepath)
@@ -1363,13 +1359,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,1):
-    for dataset_id in range(1,2):
+for rs_number in range(0 ,5):
+    for dataset_id in range(1,19):
         with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
