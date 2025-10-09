@@ -443,17 +443,17 @@ def plot_km_curves(survival_results, max_years=5, savepath=None):
 
         # Pool all folds
         dfs = []
-        for dss_val, pred_dict in survival_results[model_name]:
-            temp = dss_val.copy()
+        for OS_val, pred_dict in survival_results[model_name]:
+            temp = OS_val.copy()
             temp["pred_class"] = pred_dict["class"]
             dfs.append(temp)
-        pooled_df = pd.concat(dfs, ignore_index=True)
+        pooled_df = pd.concat(dfs, ignore_index=True).dropna()
 
         high = pooled_df[pooled_df["pred_class"] == 1]
         low  = pooled_df[pooled_df["pred_class"] == 0]
         lr_res = logrank_test(
-            high["DSS.time"], low["DSS.time"],
-            event_observed_A=high["DSS"], event_observed_B=low["DSS"]
+            high["OS.time"], low["OS.time"],
+            event_observed_A=high["OS"], event_observed_B=low["OS"]
         )
         p_val = lr_res.p_value
         logrank_ps.append(p_val)
@@ -465,8 +465,8 @@ def plot_km_curves(survival_results, max_years=5, savepath=None):
             mask = pooled_df["pred_class"] == cls
             n_value = mask.sum()
             kmf.fit(
-                durations=pooled_df.loc[mask, "DSS.time"] / 365,
-                event_observed=pooled_df.loc[mask, "DSS"],
+                durations=pooled_df.loc[mask, "OS.time"] / 365,
+                event_observed=pooled_df.loc[mask, "OS"],
                 label=f"{risk_labels[cls]} (n={n_value})"
             )
             kmf.plot_survival_function(ax=ax, ci_show=True, color=colours[cls])
@@ -497,13 +497,13 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
     # Fit Cox model per model and collect HR / CI / p and c-index (assumes cph.concordance_index_ set)
     for model_name in model_list_local:
         dfs = []
-        for dss_val, probs_dict in survival_results[model_name]:
-            temp = dss_val.copy()
+        for OS_val, probs_dict in survival_results[model_name]:
+            temp = OS_val.copy()
             temp["logit_scaled"] = probs_dict["logit_scaled"]
             dfs.append(temp)
-        pooled_df = pd.concat(dfs, ignore_index=True)
+        pooled_df = pd.concat(dfs, ignore_index=True).dropna()
 
-        cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
+        cph_df = pooled_df.rename(columns={"OS.time": "time", "OS": "event"})
         cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
         cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
         summary = cph.summary.loc["logit_scaled"]
@@ -683,13 +683,13 @@ def plot_forest_class(survival_results, metrics_summary_dict, savepath=None):
     # Fit Cox model per model and collect HR / CI / p and c-index (assumes cph.concordance_index_ set)
     for model_name in model_list_local:
         dfs = []
-        for dss_val, probs_dict in survival_results[model_name]:
-            temp = dss_val.copy()
+        for OS_val, probs_dict in survival_results[model_name]:
+            temp = OS_val.copy()
             temp["pred_class"] = probs_dict["class"]
             dfs.append(temp)
-        pooled_df = pd.concat(dfs, ignore_index=True)
+        pooled_df = pd.concat(dfs, ignore_index=True).dropna()
 
-        cph_df = pooled_df.rename(columns={"DSS.time": "time", "DSS": "event"})
+        cph_df = pooled_df.rename(columns={"OS.time": "time", "OS": "event"})
         cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
         cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
         summary = cph.summary.loc["pred_class"]
@@ -859,16 +859,17 @@ def plot_forest_class(survival_results, metrics_summary_dict, savepath=None):
 
 def plot_multivariate(surv_df, p_thresh=0.05, savepath="./"):
     multivar_list = ["SVM","RandomForest","XGBoost","LogisticRegression","ANN"]
-    hr_df = surv_df[["DSS", "DSS.time"]].copy()
+    hr_df = surv_df[["OS", "OS.time"]].copy()
 
     for m in multivar_list:
         p = np.clip(surv_df[f'prob_{m}'].values, 1e-6, 1-1e-6)
         logit_p = logit(p)
         logit_scaled = zscore(logit_p)
         hr_df[m] = logit_scaled
-    
+
+    hr_df = hr_df.dropna()
     cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
-    cph.fit(hr_df,duration_col="DSS.time",event_col="DSS",robust=True)
+    cph.fit(hr_df,duration_col="OS.time",event_col="OS",robust=True)
 
     cindex = cph.concordance_index_
 
@@ -974,9 +975,10 @@ def plot_mean_cumulative_dynamic_auc(cauc_agg: Dict[str, dict],
     plt.close()
 
 def plot_decision_curve(oof_df, savepath="./"):
-    oof_df["DSS.years"] = oof_df["DSS.time"]/365
+    oof_df = oof_df.dropna().copy()
+    oof_df["OS.years"] = oof_df["OS.time"]/365
     model_prob_cols = [c for c in oof_df.columns if c.startswith("prob_")]
-    df_dca = dca(data=oof_df,outcome='DSS',modelnames=model_prob_cols, thresholds=np.arange(0,0.80,0.01),time_to_outcome_col='DSS.years',time=5)
+    df_dca = dca(data=oof_df,outcome='OS',modelnames=model_prob_cols, thresholds=np.arange(0,0.80,0.01),time_to_outcome_col='OS.years',time=5)
     models_in_plot = [m for m in df_dca["model"].unique()]
     tab10 = plt.get_cmap("tab10")
     palette = [tab10(i % 10) for i in range(len(models_in_plot))]
@@ -995,7 +997,7 @@ def plot_decision_curve(oof_df, savepath="./"):
 ######################################
 ### Defining the Training Function ###
 ######################################
-def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25,save_dir="./LGG_Fixed-K_Results",dataset_id=0):
+def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25,save_dir="./LGG_CV-Prediction_Results",dataset_id=0):
 
     RANDOM_STATE = random_state
     OUTER_FOLDS = outer_folds
@@ -1004,13 +1006,14 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     N_ITER_ANN = ANN_iterations
     N_JOBS = -1
 
-    DATA_URL = (f"https://raw.githubusercontent.com/JackWJW/LGG_Prognosis_Prediction/main/Tidied_Datasets/tidied_integrated_df_{dataset_id}.csv")
-    data = pd.read_csv(DATA_URL).drop(columns=["Unnamed: 0"])
-    dss_info = data[["DSS", "DSS.time"]]
+    DATA_URL = (f"https://raw.githubusercontent.com/JackWJW/LGG_Prognosis_Prediction/main/iMAT_integrated_data/TCGA_iMAT_integrated_df_{dataset_id}.csv")
+    data = pd.read_csv(DATA_URL).drop(columns=["sample"])
+    data = data.dropna()
+    OS_info = data[["OS", "OS.time"]]
 
-    X = data.drop(columns = ["Srv", "DSS", "DSS.time"])
-    y = LabelEncoder().fit_transform(data["Srv"])
-    with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+    X = data.drop(columns = ["OS", "OS.time"])
+    y = LabelEncoder().fit_transform(data["OS"])
+    with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
         print('Starting nested cross-validation...',file=file)
 
     # Defining Folds
@@ -1057,22 +1060,22 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     # Iterate over the outer folds
     model_list = list(models_info.keys())
     for fold_idx, (train_idx, test_idx) in enumerate(outer_cv.split(X, y)):
-        with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f'\nOuter Fold: {fold_idx+1}/{OUTER_FOLDS}',file=file)
-        SAVE_DIR = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ANN_Training_{fold_idx+1}"
+        SAVE_DIR = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ANN_Training_{fold_idx+1}"
         X_train, X_test = X.iloc[train_idx].values, X.iloc[test_idx].values
         y_train, y_test = y[train_idx], y[test_idx]
 
-        train_event = dss_info['DSS'].values[train_idx].astype(bool)
-        train_time  = dss_info['DSS.time'].values[train_idx].astype(float)
-        test_event  = dss_info['DSS'].values[test_idx].astype(bool)
-        test_time   = dss_info['DSS.time'].values[test_idx].astype(float)
+        train_event = OS_info['OS'].values[train_idx].astype(bool)
+        train_time  = OS_info['OS.time'].values[train_idx].astype(float)
+        test_event  = OS_info['OS'].values[test_idx].astype(bool)
+        test_time   = OS_info['OS.time'].values[test_idx].astype(float)
         y_train_struct = Surv.from_arrays(event=train_event, time=train_time)
         y_test_struct  = Surv.from_arrays(event=test_event, time=test_time)
         fold_time_grid = make_time_grid_quantile(y_train_struct, y_test_struct, max_points=40)
 
         for model_name, info in models_info.items():
-            with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f'\nTuning and Fitting: {model_name}',file=file)
             base = clone(info['estimator'])
             space = info['space']
@@ -1140,10 +1143,10 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                     plt.savefig(SAVE_DIR)
                     plt.close()
 
-                with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:    
+                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:    
                     print(f"    Best params for {model_name} (fold {fold_idx+1}): {opt.best_params_}",file=file)
             except Exception as e:
-                with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                     print(f'BayesSearchCV failed for {model_name} in fold {fold_idx+1}: {e}',file=file)
                 # In this case fit base estimator inside the pipeline without search
                 pipe.set_params(**{})
@@ -1163,7 +1166,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
             thr, thr_best = tune_threshold_by_logrank(probs_train=probs_train, time_train=train_time,event_train=train_event)
             per_fold_tuned_thresholds[model_name].append(thr)
-            with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Log-Rank Chi2={thr_best:.3f})",file=file)
 
             # Predict proba on the test set
@@ -1175,13 +1178,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                 t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, probs, fold_time_grid)
                 if t_eval.size >= 2:
                     per_fold_cd_auc[model_name].append((t_eval, auc_vec))
-                    with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+                    with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                         print(f"    cumulative_dynamic_auc stored (fold {fold_idx+1}): {auc_vec.mean():.3f} over {t_eval.size} t's", file=file)
                 else:
-                    with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+                    with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                         print(f"    cumulative_dynamic_auc skipped (fold {fold_idx+1}): insufficient comparable times", file=file)
             except Exception as e:
-                with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                     print(f"    cumulative_dynamic_auc failed for {model_name} on fold {fold_idx+1}: {e}",file=file)
 
             # Storing out of fold probabilities
@@ -1203,7 +1206,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             per_fold_curves[model_name]['roc'].append((fpr, tpr))
             per_fold_curves[model_name]['pr'].append((rec, prec))
 
-            with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f"    Fold {fold_idx+1} {model_name}: AP={m['pr_auc']:.3f}, ROC AUC={m['roc_auc']:.3f}", file=file)
         
         # Computing Ensemble predictions for this fold against the train set for threshold tuning
@@ -1218,14 +1221,14 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         Z_train = std_scaler.transform(L_train)
 
         probs_train_df = pd.DataFrame(Z_train, columns=[m for m in model_list])
-        probs_train_df["DSS"] = train_event
-        probs_train_df["DSS.time"] = train_time
+        probs_train_df["OS"] = train_event
+        probs_train_df["OS.time"] = train_time
 
         cph_train_models = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
-        cph_train_models.fit(probs_train_df, duration_col = "DSS.time", event_col="DSS", robust=True)
+        cph_train_models.fit(probs_train_df, duration_col = "OS.time", event_col="OS", robust=True)
 
         models_train_cindex = cph_train_models.concordance_index_
-        with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nTraining Multivariate C-Index={models_train_cindex}\n", file=file)
         
         train_summary = cph_train_models.summary.reset_index().rename(columns={'index': 'Gene'})
@@ -1247,7 +1250,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         per_fold_tuned_thresholds['Ensemble'].append(thr_ens)
         per_fold_train_probs['Ensemble'].append({'train_idx': train_idx, 'probs': ensemble_train_mean, 'y_true': y_train})
 
-        with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
             print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Log-Rank Chi2={thr_ens_best:.3f})",file=file)
 
@@ -1261,8 +1264,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         Z_test = std_scaler.transform(L_test)
 
         probs_test_df = pd.DataFrame(Z_test, columns=[m for m in model_list])
-        probs_test_df["DSS"] = test_event
-        probs_test_df["DSS.time"] = test_time
+        probs_test_df["OS"] = test_event
+        probs_test_df["OS.time"] = test_time
     
         weighted_probs_test = []
         for m in model_list:
@@ -1276,13 +1279,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
             if t_eval.size >= 2:
                 per_fold_cd_auc['Ensemble'].append((t_eval, auc_vec))
-                with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                     print(f"    cumulative_dynamic_auc stored (fold {fold_idx+1}): {auc_vec.mean():.3f} over {t_eval.size} t's", file=file)
             else:
-                with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                     print(f"    cumulative_dynamic_auc skipped (fold {fold_idx+1}): insufficient comparable times", file=file)
         except Exception as e:
-            with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f"    cumulative_dynamic_auc failed for Ensemble on fold {fold_idx+1}: {e}",file=file)
 
         y_true_fold = per_fold_probs[model_list[0]][-1]['y_true']
@@ -1308,8 +1311,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     base_models = [m for m in oof_results.keys()]
     oof_df = pd.DataFrame({'y_true': oof_results[base_models[0]]['y_true']})
 
-    oof_df['DSS.time'] = dss_info['DSS.time']
-    oof_df['DSS'] = dss_info['DSS']
+    oof_df['OS.time'] = OS_info['OS.time']
+    oof_df['OS'] = OS_info['OS']
 
     for m in base_models:
         oof_df[f'prob_{m}'] = oof_results[m]['probs']
@@ -1336,8 +1339,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     metrics_for_plot = {m: per_fold_metrics.get(m, []) for m in model_list}
     metrics_for_plot['Ensemble'] = per_fold_metrics.get('Ensemble', [])
 
-    oof_df['DSS.time'] = dss_info['DSS.time']
-    oof_df['DSS'] = dss_info['DSS']
+    oof_df['OS.time'] = OS_info['OS.time']
+    oof_df['OS'] = OS_info['OS']
 
     # Preparing survival resutls dictionaries
     survival_results = {}
@@ -1346,7 +1349,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         logit_p = logit(p)
         logit_scaled = zscore(logit_p)
 
-        survival_results[m] = [(oof_df[['DSS.time', 'DSS']], 
+        survival_results[m] = [(oof_df[['OS.time', 'OS']], 
                                 {"class": oof_df[f'pred_{m}'].values.astype(int),
                                  "logit_scaled": logit_scaled})]
     
@@ -1359,22 +1362,22 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,5):
-    for dataset_id in range(1,19):
-        with open("./LGG_Fixed-K_Results/training_log.txt", "a") as file:
+for rs_number in range(0 ,1):
+    for dataset_id in range(1,2):
+        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
-        directory = f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results"
+        directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=10,ANN_iterations=10, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
-        plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
-        plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
+        plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
+        plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
 
-        plot_km_curves(survival_results, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/KM_plots.png")
-        plot_forest(survival_results,metrics_summary,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Probs_Summary")
-        plot_forest_class(survival_results,metrics_summary,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
-        plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
-        plot_mean_cumulative_dynamic_auc(cauc_agg, savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Cumulative_Dynamic_AUC.png",time_unit="years",)
-        plot_decision_curve(oof_df=oof_df,savepath=f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Decision_Curve.png")
+        plot_km_curves(survival_results, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/KM_plots.png")
+        plot_forest(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Probs_Summary")
+        plot_forest_class(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
+        plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
+        plot_mean_cumulative_dynamic_auc(cauc_agg, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Cumulative_Dynamic_AUC.png",time_unit="years",)
+        plot_decision_curve(oof_df=oof_df,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Decision_Curve.png")
 
-        oof_df.to_csv(f"./LGG_Fixed-K_Results/RS-{rs_number}_DS-{dataset_id}_Results/Predictions_Probabilities.csv")
+        oof_df.to_csv(f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Predictions_Probabilities.csv")
