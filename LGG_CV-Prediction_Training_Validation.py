@@ -1081,20 +1081,12 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             space = info['space']
 
             # Defining the pipeline for the model
-            if model_name == 'ANN':
-                pipe = Pipeline([
-                    ('low_var', VarianceThreshold(threshold=0.01)),
-                    ('scaler', StandardScaler()),
-                    ('smote', SMOTETomek(random_state=RANDOM_STATE)),
-                    ('clf', base)
-                ])
-
-            else:
-                pipe = Pipeline([
-                    ('low_var', VarianceThreshold(threshold=0.01)),
-                    ('scaler', StandardScaler()),
-                    ('clf', base)
-                ])
+            pipe = Pipeline([
+                ('low_var', VarianceThreshold()),
+                ('scaler', StandardScaler()),
+                ('smote', SMOTE(random_state=RANDOM_STATE, sampling_strategy=0.5)),
+                ('clf', base)
+            ])
 
             # prefix search space
             space_prefixed = {f'clf__{k}': v for k, v in space.items()}
@@ -1362,13 +1354,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,1):
-    for dataset_id in range(1,2):
+for rs_number in range(0 ,5):
+    for dataset_id in range(1,13):
         with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=10,ANN_iterations=10, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
