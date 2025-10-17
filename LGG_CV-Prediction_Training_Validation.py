@@ -1202,40 +1202,24 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                 print(f"    Fold {fold_idx+1} {model_name}: AP={m['pr_auc']:.3f}, ROC AUC={m['roc_auc']:.3f}", file=file)
         
         # Computing Ensemble predictions for this fold against the train set for threshold tuning
-        L_train_cols = []
-        for m in model_list:
-            p = np.clip(per_fold_train_probs[m][-1]['probs'], 1e-6, 1-1e-6)
-            L_train_cols.append(logit(p))
-        L_train = np.vstack(L_train_cols).T   # columns ordered as model_list
-
-        # Fit scaler on TRAIN, transform TRAIN
+        L_train = np.vstack([per_fold_train_probs[m][-1]['probs'] for m in model_list]).T
         std_scaler = StandardScaler().fit(L_train)
         Z_train = std_scaler.transform(L_train)
 
-        probs_train_df = pd.DataFrame(Z_train, columns=[m for m in model_list])
+        probs_train_df = pd.DataFrame(Z_train, columns=model_list)
         probs_train_df["OS"] = train_event
         probs_train_df["OS.time"] = train_time
 
         cph_train_models = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
         cph_train_models.fit(probs_train_df, duration_col = "OS.time", event_col="OS", robust=True)
-
+    
         models_train_cindex = cph_train_models.concordance_index_
         with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nTraining Multivariate C-Index={models_train_cindex}\n", file=file)
-        
-        train_summary = cph_train_models.summary.reset_index().rename(columns={'index': 'Gene'})
-        train_summary_extraction = train_summary.set_index('covariate')
 
-        cox_weights_train = {}
-        weighted_probs_train = []
-        for m in model_list:
-            cox_weights_train[m] = train_summary_extraction.loc[m]["coef"]
-            weighted_probs_train.append((probs_train_df[m]*cox_weights_train[m]))
-        weighted_probs_stack_train = np.vstack(weighted_probs_train)
-
-        ensemble_train_mean = np.sum(weighted_probs_stack_train,axis=0)
-        probs_min_scaler = MinMaxScaler()
-        ensemble_train_mean = probs_min_scaler.fit_transform(ensemble_train_mean.reshape(-1,1)).flatten()
+        beta_vec = cph_train_models.params_[model_list].values
+        eta_train = Z_train @ beta_vec    
+        ensemble_train_mean = eta_train
 
         # Tuning Ensemble threshold on ensemble_train_mean
         thr_ens, thr_ens_best = tune_threshold_by_logrank(probs_train=ensemble_train_mean, time_train=train_time,event_train=train_event)
@@ -1247,25 +1231,11 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Log-Rank Chi2={thr_ens_best:.3f})",file=file)
 
         # Computing Ensemble predictions for this fold against the test set
-        L_test_cols = []
-        for m in model_list:
-            p = np.clip(per_fold_probs[m][-1]['probs'], 1e-6, 1-1e-6)
-            L_test_cols.append(logit(p))
-        L_test = np.vstack(L_test_cols).T
-        
+        L_test = np.vstack([per_fold_probs[m][-1]['probs'] for m in model_list]).T
         Z_test = std_scaler.transform(L_test)
-
-        probs_test_df = pd.DataFrame(Z_test, columns=[m for m in model_list])
-        probs_test_df["OS"] = test_event
-        probs_test_df["OS.time"] = test_time
+        eta_test = Z_test @ beta_vec
     
-        weighted_probs_test = []
-        for m in model_list:
-            weighted_probs_test.append((probs_test_df[m]*cox_weights_train[m]))
-        weighted_probs_stack_test = np.vstack(weighted_probs_test)
-
-        ensemble_mean_fold = np.sum(weighted_probs_stack_test,axis=0)
-        ensemble_mean_fold = probs_min_scaler.transform(ensemble_mean_fold.reshape(-1,1)).flatten()
+        ensemble_mean_fold = eta_test
 
         try:
             t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
@@ -1354,13 +1324,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,5):
-    for dataset_id in range(1,13):
+for rs_number in range(0 ,1):
+    for dataset_id in range(1,2):
         with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=5,ANN_iterations=5, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
