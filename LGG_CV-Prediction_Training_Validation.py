@@ -499,14 +499,14 @@ def plot_forest(survival_results, metrics_summary_dict, savepath=None):
         dfs = []
         for OS_val, probs_dict in survival_results[model_name]:
             temp = OS_val.copy()
-            temp["logit_scaled"] = probs_dict["logit_scaled"]
+            temp["score"] = probs_dict["score"]
             dfs.append(temp)
         pooled_df = pd.concat(dfs, ignore_index=True).dropna()
 
         cph_df = pooled_df.rename(columns={"OS.time": "time", "OS": "event"})
         cph = CoxPHFitter(penalizer=0.05, l1_ratio=0.0)
         cph.fit(cph_df, duration_col="time", event_col="event", robust=True)
-        summary = cph.summary.loc["logit_scaled"]
+        summary = cph.summary.loc["score"]
 
         c_index = getattr(cph, "concordance_index_", None)
 
@@ -1306,14 +1306,16 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
     # Preparing survival resutls dictionaries
     survival_results = {}
-    for m in base_models:
+    for m in ["SVM","RandomForest","XGBoost","LogisticRegression","ANN"]:
         p = np.clip(oof_df[f'prob_{m}'].values, 1e-6, 1-1e-6)
-        logit_p = logit(p)
-        logit_scaled = zscore(logit_p)
-
-        survival_results[m] = [(oof_df[['OS.time', 'OS']], 
+        zlogit = zscore(logit(p))        
+        survival_results[m] = [(oof_df[['OS.time', 'OS']],
                                 {"class": oof_df[f'pred_{m}'].values.astype(int),
-                                 "logit_scaled": logit_scaled})]
+                                "score": zlogit})]
+    
+    survival_results["Ensemble"] = [(oof_df[['OS.time', 'OS']],
+                                 {"class": oof_df[f'pred_Ensemble'].values.astype(int),
+                                  "score": oof_df[f'prob_Ensemble']})]
     
     # Preparing results for cumulative auc
     cauc_agg = _aggregate_cd_auc(per_fold_cd_auc, n_times_common=50)
@@ -1324,13 +1326,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,1):
-    for dataset_id in range(1,2):
+for rs_number in range(0 ,5):
+    for dataset_id in range(1,13):
         with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=5,ANN_iterations=5, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
