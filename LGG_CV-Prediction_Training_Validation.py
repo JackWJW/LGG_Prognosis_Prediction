@@ -203,17 +203,6 @@ def compute_metrics(y_true, probs, threshold=0.5):
             'roc_auc': roc_auc_score(y_true, probs),
             'pr_auc': average_precision_score(y_true, probs)}
 
-# Function for tuning thresholds with Binary F1
-def tune_threshold(probs, y_true):
-    thresholds = np.linspace(0.25, 0.75, 101)
-    best_thr, best_score = 0.5, -1.0
-    for t in thresholds:
-        preds = (probs >= t).astype(int)
-        score = f1_score(y_true, preds,average='binary')
-        if score > best_score:
-            best_score, best_thr = score, t
-    return best_thr, best_score
-
 # Alternative Function for tuning on log-rank z
 def tune_threshold_by_logrank(
     probs_train: np.ndarray,
@@ -272,126 +261,6 @@ def compute_pooled_curve(oof_probs_list, oof_true_list, curve_type="roc"):
         return recall, precision
     else:
         raise ValueError("curve_type must be 'roc' or 'pr'")
-
-# aggregaring folds for cumulative auc plotting
-def _aggregate_cd_auc(per_fold_cd: Dict[str, List[Tuple[np.ndarray, np.ndarray]]],
-                      n_times_common: int = 75) -> Dict[str, dict]:
-    """Interpolate per-fold cumulative_dynamic_auc onto a common grid and
-    return mean/std envelopes per model.
-
-    per_fold_cd[model] = list of (times_k, auc_k) for each outer fold.
-    """
-    out: Dict[str, dict] = {}
-
-    for model, fold_list in per_fold_cd.items():
-        if not fold_list:
-            continue
-
-        # Validate and normalize each (times, auc) pair
-        grids: List[Tuple[np.ndarray, np.ndarray]] = []
-        for times_k, auc_k in fold_list:
-            t = np.asarray(times_k, dtype=float).ravel()
-            a = np.asarray(auc_k, dtype=float).ravel()
-            if t.ndim != 1 or a.ndim != 1 or len(t) == 0 or len(t) != len(a):
-                # Skip malformed entries
-                continue
-            grids.append((t, a))
-
-        if not grids:
-            continue
-
-        # Build a common time grid that lies inside *all* fold grids
-        lows = [t[0] for t, _ in grids]
-        highs = [t[-1] for t, _ in grids]
-        t_lo = max(lows)
-        t_hi = min(highs)
-
-        if not np.isfinite(t_lo) or not np.isfinite(t_hi) or t_hi <= t_lo:
-            # Fallback to median overlap
-            t_lo = float(np.median(lows))
-            t_hi = float(np.median(highs))
-        if t_hi <= t_lo:
-            # Give up on this model if no overlap exists
-            continue
-
-        common_times = np.linspace(t_lo, t_hi, n_times_common)
-
-        # Accumulate interpolated rows in a *list*, then stack once
-        auc_rows: List[np.ndarray] = []
-        for t, a in grids:
-            auc_rows.append(np.interp(common_times, t, a))
-
-        if not auc_rows:
-            continue
-        auc_mat = np.vstack(auc_rows)
-
-        out[model] = {
-            "times_days": common_times,
-            "times_years": common_times / 365.0,
-            "mean": auc_mat.mean(axis=0),
-            "std": auc_mat.std(axis=0),
-        }
-
-    return out
-
-# Preparing safe time grids for cumulative auc
-def make_time_grid_quantile(y_train_struct, y_test_struct, max_points: int = 40,
-                            lo_q: float = 0.10, hi_q: float = 0.90) -> np.ndarray:
-    ev_times = np.asarray(y_test_struct["time"][y_test_struct["event"]], dtype=float)
-    if ev_times.size == 0:
-        return np.array([])
-
-    # Trim extremes on the test events and cap by train max time (required by sksurv)
-    lo = np.quantile(ev_times, lo_q)
-    hi = np.quantile(ev_times, hi_q)
-    hi = min(hi, float(np.max(y_train_struct["time"])) - 1e-8)
-    if not np.isfinite(lo) or not np.isfinite(hi) or hi <= lo:
-        return np.array([])
-
-    # Use quantiles to place points where data exist
-    uniq = np.unique(ev_times[(ev_times >= lo) & (ev_times <= hi)])
-    if uniq.size == 0:
-        return np.array([])
-    k = int(min(max_points, max(10, uniq.size)))  # 10–40 points typical
-    qs = np.linspace(lo_q, hi_q, k)
-    grid = np.quantile(ev_times, qs)
-    return np.unique(grid)
-
-# Filtering time grids for cumulative auc to avoid nans
-def filter_auc_grid_by_comparable_pairs(y_test_struct, time_grid: np.ndarray) -> np.ndarray:
-    if time_grid.size == 0:
-        return time_grid
-    times = np.asarray(y_test_struct["time"], dtype=float)
-    events = np.asarray(y_test_struct["event"], dtype=bool)
-
-    t_col = time_grid[:, None]    # (T,1)
-    times_row = times[None, :]    # (1,N)
-    events_row = events[None, :]  # (1,N)
-
-    cases = ((events_row) & (times_row <= t_col)).sum(axis=1)  # events by t
-    at_risk = (times_row >= t_col).sum(axis=1)                 # still at risk at t
-    controls = at_risk - cases
-
-    mask = (cases > 0) & (controls > 0)
-    return time_grid[mask]
-
-# Safely using sksurv
-def compute_cd_auc_robust(y_train_struct, y_test_struct, risk_scores: np.ndarray,
-                          base_grid: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    """Return (times, auc_t) with invalid times removed. If <2 valid points, return ([], [])."""
-    t_eval = filter_auc_grid_by_comparable_pairs(y_test_struct, base_grid)
-    if t_eval.size < 2:
-        return np.array([]), np.array([])
-
-    auc_t, _ = cumulative_dynamic_auc(y_train_struct, y_test_struct, risk_scores, t_eval)
-    auc_t = np.asarray(auc_t, dtype=float)
-
-    # Drop any remaining non-finite values and align times
-    m = np.isfinite(auc_t)
-    t_eval, auc_t = t_eval[m], auc_t[m]
-    if t_eval.size < 2:
-        return np.array([]), np.array([])
-    return t_eval, auc_t
 
 ###################################
 ### Defining Plotting Functions ###
@@ -944,36 +813,6 @@ def plot_multivariate(surv_df, p_thresh=0.05, savepath="./"):
     plt.savefig(savepath,bbox_inches='tight')
     plt.close()
 
-# Plotting Cumulative Dynamic AUC
-def plot_mean_cumulative_dynamic_auc(cauc_agg: Dict[str, dict],
-    savepath: str,
-    time_unit: str = "years") -> None:
-    """Plot mean ± std cumulative_dynamic_auc across folds for each model.
-    time_unit: "years" (default) or "days".
-    """
-    plt.figure(figsize=(6, 5))
-    for model, stats in cauc_agg.items():
-        if time_unit == "years":
-            tx = stats["times_years"]
-            xlab = "Time (years)"
-        else:
-            tx = stats["times_days"]
-            xlab = "Time (days)"
-        mu = stats["mean"]
-        sd = stats["std"]
-        plt.plot(tx, mu, lw=2, label=model,marker="o", markersize=5,markevery=1)
-        plt.fill_between(tx, np.clip(mu - sd, 0, 1), np.clip(mu + sd, 0, 1), alpha=0.20)
-
-    plt.ylim(0.0, 1.0)
-    plt.xlabel(xlab, fontsize=16)
-    plt.ylabel("Time-dependent AUC", fontsize=16)
-    plt.tick_params(axis="both", labelsize=14)
-    plt.title("Cumulative/Dynamic AUC", fontsize=18)
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(savepath)
-    plt.close()
-
 def plot_decision_curve(oof_df, savepath="./"):
     oof_df = oof_df.dropna().copy()
     oof_df["OS.years"] = oof_df["OS.time"]/365
@@ -1072,7 +911,6 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         test_time   = OS_info['OS.time'].values[test_idx].astype(float)
         y_train_struct = Surv.from_arrays(event=train_event, time=train_time)
         y_test_struct  = Surv.from_arrays(event=test_event, time=test_time)
-        fold_time_grid = make_time_grid_quantile(y_train_struct, y_test_struct, max_points=40)
 
         for model_name, info in models_info.items():
             with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
@@ -1165,20 +1003,6 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             test_X = X_test.astype(np.float32) if model_name == 'ANN' else X_test
             probs = best.predict_proba(test_X)[:, 1].ravel()
 
-            # Preparation for cumulative dynamic plotting
-            try:
-                t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, probs, fold_time_grid)
-                if t_eval.size >= 2:
-                    per_fold_cd_auc[model_name].append((t_eval, auc_vec))
-                    with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
-                        print(f"    cumulative_dynamic_auc stored (fold {fold_idx+1}): {auc_vec.mean():.3f} over {t_eval.size} t's", file=file)
-                else:
-                    with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
-                        print(f"    cumulative_dynamic_auc skipped (fold {fold_idx+1}): insufficient comparable times", file=file)
-            except Exception as e:
-                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
-                    print(f"    cumulative_dynamic_auc failed for {model_name} on fold {fold_idx+1}: {e}",file=file)
-
             # Storing out of fold probabilities
             oof_results[model_name]['probs'][test_idx] = probs
             oof_results[model_name]['y_true'][test_idx] = y_test
@@ -1236,19 +1060,6 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         eta_test = Z_test @ beta_vec
     
         ensemble_mean_fold = eta_test
-
-        try:
-            t_eval, auc_vec = compute_cd_auc_robust(y_train_struct, y_test_struct, ensemble_mean_fold, fold_time_grid)
-            if t_eval.size >= 2:
-                per_fold_cd_auc['Ensemble'].append((t_eval, auc_vec))
-                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
-                    print(f"    cumulative_dynamic_auc stored (fold {fold_idx+1}): {auc_vec.mean():.3f} over {t_eval.size} t's", file=file)
-            else:
-                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
-                    print(f"    cumulative_dynamic_auc skipped (fold {fold_idx+1}): insufficient comparable times", file=file)
-        except Exception as e:
-            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
-                print(f"    cumulative_dynamic_auc failed for Ensemble on fold {fold_idx+1}: {e}",file=file)
 
         y_true_fold = per_fold_probs[model_list[0]][-1]['y_true']
 
@@ -1316,11 +1127,8 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     survival_results["Ensemble"] = [(oof_df[['OS.time', 'OS']],
                                  {"class": oof_df[f'pred_Ensemble'].values.astype(int),
                                   "score": oof_df[f'prob_Ensemble']})]
-    
-    # Preparing results for cumulative auc
-    cauc_agg = _aggregate_cd_auc(per_fold_cd_auc, n_times_common=50)
 
-    return oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg
+    return oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y
 
 ##########################################
 ### Model Training and Evaluation Loop ###
@@ -1332,7 +1140,7 @@ for rs_number in range(0 ,5):
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y, cauc_agg= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
@@ -1341,7 +1149,6 @@ for rs_number in range(0 ,5):
         plot_forest(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Probs_Summary")
         plot_forest_class(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
         plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
-        plot_mean_cumulative_dynamic_auc(cauc_agg, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Cumulative_Dynamic_AUC.png",time_unit="years",)
         plot_decision_curve(oof_df=oof_df,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Decision_Curve.png")
 
         oof_df.to_csv(f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Predictions_Probabilities.csv")
