@@ -298,6 +298,48 @@ def plot_mean_pr(curves_summary, metrics_dict, savepath=None):
     plt.savefig(savepath)
     plt.close()
 
+# Function to plot ROC over time for Ensemble
+def plot_time_roc(summary_df,savepath=None):
+    plt.figure(figsize=(6,5))
+    ensemble_df = summary_df[["y_true","OS.time","OS","prob_Ensemble","pred_Ensemble"]].copy()
+    def time_period(x):
+        if x <= 365*1:
+            return 1
+        elif x <= 365*3:
+            return 3
+        elif x <= 365*5:
+            return 5
+        else:
+            return 0
+
+    ensemble_df["Time_Period"] = ensemble_df["OS.time"].apply(time_period)
+
+    df_1 = ensemble_df[ensemble_df["Time_Period"]==1]
+    df_3 = ensemble_df[ensemble_df["Time_Period"]==3]
+    df_5 = ensemble_df[ensemble_df["Time_Period"]==5]
+
+    fpr1, tpr1, _ = roc_curve(df_1['y_true'], df_1["prob_Ensemble"])
+    fpr3, tpr3, _ = roc_curve(df_3['y_true'], df_3["prob_Ensemble"])
+    fpr5, tpr5, _ = roc_curve(df_5['y_true'], df_5["prob_Ensemble"])
+
+    auc1 = roc_auc_score(df_1['y_true'], df_1["prob_Ensemble"])
+    auc3 = roc_auc_score(df_3['y_true'], df_3["prob_Ensemble"])
+    auc5 = roc_auc_score(df_5['y_true'], df_5["prob_Ensemble"])
+
+    plt.plot(fpr1, tpr1, label=f"1Yr Survival (AUC={auc1:.2f})")
+    plt.plot(fpr3, tpr3, label=f"3Yr Survival (AUC={auc3:.2f})")
+    plt.plot(fpr5, tpr5, label=f"5Yr Survival (AUC={auc5:.2f})")
+
+    plt.plot([0, 1], [0, 1], 'k--', label='Random')
+    plt.xlabel('False Positive Rate', fontsize=16)
+    plt.ylabel('True Positive Rate', fontsize=16)
+    plt.title("Ensemble ROC Over Time", fontsize=18)
+    plt.tick_params(axis="both", labelsize=14)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(savepath)
+    plt.close()
+
 def plot_km_curves(survival_results, max_years=5, savepath=None):
     risk_labels = {0: "Low Risk", 1: "High Risk"}
     model_list = list(survival_results.keys())
@@ -816,6 +858,7 @@ def plot_multivariate(surv_df, p_thresh=0.05, savepath="./"):
 def plot_decision_curve(oof_df, savepath="./"):
     oof_df = oof_df.dropna().copy()
     oof_df["OS.years"] = oof_df["OS.time"]/365
+    oof_df[["prob_Ensemble"]] = MinMaxScaler().fit_transform(oof_df[["prob_Ensemble"]])
     model_prob_cols = [c for c in oof_df.columns if c.startswith("prob_")]
     df_dca = dca(data=oof_df,outcome='OS',modelnames=model_prob_cols, thresholds=np.arange(0,0.80,0.01),time_to_outcome_col='OS.years',time=5)
     models_in_plot = [m for m in df_dca["model"].unique()]
@@ -1134,13 +1177,13 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 ### Model Training and Evaluation Loop ###
 ##########################################
 
-for rs_number in range(0 ,5):
-    for dataset_id in range(1,13):
+for rs_number in range(0 ,3):
+    for dataset_id in range(1,25):
         with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
         directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=50,ANN_iterations=50, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
         plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
         plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
@@ -1150,5 +1193,6 @@ for rs_number in range(0 ,5):
         plot_forest_class(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
         plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
         plot_decision_curve(oof_df=oof_df,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Decision_Curve.png")
+        plot_time_roc(oof_df,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC_Time_Ensemble.png")
 
         oof_df.to_csv(f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Predictions_Probabilities.csv")
