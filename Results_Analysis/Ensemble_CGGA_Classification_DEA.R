@@ -47,6 +47,10 @@ res_cancer_df <- as.data.frame(res_cancer)
 
 res_cancer_df <- res_cancer_df %>% mutate(Change = ifelse(padj < 0.01 & log2FoldChange > 1, "Up", ifelse(padj < 0.01 & log2FoldChange < -1, "Down", "NS")))
 
+#Saving Results Dataframes
+save_name <- "C:/Python_Projects/LGG_Prognosis_Prediction/CGGA_Data/CCGA_Ensemble_DEG.csv"
+write.csv(as.data.frame(res_cancer_df), save_name, quote = FALSE, row.names = TRUE)
+
 
 plot_title <- "Test"
 p1 <- ggplot(res_cancer_df, aes(x = log2FoldChange, y = -log10(padj))) +
