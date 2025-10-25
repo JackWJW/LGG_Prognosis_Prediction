@@ -302,21 +302,29 @@ def plot_mean_pr(curves_summary, metrics_dict, savepath=None):
 def plot_time_roc(summary_df,savepath=None):
     plt.figure(figsize=(6,5))
     ensemble_df = summary_df[["y_true","OS.time","OS","prob_Ensemble","pred_Ensemble"]].copy()
-    def time_period(x):
+    def time_1(x):
         if x <= 365*1:
             return 1
-        elif x <= 365*3:
-            return 3
-        elif x <= 365*5:
-            return 5
+        else:
+            return 0
+    def time_3(x):
+        if x <= 365*3:
+            return 1
+        else:
+            return 0
+    def time_5(x):
+        if x <= 365*5:
+            return 1
         else:
             return 0
 
-    ensemble_df["Time_Period"] = ensemble_df["OS.time"].apply(time_period)
+    ensemble_df["1_Srv"] = ensemble_df["OS.time"].apply(time_1)
+    ensemble_df["3_Srv"] = ensemble_df["OS.time"].apply(time_3)
+    ensemble_df["5_Srv"] = ensemble_df["OS.time"].apply(time_5)
 
-    df_1 = ensemble_df[ensemble_df["Time_Period"]==1]
-    df_3 = ensemble_df[ensemble_df["Time_Period"]==3]
-    df_5 = ensemble_df[ensemble_df["Time_Period"]==5]
+    df_1 = ensemble_df[ensemble_df["1_Srv"]==1]
+    df_3 = ensemble_df[ensemble_df["3_Srv"]==1]
+    df_5 = ensemble_df[ensemble_df["5_Srv"]==1]
 
     fpr1, tpr1, _ = roc_curve(df_1['y_true'], df_1["prob_Ensemble"])
     fpr3, tpr3, _ = roc_curve(df_3['y_true'], df_3["prob_Ensemble"])
