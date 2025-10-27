@@ -7,6 +7,7 @@ library(ggrepel)
 
 count_path = "C:/Python_Projects/LGG_Prognosis_Prediction/CGGA_Data/CGGA.mRNAseq_693.Read_Counts-genes.20220620.txt"
 counts <- read.csv(count_path, header = TRUE, row.names=1,stringsAsFactors = FALSE,sep="\t")
+counts <- counts[!grepl("[.-]",rownames(counts)),]
 
 metadata_path <- "C:/Python_Projects/LGG_Prognosis_Prediction/CGGA_Data/CGGA_Results.csv"
 metadata <- read.csv(metadata_path, header = TRUE, stringsAsFactors = TRUE)
