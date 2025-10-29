@@ -989,7 +989,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                 search_spaces=space_prefixed,
                 n_iter=n_iter,
                 scoring='average_precision',
-                cv=INNER_FOLDS,
+                cv=StratifiedKFold(n_splits=INNER_FOLDS, shuffle=True, random_state=RANDOM_STATE),
                 random_state=RANDOM_STATE,
                 n_jobs=n_jobs,
                 refit=True

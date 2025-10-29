@@ -1,0 +1,145 @@
+
+Tuning and Fitting: SVM
+Best params for SVM: OrderedDict([('clf__C', 0.08946066636078877)])
+Tuned threshold for SVM: 0.37 (Log-Rank Chi2=89.049)
+SVM: AP=0.624, ROC AUC=0.614
+
+Tuning and Fitting: RandomForest
+Best params for RandomForest: OrderedDict([('clf__max_depth', 15), ('clf__min_samples_leaf', 9), ('clf__min_samples_split', 9), ('clf__n_estimators', 433)])
+Tuned threshold for RandomForest: 0.45 (Log-Rank Chi2=194.952)
+RandomForest: AP=0.660, ROC AUC=0.668
+
+Tuning and Fitting: XGBoost
+Best params for XGBoost: OrderedDict([('clf__colsample_bytree', 0.5), ('clf__learning_rate', 0.0018837559616399484), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.5295111857660225)])
+Tuned threshold for XGBoost: 0.34 (Log-Rank Chi2=88.361)
+XGBoost: AP=0.648, ROC AUC=0.660
+
+Tuning and Fitting: LogisticRegression
+Best params for LogisticRegression: OrderedDict([('clf__C', 0.004665883042322628)])
+Tuned threshold for LogisticRegression: 0.53 (Log-Rank Chi2=72.158)
+LogisticRegression: AP=0.671, ROC AUC=0.659
+
+Tuning and Fitting: ANN
+Best params for ANN: OrderedDict([('clf__criterion__alpha', 0.12236491381438437), ('clf__criterion__gamma', 7.0), ('clf__lr', 8.353878545659088e-05), ('clf__module__dropout_rate', 0.47591385225553307), ('clf__module__hidden_dim', 216), ('clf__module__num_layers', 4)])
+Tuned threshold for ANN: 0.49 (Log-Rank Chi2=82.779)
+ANN: AP=0.660, ROC AUC=0.659
+Tuned threshold for Ensemble: 0.48 (Log-Rank Chi2=174.801)
+
+Starting training run for Random State = 20
+
+
+Tuning and Fitting: SVM
+Best params for SVM: OrderedDict([('clf__C', 0.20584709076992538)])
+Tuned threshold for SVM: 0.38 (Log-Rank Chi2=104.623)
+SVM: AP=0.605, ROC AUC=0.604
+
+Tuning and Fitting: RandomForest
+Best params for RandomForest: OrderedDict([('clf__max_depth', 19), ('clf__min_samples_leaf', 6), ('clf__min_samples_split', 2), ('clf__n_estimators', 464)])
+Tuned threshold for RandomForest: 0.42 (Log-Rank Chi2=230.200)
+RandomForest: AP=0.643, ROC AUC=0.641
+
+Tuning and Fitting: XGBoost
+Best params for XGBoost: OrderedDict([('clf__colsample_bytree', 0.8328864429013817), ('clf__learning_rate', 0.001), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.5)])
+Tuned threshold for XGBoost: 0.33 (Log-Rank Chi2=97.454)
+XGBoost: AP=0.629, ROC AUC=0.641
+
+Tuning and Fitting: LogisticRegression
+Best params for LogisticRegression: OrderedDict([('clf__C', 0.03709583837886156)])
+Tuned threshold for LogisticRegression: 0.53 (Log-Rank Chi2=93.110)
+LogisticRegression: AP=0.608, ROC AUC=0.616
+
+Tuning and Fitting: ANN
+Best params for ANN: OrderedDict([('clf__criterion__alpha', 0.35175768089894976), ('clf__criterion__gamma', 5.461462655546895), ('clf__lr', 1.535582093872497e-05), ('clf__module__dropout_rate', 0.1341795936704741), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 2)])
+Tuned threshold for ANN: 0.48 (Log-Rank Chi2=143.492)
+ANN: AP=0.642, ROC AUC=0.646
+Tuned threshold for Ensemble: 0.47 (Log-Rank Chi2=227.225)
+
+Starting training run for Random State = 21
+
+
+Tuning and Fitting: SVM
+Best params for SVM: OrderedDict([('clf__C', 0.09640047604635192)])
+Tuned threshold for SVM: 0.35 (Log-Rank Chi2=83.156)
+SVM: AP=0.604, ROC AUC=0.591
+
+Tuning and Fitting: RandomForest
+Best params for RandomForest: OrderedDict([('clf__max_depth', 11), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 11), ('clf__n_estimators', 385)])
+Tuned threshold for RandomForest: 0.46 (Log-Rank Chi2=209.168)
+RandomForest: AP=0.657, ROC AUC=0.660
+
+Tuning and Fitting: XGBoost
+Best params for XGBoost: OrderedDict([('clf__colsample_bytree', 0.5), ('clf__learning_rate', 0.001), ('clf__max_depth', 2), ('clf__n_estimators', 500), ('clf__scale_pos_weight', 5.593781831063149), ('clf__subsample', 1.0)])
+Tuned threshold for XGBoost: 0.72 (Log-Rank Chi2=94.990)
+XGBoost: AP=0.614, ROC AUC=0.612
+
+Tuning and Fitting: LogisticRegression
+Best params for LogisticRegression: OrderedDict([('clf__C', 0.003989697126703951)])
+Tuned threshold for LogisticRegression: 0.49 (Log-Rank Chi2=80.555)
+LogisticRegression: AP=0.664, ROC AUC=0.654
+
+Tuning and Fitting: ANN
+Best params for ANN: OrderedDict([('clf__criterion__alpha', 0.04136134149188348), ('clf__criterion__gamma', 1.5463119490963235), ('clf__lr', 3.81517776555627e-05), ('clf__module__dropout_rate', 0.20304381070298924), ('clf__module__hidden_dim', 116), ('clf__module__num_layers', 4)])
+Tuned threshold for ANN: 0.45 (Log-Rank Chi2=160.882)
+ANN: AP=0.636, ROC AUC=0.652
+Tuned threshold for Ensemble: 0.30 (Log-Rank Chi2=181.325)
+
+Starting training run for Random State = 22
+
+
+Tuning and Fitting: SVM
+Best params for SVM: OrderedDict([('clf__C', 0.20334902051296946)])
+Tuned threshold for SVM: 0.30 (Log-Rank Chi2=98.886)
+SVM: AP=0.597, ROC AUC=0.592
+
+Tuning and Fitting: RandomForest
+Best params for RandomForest: OrderedDict([('clf__max_depth', 10), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 16), ('clf__n_estimators', 66)])
+Tuned threshold for RandomForest: 0.48 (Log-Rank Chi2=190.513)
+RandomForest: AP=0.650, ROC AUC=0.647
+
+Tuning and Fitting: XGBoost
+Best params for XGBoost: OrderedDict([('clf__colsample_bytree', 1.0), ('clf__learning_rate', 0.003307391054401866), ('clf__max_depth', 2), ('clf__n_estimators', 50), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.6824512915840256)])
+Tuned threshold for XGBoost: 0.33 (Log-Rank Chi2=80.698)
+XGBoost: AP=0.586, ROC AUC=0.577
+
+Tuning and Fitting: LogisticRegression
+Best params for LogisticRegression: OrderedDict([('clf__C', 0.011638342932444022)])
+Tuned threshold for LogisticRegression: 0.45 (Log-Rank Chi2=89.177)
+LogisticRegression: AP=0.659, ROC AUC=0.651
+
+Tuning and Fitting: ANN
+Best params for ANN: OrderedDict([('clf__criterion__alpha', 0.13681733984024558), ('clf__criterion__gamma', 4.851923336964479), ('clf__lr', 4.657703127132401e-05), ('clf__module__dropout_rate', 0.4697034819967966), ('clf__module__hidden_dim', 139), ('clf__module__num_layers', 2)])
+Tuned threshold for ANN: 0.48 (Log-Rank Chi2=133.289)
+ANN: AP=0.603, ROC AUC=0.615
+Tuned threshold for Ensemble: 0.53 (Log-Rank Chi2=192.319)
+
+Starting training run for Random State = 23
+
+
+Tuning and Fitting: SVM
+Best params for SVM: OrderedDict([('clf__C', 0.5325695069394599)])
+Tuned threshold for SVM: 0.39 (Log-Rank Chi2=125.772)
+SVM: AP=0.619, ROC AUC=0.610
+
+Tuning and Fitting: RandomForest
+Best params for RandomForest: OrderedDict([('clf__max_depth', 20), ('clf__min_samples_leaf', 3), ('clf__min_samples_split', 9), ('clf__n_estimators', 419)])
+Tuned threshold for RandomForest: 0.36 (Log-Rank Chi2=231.843)
+RandomForest: AP=0.639, ROC AUC=0.630
+
+Tuning and Fitting: XGBoost
+Best params for XGBoost: OrderedDict([('clf__colsample_bytree', 0.7662772079957793), ('clf__learning_rate', 0.001), ('clf__max_depth', 2), ('clf__n_estimators', 423), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.7638632502743712)])
+Tuned threshold for XGBoost: 0.34 (Log-Rank Chi2=86.375)
+XGBoost: AP=0.629, ROC AUC=0.620
+
+Tuning and Fitting: LogisticRegression
+Best params for LogisticRegression: OrderedDict([('clf__C', 0.0032905944104571296)])
+Tuned threshold for LogisticRegression: 0.52 (Log-Rank Chi2=70.501)
+LogisticRegression: AP=0.677, ROC AUC=0.671
+
+Tuning and Fitting: ANN
+Best params for ANN: OrderedDict([('clf__criterion__alpha', 0.5), ('clf__criterion__gamma', 1.0), ('clf__lr', 3.77064910254159e-05), ('clf__module__dropout_rate', 0.5), ('clf__module__hidden_dim', 256), ('clf__module__num_layers', 3)])
+Tuned threshold for ANN: 0.46 (Log-Rank Chi2=64.379)
+ANN: AP=0.654, ROC AUC=0.681
+Tuned threshold for Ensemble: 0.39 (Log-Rank Chi2=229.441)
+
+Starting training run for Random State = 24
+
