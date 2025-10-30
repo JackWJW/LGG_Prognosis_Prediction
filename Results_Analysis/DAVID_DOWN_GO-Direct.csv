@@ -1,0 +1,13 @@
+"Category","Term","Genes","Count","List Total","Pop Hits","Pop Total","P-Value","Benjamini","Fold Enrichment","Bonferroni","FDR","Fisher Exact"
+"GOTERM_BP_DIRECT","cytoplasmic translation","5.74%","14","198","86","13136","4.36e-10","5.14e-7","10.80","5.14e-7","5.13e-7","3.45e-11"
+"GOTERM_CC_DIRECT","cytosolic ribosome","5.74%","14","214","92","13785","1.51e-9","4.33e-7","9.80","4.33e-7","4.18e-7","1.34e-10"
+"GOTERM_MF_DIRECT","structural constituent of ribosome","6.56%","16","208","154","13590","1.27e-8","5.35e-6","6.79","5.34e-6","5.29e-6","1.70e-9"
+"GOTERM_BP_DIRECT","translation","6.56%","16","198","183","13136","1.04e-7","6.12e-5","5.80","1.22e-4","6.10e-5","1.64e-8"
+"GOTERM_CC_DIRECT","ribosome","5.33%","13","214","148","13785","3.14e-6","4.49e-4","5.66","8.97e-4","4.33e-4","5.11e-7"
+"GOTERM_CC_DIRECT","presynaptic membrane","4.10%","10","214","131","13785","1.97e-4","1.13e-2","4.92","5.47e-2","1.09e-2","3.71e-5"
+"GOTERM_CC_DIRECT","postsynaptic density","5.33%","13","214","241","13785","3.73e-4","1.78e-2","3.47","1.01e-1","1.72e-2","1.01e-4"
+"GOTERM_CC_DIRECT","mitochondrial inner membrane","6.97%","17","214","403","13785","5.33e-4","1.93e-2","2.72","1.42e-1","1.86e-2","1.86e-4"
+"GOTERM_CC_DIRECT","ribonucleoprotein complex","5.33%","13","214","251","13785","5.40e-4","1.93e-2","3.34","1.43e-1","1.86e-2","1.51e-4"
+"GOTERM_CC_DIRECT","presynapse","4.51%","11","214","186","13785","6.32e-4","2.01e-2","3.81","1.65e-1","1.94e-2","1.56e-4"
+"GOTERM_CC_DIRECT","postsynaptic membrane","4.10%","10","214","187","13785","2.51e-3","7.18e-2","3.44","5.13e-1","6.93e-2","6.84e-4"
+
