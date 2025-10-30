@@ -53,10 +53,17 @@ for (rs in 20:24) {
   #Saving Results Dataframes
   save_name <- sprintf("C:/Python_Projects/LGG_Prognosis_Prediction/Results_Analysis/CCGA_Ensemble_DEG_RS-%s.csv",rs)
   write.csv(as.data.frame(res_cancer_df), save_name, quote = FALSE, row.names = TRUE)
-  
-  ggplot(res_cancer_df, aes(x = log2FoldChange, y = -log10(padj))) +
+}
+
+plot_list = list()
+i <- 1
+for (rstate in 20:24) {
+  plotting_df <- read.csv(sprintf("C:/Python_Projects/LGG_Prognosis_Prediction/Results_Analysis/CCGA_Ensemble_DEG_RS-%s.csv",rstate), header = TRUE, stringsAsFactors = TRUE)
+  plot_title <- sprintf("DEA_RS-%s",rstate)
+  p1 <- ggplot(plotting_df, aes(x = log2FoldChange, y = -log10(padj))) +
     geom_point(aes(color = Change),alpha=0.8,shape=16,size=1) +
-    labs(x = "Log2 Fold Change",
+    labs(title = plot_title,
+         x = "Log2 Fold Change",
          y = "-Log10 FDR")+
     scale_color_manual(values=c("Up"="#7FC97F","Down"="#BEAED4","NS"="grey"))+
     geom_hline(yintercept = -log10(0.01),
@@ -73,28 +80,6 @@ for (rs in 20:24) {
           legend.background=element_rect(size=0.5,linetype="solid",color="black"),
           legend.title = element_text(size=12),
           legend.text = element_text(size=12))
-  
-  gc()
+  plot_list[[i]] <- p1
+  i <- i + 1
 }
-
-plot_title <- "Test"
-p1 <- ggplot(res_cancer_df, aes(x = log2FoldChange, y = -log10(padj))) +
-  geom_point(aes(color = Change),alpha=0.8,shape=16,size=1) +
-  labs(title = plot_title,
-       x = "Log2 Fold Change",
-       y = "-Log10 FDR")+
-  scale_color_manual(values=c("Up"="#7FC97F","Down"="#BEAED4","NS"="grey"))+
-  geom_hline(yintercept = -log10(0.01),
-             linetype = "dashed") + 
-  geom_vline(xintercept = c(-1, 1),
-             linetype = "dashed")+
-  theme_bw()+
-  theme(panel.border = element_rect(colour = "black", fill = NA, linewidth= 1),    
-        panel.grid.minor = element_blank(),
-        panel.grid.major = element_blank(),
-        axis.title = element_text(size=15,color="black"),
-        axis.text = element_text(size=15,color="black"),
-        legend.position=c(0.075,0.875),
-        legend.background=element_rect(size=0.5,linetype="solid",color="black"),
-        legend.title = element_text(size=12),
-        legend.text = element_text(size=12)) 
