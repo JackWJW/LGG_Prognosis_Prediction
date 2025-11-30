@@ -31,7 +31,7 @@ p1 <- ggplot(res_cancer_df_mini, aes(x = log2FoldChange, y = -log10(padj), label
   geom_point(data = subset(res_cancer_df_mini, Change=="Up"),col="black",size=5,shape=21,fill="#7FC97F")+
   geom_point(data = subset(res_cancer_df_mini, Change=="Down"),col="black",size=5,shape=21,fill="#BEAED4")+
   geom_label_repel(data = subset(res_cancer_df_mini, Change!="NS"),max.overlaps = 20,size=7)+
-  scale_x_continuous(breaks = seq(-2,2,1),limits=c(-2.2,2.2))+
+  scale_x_continuous(breaks = seq(-1.5,1.5,0.5),limits=c(-1.6,1.6))+
   ylim(0,25)+
   theme_bw()+
   theme(panel.border = element_rect(colour = "black", fill = NA, linewidth= 1),    
@@ -45,4 +45,4 @@ p1 <- ggplot(res_cancer_df_mini, aes(x = log2FoldChange, y = -log10(padj), label
 
 #Saving the Volcano Plot
 fig_name <- "RS-20_CGGA-Val_Volcano_RiskGroups.png"
-ggsave(p1, filename = fig_name,device="png",path="C:/Users/ottoc/OneDrive - University of Cambridge/PhD Year 3/GSL_Metabolism_Project/Datasets/Raw_Data/Glioblastoma_Glioma_Data",height=6,width=8)
+ggsave(p1, filename = fig_name,device="png",path="C:/Python_Projects/LGG_Prognosis_Prediction/Results_Analysis",height=6,width=8)
