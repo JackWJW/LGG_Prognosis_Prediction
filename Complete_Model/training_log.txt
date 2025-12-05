@@ -1,0 +1,21 @@
+
+Tuning and Fitting: SVM
+Best params for SVM: OrderedDict([('clf__C', 0.9993357125003639)])
+Tuned threshold for SVM: 0.62 (Log-Rank Chi2=274.667)
+
+Tuning and Fitting: RandomForest
+Best params for RandomForest: OrderedDict([('clf__max_depth', 13), ('clf__min_samples_leaf', 10), ('clf__min_samples_split', 20), ('clf__n_estimators', 500)])
+Tuned threshold for RandomForest: 0.55 (Log-Rank Chi2=596.461)
+
+Tuning and Fitting: XGBoost
+Best params for XGBoost: OrderedDict([('clf__colsample_bytree', 0.7466628019053019), ('clf__learning_rate', 0.011329014837067638), ('clf__max_depth', 9), ('clf__n_estimators', 154), ('clf__scale_pos_weight', 1.0), ('clf__subsample', 0.5831616330417151)])
+Tuned threshold for XGBoost: 0.54 (Log-Rank Chi2=731.846)
+
+Tuning and Fitting: LogisticRegression
+Best params for LogisticRegression: OrderedDict([('clf__C', 0.07653423276522683)])
+Tuned threshold for LogisticRegression: 0.58 (Log-Rank Chi2=171.400)
+
+Tuning and Fitting: ANN
+Best params for ANN: OrderedDict([('clf__criterion__alpha', 0.19651650913445615), ('clf__criterion__gamma', 1.8190477659176367), ('clf__lr', 0.00026786729111757983), ('clf__module__dropout_rate', 0.32177566932368323), ('clf__module__hidden_dim', 117), ('clf__module__num_layers', 1)])
+Tuned threshold for ANN: 0.54 (Log-Rank Chi2=432.639)
+Tuned threshold for Ensemble: 0.77 (Log-Rank Chi2=714.204)

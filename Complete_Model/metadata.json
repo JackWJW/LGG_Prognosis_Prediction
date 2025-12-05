@@ -1,0 +1,14 @@
+{
+    "random_state": 0,
+    "inner_folds": 5,
+    "inner_iterations": 50,
+    "ann_iterations": 50,
+    "model_list": [
+        "SVM",
+        "RandomForest",
+        "XGBoost",
+        "LogisticRegression",
+        "ANN"
+    ],
+    "python_version": "3.11.11 | packaged by Anaconda, Inc. | (main, Dec 11 2024, 16:34:19) [MSC v.1929 64 bit (AMD64)]"
+}

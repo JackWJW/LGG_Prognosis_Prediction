@@ -1,0 +1,22 @@
+{
+    "model_name": "DeepBinary",
+    "architecture": {
+        "hidden_dim": null,
+        "num_layers": null,
+        "dropout_rate": null,
+        "output_dim": 2
+    },
+    "training": {
+        "optimizer": "Adam",
+        "learning_rate": 0.00026786729111757983,
+        "batch_size": 128,
+        "max_epochs": 500,
+        "criterion": "<class '__main__.FocalLoss'>"
+    },
+    "random_state": 0,
+    "versions": {
+        "python": "3.11.11 | packaged by Anaconda, Inc. | (main, Dec 11 2024, 16:34:19) [MSC v.1929 64 bit (AMD64)]",
+        "pytorch": "2.8.0+cu129",
+        "skorch": "__main__"
+    }
+}
