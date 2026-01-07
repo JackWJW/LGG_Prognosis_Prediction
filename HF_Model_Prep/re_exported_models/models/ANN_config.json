@@ -1,0 +1,15 @@
+{
+  "module_class": "DeepBinary",
+  "module_args": {
+    "hidden_dim": null,
+    "num_layers": null,
+    "dropout_rate": null
+  },
+  "skorch": {
+    "lr": 0.00026786729111757983,
+    "max_epochs": 500,
+    "batch_size": 128,
+    "criterion": "type"
+  },
+  "notes": "Recreate DeepBinary with module_args and then load ANN_state_dict.pt"
+}
