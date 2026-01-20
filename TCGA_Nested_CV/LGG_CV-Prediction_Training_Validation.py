@@ -887,7 +887,7 @@ def plot_decision_curve(oof_df, savepath="./"):
 ######################################
 ### Defining the Training Function ###
 ######################################
-def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25,save_dir="./LGG_CV-Prediction_Results",dataset_id=0):
+def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25,save_dir="../LGG_CV-Prediction_Results",dataset_id=0):
 
     RANDOM_STATE = random_state
     OUTER_FOLDS = outer_folds
@@ -903,7 +903,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
     X = data.drop(columns = ["OS", "OS.time"])
     y = LabelEncoder().fit_transform(data["OS"])
-    with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+    with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
         print('Starting nested cross-validation...',file=file)
 
     # Defining Folds
@@ -950,9 +950,9 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
     # Iterate over the outer folds
     model_list = list(models_info.keys())
     for fold_idx, (train_idx, test_idx) in enumerate(outer_cv.split(X, y)):
-        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+        with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f'\nOuter Fold: {fold_idx+1}/{OUTER_FOLDS}',file=file)
-        SAVE_DIR = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ANN_Training_{fold_idx+1}"
+        SAVE_DIR = f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ANN_Training_{fold_idx+1}"
         X_train, X_test = X.iloc[train_idx].values, X.iloc[test_idx].values
         y_train, y_test = y[train_idx], y[test_idx]
 
@@ -964,7 +964,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         y_test_struct  = Surv.from_arrays(event=test_event, time=test_time)
 
         for model_name, info in models_info.items():
-            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+            with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f'\nTuning and Fitting: {model_name}',file=file)
             base = clone(info['estimator'])
             space = info['space']
@@ -1024,10 +1024,10 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
                     plt.savefig(SAVE_DIR)
                     plt.close()
 
-                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:    
+                with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:    
                     print(f"    Best params for {model_name} (fold {fold_idx+1}): {opt.best_params_}",file=file)
             except Exception as e:
-                with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+                with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                     print(f'BayesSearchCV failed for {model_name} in fold {fold_idx+1}: {e}',file=file)
                 # In this case fit base estimator inside the pipeline without search
                 pipe.set_params(**{})
@@ -1047,7 +1047,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
             thr, thr_best = tune_threshold_by_logrank(probs_train=probs_train, time_train=train_time,event_train=train_event)
             per_fold_tuned_thresholds[model_name].append(thr)
-            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+            with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f"    Tuned threshold for {model_name} (fold {fold_idx+1}): {thr:.2f} (Log-Rank Chi2={thr_best:.3f})",file=file)
 
             # Predict proba on the test set
@@ -1073,7 +1073,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
             per_fold_curves[model_name]['roc'].append((fpr, tpr))
             per_fold_curves[model_name]['pr'].append((rec, prec))
 
-            with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+            with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
                 print(f"    Fold {fold_idx+1} {model_name}: AP={m['pr_auc']:.3f}, ROC AUC={m['roc_auc']:.3f}", file=file)
         
         # Computing Ensemble predictions for this fold against the train set for threshold tuning
@@ -1089,7 +1089,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         cph_train_models.fit(probs_train_df, duration_col = "OS.time", event_col="OS", robust=True)
     
         models_train_cindex = cph_train_models.concordance_index_
-        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+        with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nTraining Multivariate C-Index={models_train_cindex}\n", file=file)
 
         beta_vec = cph_train_models.params_[model_list].values
@@ -1101,7 +1101,7 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
         per_fold_tuned_thresholds['Ensemble'].append(thr_ens)
         per_fold_train_probs['Ensemble'].append({'train_idx': train_idx, 'probs': ensemble_train_mean, 'y_true': y_train})
 
-        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+        with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print("\nTuning Ensemble:",file=file)
             print(f"    Tuned threshold for Ensemble (fold {fold_idx+1}): {thr_ens:.2f} (Log-Rank Chi2={thr_ens_best:.3f})",file=file)
 
@@ -1187,20 +1187,20 @@ def train_evaluate_model(random_state=42,outer_folds=3,inner_folds=3,inner_itera
 
 for rs_number in range(0 ,5):
     for dataset_id in range(1,25):
-        with open("./LGG_CV-Prediction_Results/training_log.txt", "a") as file:
+        with open("../LGG_CV-Prediction_Results/training_log.txt", "a") as file:
             print(f"\nStarting training run for Random State = {rs_number} and Dataset ID = {dataset_id}\n", file=file)
-        directory = f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
+        directory = f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results"
         os.makedirs(directory)
-        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
+        oof_df, metrics_summary, curves_summary, metrics_for_plot, survival_results, y= train_evaluate_model(random_state=rs_number, outer_folds=3,inner_folds=3,inner_iterations=25,ANN_iterations=25, dataset_id=dataset_id, save_dir=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results")
 
-        plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
-        plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
+        plot_mean_roc(curves_summary, metrics_for_plot,savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC-AUC.png")
+        plot_mean_pr(curves_summary, metrics_for_plot,savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/PR-AUC.png")
 
-        plot_km_curves(survival_results, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/KM_plots.png")
-        plot_forest(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Probs_Summary")
-        plot_forest_class(survival_results,metrics_summary,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
-        plot_multivariate(oof_df, p_thresh=0.05, savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
-        plot_decision_curve(oof_df=oof_df,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Decision_Curve.png")
-        plot_time_roc(oof_df,savepath=f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC_Time_Ensemble.png")
+        plot_km_curves(survival_results, savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/KM_plots.png")
+        plot_forest(survival_results,metrics_summary,savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Probs_Summary")
+        plot_forest_class(survival_results,metrics_summary,savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Results_Class_Summary")
+        plot_multivariate(oof_df, p_thresh=0.05, savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Multivariate_Cox.png")
+        plot_decision_curve(oof_df=oof_df,savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Decision_Curve.png")
+        plot_time_roc(oof_df,savepath=f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/ROC_Time_Ensemble.png")
 
-        oof_df.to_csv(f"./LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Predictions_Probabilities.csv")
+        oof_df.to_csv(f"../LGG_CV-Prediction_Results/RS-{rs_number}_DS-{dataset_id}_Results/Predictions_Probabilities.csv")

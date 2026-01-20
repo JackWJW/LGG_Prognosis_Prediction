@@ -1,6 +1,0 @@
-,Model,clf__C,clf__max_depth,clf__min_samples_split,clf__n_estimators,clf__learning_rate,clf__subsample,clf__criterion__alpha,clf__criterion__gamma,clf__lr,clf__module__dropout_rate,clf__module__hidden_dim,clf__module__num_layers
-0,SVM,0.09768449963734194,,,,,,,,,,,
-0,RandomForest,,16.0,18.0,50.0,,,,,,,,
-0,XGBoost,,10.0,,50.0,0.042841534505065254,0.7105853221257423,,,,,,
-0,LogisticRegression,0.01,,,,,,,,,,,
-0,ANN,,,,,,,0.3482904768399712,2.084586088380139,0.00021918373720627437,0.75,165.0,4.0
